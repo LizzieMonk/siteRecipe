@@ -76,6 +76,7 @@ body {
 }
 
 select, input, button, option {
+  font-size: 16px;
   padding: 10px;
   border: 1px solid #000;
   border-radius: 0%;
@@ -85,6 +86,7 @@ select, input, button, option {
 
 select {
   height: 35px;
+  max-width: 400px;
 }
 
 button {
