@@ -1,0 +1,74 @@
+@import "./nullstyle.scss";
+body {
+    font-size: 16px;
+}
+select, input, button, option {
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 0%;
+    min-width: 100px;
+    // height: 35px;
+    margin: 15px 10px 0 10px;
+}
+select{
+    height: 35px;
+}
+button{
+    background: gainsboro;
+}
+
+.container {
+    // background: red;
+    width: 90%;
+    margin: 0 auto;
+}
+.header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin:  0 -10px;
+}
+.tables{
+    margin-bottom: 30px;
+    margin: 0 -10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+ul{
+    // border: 1px solid #000;
+    // min-width: 200px;
+    max-width: 360px;
+    margin: 15px 10px 0 10px;
+    border: 0.5px solid #000;
+}
+li{
+    width: 100%;
+    // background: red;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    &:hover{
+        background: gainsboro;;
+    }
+    .name{
+        width: 100%;
+        // flex-grow: 1;
+    }
+    .amount{
+        width: 130px;
+        text-align: center;
+    }
+    span{
+        padding: 5px 10px;
+        border: 0.5px solid #000;
+    }
+}
+.ul-last{
+    &:hover{
+        cursor: pointer;
+    }
+}
