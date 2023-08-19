@@ -85,7 +85,13 @@ function getStartValuetMaterial (idProduct, endValueMaterial){ //string, string
             })
             products[i].ingredientsSecondary.forEach(ingredient =>{
                 let valueSecondaryIngredient =  allMaterials*ingredient.amount/startValue; //number
-                valueSecondaryIngredient = roundN(valueSecondaryIngredient,3); //number
+                if(ingredient.nameIngredient.includes('пакет') ||
+                ingredient.nameIngredient.includes('скрепка') ||
+                ingredient.nameIngredient.includes('петля') ||
+                ingredient.nameIngredient.includes('контейнер') ||
+                ingredient.nameIngredient.includes('тарелка')) valueSecondaryIngredient = roundN(valueSecondaryIngredient,0);
+                else valueSecondaryIngredient = roundN(valueSecondaryIngredient,3); //number
+
                 // console.log(valueSecondaryIngredient);
 
                 arrAllValues[arrAllValuesCount] = {
