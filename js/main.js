@@ -2,6 +2,14 @@ import {
     products, startValue
 } from './data.js'
 
+const colorPrimaryOne = '#A5E6B2';
+const colorPrimaryTwo = '#D7F7DD';
+const colorSecondaryOne = '#A0CADE';
+const colorSecondaryTwo = '#C4ECFF';
+const colorSecondaryTree = '#F7D6CB'
+const colorWhite = 'white';
+
+
 const selectItems = document.getElementById('select-items');
 const btnCalc = document.getElementById('btn-calc');
 const btnSum = document.getElementById('btn-sum');
@@ -37,6 +45,7 @@ btnSum.addEventListener('click', ()=>{
 let startArrSum =[{
     nameIngredient:'всего сырья',
     amount:0,
+    color:colorPrimaryOne
 }];
 
 btnClean.addEventListener('click', ()=>{
@@ -46,6 +55,7 @@ btnClean.addEventListener('click', ()=>{
     startArrSum =[{
         nameIngredient:'всего сырья',
         amount:0,
+        color:colorPrimaryOne,
     }];
 })
 
@@ -64,39 +74,52 @@ function getStartValuetMaterial (idProduct, endValueMaterial){ //string, string
             arrAllValues[arrAllValuesCount] = {
                 nameProduct:products[i].name,
                 outputValue:endValueMaterial,
+                color:colorWhite,
             };
             arrAllValuesCount++;
             arrAllValues[arrAllValuesCount] = {
                 nameIngredient:'всего сырья',
                 amount:allMaterials,
+                color:colorPrimaryOne
             };
             arrAllValuesCount++;
 
             products[i].ingredientsPrimary.forEach(ingredient =>{
                 let valuePrimaryIngredient =  allMaterials*ingredient.amount/100; //number
                 valuePrimaryIngredient = roundN(valuePrimaryIngredient,3); //number
-                // console.log(valuePrimaryIngredient);
 
                 arrAllValues[arrAllValuesCount] = {
                     nameIngredient:ingredient.nameIngredient,
                     amount: valuePrimaryIngredient,
+                    color: colorPrimaryTwo
                 }
                 arrAllValuesCount++;
             })
             products[i].ingredientsSecondary.forEach(ingredient =>{
                 let valueSecondaryIngredient =  allMaterials*ingredient.amount/startValue; //number
                 if(ingredient.nameIngredient.includes('пакет') ||
-                ingredient.nameIngredient.includes('скрепка') ||
-                ingredient.nameIngredient.includes('петля') ||
+                ingredient.nameIngredient.includes('скрепки') ||
+                ingredient.nameIngredient.includes('петли') ||
                 ingredient.nameIngredient.includes('контейнер') ||
                 ingredient.nameIngredient.includes('тарелка')) valueSecondaryIngredient = roundN(valueSecondaryIngredient,0);
                 else valueSecondaryIngredient = roundN(valueSecondaryIngredient,3); //number
+
+                let color = colorSecondaryOne;
+                if(ingredient.nameIngredient.includes('пакет') ||
+                ingredient.nameIngredient.includes('скрепки') ||
+                ingredient.nameIngredient.includes('петли') ||
+                ingredient.nameIngredient.includes('контейнер') ||
+                ingredient.nameIngredient.includes('тарелка')) color = colorSecondaryTree
+                else if(ingredient.nameIngredient.includes('фиброуз') ||
+                ingredient.nameIngredient.includes('мусалонг') ||
+                ingredient.nameIngredient.includes('шпагат')) color = colorSecondaryTwo
 
                 // console.log(valueSecondaryIngredient);
 
                 arrAllValues[arrAllValuesCount] = {
                     nameIngredient:ingredient.nameIngredient,
                     amount: valueSecondaryIngredient,
+                    color: color
                 }
                 arrAllValuesCount++;
             })
@@ -111,10 +134,11 @@ function roundN (number, count){
 
 function createNewElemList(arrElems, list, child, firstPosition){
     for(let i=firstPosition; i<arrElems.length; i++){
-         let newElemListProduct = child.cloneNode(true);
-         newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
-         newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
-         list.appendChild(newElemListProduct);
+        let newElemListProduct = child.cloneNode(true);
+        newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
+        newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
+        newElemListProduct.style.background = arrElems[i].color;
+        list.appendChild(newElemListProduct);
     }
 }
 const listSum = document.getElementById('list-sum');
@@ -138,6 +162,7 @@ function sumStartValueMaterial (arrProduct){
     createNewElemList([{
         nameIngredient:arrProduct[0].nameProduct,
         amount: arrProduct[0].outputValue,
+        color:colorWhite,
     }], listSumProducts, elemListSumProducts, 0);
     arrProduct.splice(0,1)
     startArrSum = startArrSum.concat(arrProduct);
