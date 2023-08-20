@@ -102,7 +102,9 @@ function getStartValuetMaterial (idProduct, endValueMaterial){ //string, string
                 let valueSecondaryIngredient =  allMaterials*ingredient.amount/startValue; //number
                 if(ingredient.nameIngredient.includes('пакет') ||
                 ingredient.nameIngredient.includes('скрепки') ||
+                ingredient.nameIngredient.includes('скрепка') ||
                 ingredient.nameIngredient.includes('петли') ||
+                ingredient.nameIngredient.includes('петля') ||
                 ingredient.nameIngredient.includes('контейнер') ||
                 ingredient.nameIngredient.includes('тарелка')) valueSecondaryIngredient = roundN(valueSecondaryIngredient,roundWhole);
                 else valueSecondaryIngredient = roundN(valueSecondaryIngredient,roundSecondary); //number
@@ -129,7 +131,9 @@ function setColorPrimary (ingredient){
         ingredient.nameIngredient.includes('фиброуз') ||
         ingredient.nameIngredient.includes('пакет') ||
         ingredient.nameIngredient.includes('скрепки') ||
+        ingredient.nameIngredient.includes('скрепка') ||
         ingredient.nameIngredient.includes('петли') ||
+        ingredient.nameIngredient.includes('петля') ||
         ingredient.nameIngredient.includes('коллаген') ||
         ingredient.nameIngredient.includes('контейнер') ||
         ingredient.nameIngredient.includes('тарелка')) return colorSecondaryTree
