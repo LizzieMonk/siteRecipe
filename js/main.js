@@ -124,15 +124,35 @@ function getStartValuetMaterial (idProduct, endValueMaterial){ //string, string
 }
 
 function setColorPrimary (ingredient){
-    if(ingredient.nameIngredient.includes('пакет') ||
+    if(ingredient.nameIngredient.includes('черева') ||
+        ingredient.nameIngredient.includes('шпагат') ||
+        ingredient.nameIngredient.includes('фиброуз') ||
+        ingredient.nameIngredient.includes('пакет') ||
         ingredient.nameIngredient.includes('скрепки') ||
         ingredient.nameIngredient.includes('петли') ||
+        ingredient.nameIngredient.includes('коллаген') ||
         ingredient.nameIngredient.includes('контейнер') ||
         ingredient.nameIngredient.includes('тарелка')) return colorSecondaryTree
-    else if(ingredient.nameIngredient.includes('фиброуз') ||
-        ingredient.nameIngredient.includes('мусалонг') ||
-        ingredient.nameIngredient.includes('шпагат')) return colorSecondaryTwo
-    else return colorSecondaryOne;
+    else if(ingredient.nameIngredient.includes('соль') ||
+        ingredient.nameIngredient.includes('нпс') ||
+        ingredient.nameIngredient.includes('крахмал') ||
+        ingredient.nameIngredient.includes('молоко') ||
+        ingredient.nameIngredient.includes('порошок') ||
+        ingredient.nameIngredient.includes('манка') ||
+        ingredient.nameIngredient.includes('лук') ||
+        ingredient.nameIngredient.includes('перец') ||
+        ingredient.nameIngredient.includes('кориандр') ||
+        ingredient.nameIngredient.includes('масло') ||
+        ingredient.nameIngredient.includes('семена') ||
+        ingredient.nameIngredient.includes('гречка') ||
+        ingredient.nameIngredient.includes('орех') ||
+        ingredient.nameIngredient.includes('мука') ||
+        ingredient.nameIngredient.includes('чеснок') ||
+        ingredient.nameIngredient.includes('тмин') ||
+        ingredient.nameIngredient.includes('изолят') ||
+        ingredient.nameIngredient.includes('лист') ||
+        ingredient.nameIngredient.includes('клетчатка')) return colorSecondaryOne
+    else return colorSecondaryTwo;
 }
 
 function roundN (number, count){
@@ -140,6 +160,13 @@ function roundN (number, count){
 }
 
 function createNewElemList(arrElems, list, child, firstPosition){
+    if(firstPosition > 0){
+        let firstElemArr = arrElems[0]; //сохранение первого
+        arrElems.splice(0,1)  //удаление первого
+        arrElems.sort((a, b) => a.nameIngredient > b.nameIngredient ? 1 : -1); //сортировка массива без первого
+        arrElems.unshift(firstElemArr);  //возвращаем первый
+    } else  arrElems.sort((a, b) => a.nameIngredient > b.nameIngredient ? 1 : -1);
+
     for(let i=firstPosition; i<arrElems.length; i++){
         if(arrElems[i].color == colorWhite){
             let newElemListProduct = child.cloneNode(true);
@@ -149,11 +176,6 @@ function createNewElemList(arrElems, list, child, firstPosition){
             list.appendChild(newElemListProduct);
         }
     }
-    let firstElemArr = arrElems[0]; //сохранение первого
-    arrElems.splice(0,1)  //удаление первого
-    arrElems.sort((a, b) => a.nameIngredient > b.nameIngredient ? 1 : -1); //сортировка массива без первого
-    arrElems.unshift(firstElemArr);  //возвращаем первый
-
     for(let i=firstPosition; i<arrElems.length; i++){
         if(arrElems[i].color == colorPrimaryOne){
             let newElemListProduct = child.cloneNode(true);
@@ -218,7 +240,7 @@ function sumStartValueMaterial (arrProduct){
         for(let j=1; j<arrProduct.length; j++){
             if(startArrSum[i].nameIngredient == arrProduct[j].nameIngredient){
                 let sumAmount = startArrSum[i].amount+arrProduct[j].amount;
-                sumAmount = roundN(sumAmount,3);
+                sumAmount = roundN(sumAmount,roundSecondary);
                 startArrSum[i].amount = sumAmount;
                 arrProduct.splice(j,1)
                 break;
