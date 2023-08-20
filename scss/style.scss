@@ -39,37 +39,48 @@ button{
     flex-wrap: wrap;
     align-items: flex-start;
 }
-ul{
+.ul{
     // border: 1px solid #000;
     // min-width: 200px;
     max-width: 360px;
     margin: 15px 10px 0 10px;
     border: 0.5px solid #000;
-}
-li{
-    width: 100%;
-    // background: red;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    &:hover{
-        background: gainsboro;;
-    }
-    .name{
+    li{
         width: 100%;
-        // flex-grow: 1;
-    }
-    .amount{
-        width: 130px;
-        text-align: center;
-    }
-    span{
-        padding: 5px 10px;
-        border: 0.5px solid #000;
+        // background: red;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        &:hover{
+            background: gainsboro;;
+        }
+        .name{
+            width: 100%;
+            // flex-grow: 1;
+        }
+        .amount{
+            width: 130px;
+            text-align: center;
+        }
+        span{
+            padding: 5px 10px;
+            border: 0.5px solid #000;
+        }
     }
 }
 .ul-last{
     &:hover{
         cursor: pointer;
+    }
+}
+
+.listProducts {
+    background: red;
+    // .listProducts__input
+    &__input {
+        min-width: 100px;
+    }
+    // .listProducts__ul
+    &__ul {
     }
 }

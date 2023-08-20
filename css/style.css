@@ -116,33 +116,39 @@ button {
   align-items: flex-start;
 }
 
-ul {
+.ul {
   max-width: 360px;
   margin: 15px 10px 0 10px;
   border: 0.5px solid #000;
 }
-
-li {
+.ul li {
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-li:hover {
+.ul li:hover {
   background: gainsboro;
 }
-li .name {
+.ul li .name {
   width: 100%;
 }
-li .amount {
+.ul li .amount {
   width: 130px;
   text-align: center;
 }
-li span {
+.ul li span {
   padding: 5px 10px;
   border: 0.5px solid #000;
 }
 
 .ul-last:hover {
   cursor: pointer;
+}
+
+.listProducts {
+  background: red;
+}
+.listProducts__input {
+  min-width: 100px;
 }/*# sourceMappingURL=style.css.map */

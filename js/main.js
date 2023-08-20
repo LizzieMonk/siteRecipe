@@ -9,6 +9,10 @@ const colorSecondaryTwo = '#C4ECFF';
 const colorSecondaryTree = '#F7D6CB'
 const colorWhite = 'white';
 
+const roundPrimary = 1;
+const roundSecondary = 3;
+const roundWhole = 0;
+
 
 const selectItems = document.getElementById('select-items');
 const btnCalc = document.getElementById('btn-calc');
@@ -47,7 +51,6 @@ let startArrSum =[{
     amount:0,
     color:colorPrimaryOne
 }];
-
 btnClean.addEventListener('click', ()=>{
     cleanList(listProduct);
     cleanList(listSum);
@@ -68,7 +71,7 @@ function getStartValuetMaterial (idProduct, endValueMaterial){ //string, string
         if(products[i].id == idProduct){
             // allMaterials = (endValueMaterial * startValue / products[i].outputValue).toFixed(1);  //'181.8' строка в экспоненциальной форме
             let allMaterials = endValueMaterial * startValue / products[i].outputValue; // 14.285714285714286-число
-            allMaterials = roundN(allMaterials,1) //14.3-число
+            allMaterials = roundN(allMaterials,roundPrimary) //14.3-число
             // console.log('всего сырья  ',allMaterials);
 
             arrAllValues[arrAllValuesCount] = {
@@ -86,7 +89,7 @@ function getStartValuetMaterial (idProduct, endValueMaterial){ //string, string
 
             products[i].ingredientsPrimary.forEach(ingredient =>{
                 let valuePrimaryIngredient =  allMaterials*ingredient.amount/100; //number
-                valuePrimaryIngredient = roundN(valuePrimaryIngredient,3); //number
+                valuePrimaryIngredient = roundN(valuePrimaryIngredient,roundPrimary); //number
 
                 arrAllValues[arrAllValuesCount] = {
                     nameIngredient:ingredient.nameIngredient,
@@ -101,45 +104,108 @@ function getStartValuetMaterial (idProduct, endValueMaterial){ //string, string
                 ingredient.nameIngredient.includes('скрепки') ||
                 ingredient.nameIngredient.includes('петли') ||
                 ingredient.nameIngredient.includes('контейнер') ||
-                ingredient.nameIngredient.includes('тарелка')) valueSecondaryIngredient = roundN(valueSecondaryIngredient,0);
-                else valueSecondaryIngredient = roundN(valueSecondaryIngredient,3); //number
-
-                let color = colorSecondaryOne;
-                if(ingredient.nameIngredient.includes('пакет') ||
-                ingredient.nameIngredient.includes('скрепки') ||
-                ingredient.nameIngredient.includes('петли') ||
-                ingredient.nameIngredient.includes('контейнер') ||
-                ingredient.nameIngredient.includes('тарелка')) color = colorSecondaryTree
-                else if(ingredient.nameIngredient.includes('фиброуз') ||
-                ingredient.nameIngredient.includes('мусалонг') ||
-                ingredient.nameIngredient.includes('шпагат')) color = colorSecondaryTwo
+                ingredient.nameIngredient.includes('тарелка')) valueSecondaryIngredient = roundN(valueSecondaryIngredient,roundWhole);
+                else valueSecondaryIngredient = roundN(valueSecondaryIngredient,roundSecondary); //number
 
                 // console.log(valueSecondaryIngredient);
 
                 arrAllValues[arrAllValuesCount] = {
                     nameIngredient:ingredient.nameIngredient,
                     amount: valueSecondaryIngredient,
-                    color: color
+                    color: setColorPrimary(ingredient),
                 }
                 arrAllValuesCount++;
             })
-            return arrAllValues;
+            // return arrAllValues;
             break;
         }
     }
+    return arrAllValues;
 }
+
+function setColorPrimary (ingredient){
+    if(ingredient.nameIngredient.includes('пакет') ||
+        ingredient.nameIngredient.includes('скрепки') ||
+        ingredient.nameIngredient.includes('петли') ||
+        ingredient.nameIngredient.includes('контейнер') ||
+        ingredient.nameIngredient.includes('тарелка')) return colorSecondaryTree
+    else if(ingredient.nameIngredient.includes('фиброуз') ||
+        ingredient.nameIngredient.includes('мусалонг') ||
+        ingredient.nameIngredient.includes('шпагат')) return colorSecondaryTwo
+    else return colorSecondaryOne;
+}
+
 function roundN (number, count){
     return Math.round(number * Math.pow(10, count)) / Math.pow(10, count);
 }
 
 function createNewElemList(arrElems, list, child, firstPosition){
     for(let i=firstPosition; i<arrElems.length; i++){
-        let newElemListProduct = child.cloneNode(true);
-        newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
-        newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
-        newElemListProduct.style.background = arrElems[i].color;
-        list.appendChild(newElemListProduct);
+        if(arrElems[i].color == colorWhite){
+            let newElemListProduct = child.cloneNode(true);
+            newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
+            newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
+            newElemListProduct.style.background = arrElems[i].color;
+            list.appendChild(newElemListProduct);
+        }
     }
+    let firstElemArr = arrElems[0]; //сохранение первого
+    arrElems.splice(0,1)  //удаление первого
+    arrElems.sort((a, b) => a.nameIngredient > b.nameIngredient ? 1 : -1); //сортировка массива без первого
+    arrElems.unshift(firstElemArr);  //возвращаем первый
+
+    for(let i=firstPosition; i<arrElems.length; i++){
+        if(arrElems[i].color == colorPrimaryOne){
+            let newElemListProduct = child.cloneNode(true);
+            newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
+            newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
+            newElemListProduct.style.background = arrElems[i].color;
+            list.appendChild(newElemListProduct);
+        }
+    }
+    for(let i=firstPosition; i<arrElems.length; i++){
+        if(arrElems[i].color == colorPrimaryTwo){
+            let newElemListProduct = child.cloneNode(true);
+            newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
+            newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
+            newElemListProduct.style.background = arrElems[i].color;
+            list.appendChild(newElemListProduct);
+        }
+    }
+    for(let i=firstPosition; i<arrElems.length; i++){
+        if(arrElems[i].color == colorSecondaryOne){
+            let newElemListProduct = child.cloneNode(true);
+            newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
+            newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
+            newElemListProduct.style.background = arrElems[i].color;
+            list.appendChild(newElemListProduct);
+        }
+    }
+    for(let i=firstPosition; i<arrElems.length; i++){
+        if(arrElems[i].color == colorSecondaryTwo){
+            let newElemListProduct = child.cloneNode(true);
+            newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
+            newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
+            newElemListProduct.style.background = arrElems[i].color;
+            list.appendChild(newElemListProduct);
+        }
+    }
+    for(let i=firstPosition; i<arrElems.length; i++){
+        if(arrElems[i].color == colorSecondaryTree){
+            let newElemListProduct = child.cloneNode(true);
+            newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
+            newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
+            newElemListProduct.style.background = arrElems[i].color;
+            list.appendChild(newElemListProduct);
+        }
+    }
+    // for(let i=firstPosition; i<arrElems.length; i++){
+    //     let newElemListProduct = child.cloneNode(true);
+    //     newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
+    //     newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
+    //     newElemListProduct.style.background = arrElems[i].color;
+    //     list.appendChild(newElemListProduct);
+    // }
 }
 const listSum = document.getElementById('list-sum');
 const elemListSum = document.getElementById('elem-list-sum');
@@ -174,6 +240,9 @@ function cleanList (list){
         list.removeChild(list.firstChild);
     }
 }
+
+
+
 // function getStartValueMaterialSaveProducts(){
 //     let elemsList = listSumProducts.children;
 //     listSumProducts.forEach(elem =>{
