@@ -3,6 +3,7 @@ body {
     font-size: 16px;
 }
 select, input, button, option {
+    display: inline-block;
     font-size: 16px;
     padding: 10px;
     border: 1px solid #000;
@@ -75,12 +76,36 @@ button{
 }
 
 .listProducts {
-    background: red;
+    margin: 15px 10px 0 10px;
+    height: 38px;
     // .listProducts__input
     &__input {
-        min-width: 100px;
+        min-width: 400px;
+        height: 100%;
+        margin: 0;
+    }
+    // .listProducts__ul-block
+    &__ul-block {
+        width: 400px;
+        position: relative;
+        top: -2px;
+        z-index: 10;
+        border: 1px solid black;
     }
     // .listProducts__ul
     &__ul {
+        width: 100%;
+        max-height: 400px;
+        overflow: auto;
+        display: block;
+        background: white;
+    }
+    li{
+        display: none;
+        padding: 10px;
+        cursor: pointer;
+        &:hover{
+            background: gainsboro;
+        }
     }
 }

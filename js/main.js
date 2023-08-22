@@ -14,6 +14,7 @@ const roundSecondary = 3;
 const roundWhole = 0;
 
 
+const selectItemsUl = document.getElementById('select-items-ul');
 const selectItems = document.getElementById('select-items');
 const btnCalc = document.getElementById('btn-calc');
 const btnSum = document.getElementById('btn-sum');
@@ -21,11 +22,18 @@ const btnClean = document.getElementById('btn-clean');
 const inputOutputValue = document.getElementById('input-output-value');
 
 window.addEventListener('load', ()=>{
+    // products.forEach(elem =>{
+    //     let newOption = document.createElement('option');
+    //     newOption.text = elem.name;
+    //     newOption.value = elem.id;
+    //     selectItems.appendChild(newOption);
+    // }
+    // )
     products.forEach(elem =>{
-        let newOption = document.createElement('option');
-        newOption.text = elem.name;
-        newOption.value = elem.id;
-        newOption = selectItems.appendChild(newOption);
+        let newOption = document.createElement('li');
+        newOption.textContent = elem.name;
+        // newOption.value = elem.id;
+        selectItemsUl.appendChild(newOption);
     }
     )
     cleanList(listProduct);
@@ -38,13 +46,16 @@ const elemListProduct = document.getElementById('elem-list-product');
 
 btnCalc.addEventListener('click', ()=>{
     cleanList(listProduct);
-    createNewElemList(getStartValuetMaterial(selectItems.value, inputOutputValue.value),listProduct,elemListProduct, 1); //'1', '200'
+    // createNewElemList(getStartValuetMaterial(selectItems.value, inputOutputValue.value),listProduct,elemListProduct, 1); //'1', '200'
+    createNewElemList(getStartValuetMaterial(getIdSelectedValue(search), inputOutputValue.value),listProduct,elemListProduct, 1); //1, '200'
 })
 btnSum.addEventListener('click', ()=>{
     cleanList(listProduct);
-    createNewElemList(getStartValuetMaterial(selectItems.value, inputOutputValue.value),listProduct,elemListProduct, 1);
+    // createNewElemList(getStartValuetMaterial(selectItems.value, inputOutputValue.value),listProduct,elemListProduct, 1);
+    createNewElemList(getStartValuetMaterial(getIdSelectedValue(search), inputOutputValue.value),listProduct,elemListProduct, 1);
     cleanList(listSum);
-    sumStartValueMaterial(getStartValuetMaterial(selectItems.value, inputOutputValue.value)); //arr
+    // sumStartValueMaterial(getStartValuetMaterial(selectItems.value, inputOutputValue.value)); //arr
+    sumStartValueMaterial(getStartValuetMaterial(getIdSelectedValue(search), inputOutputValue.value)); //arr
 })
 let startArrSum =[{
     nameIngredient:'всего сырья',
@@ -266,6 +277,52 @@ function cleanList (list){
         list.removeChild(list.firstChild);
     }
 }
+
+
+let search = document.getElementById('search');
+search.addEventListener('focus', ()=>{
+    liveSearch(selectItemsUl, search)
+    setSelectedValue(selectItemsUl, search)
+    // getIdSelectedValue(search.value)
+})
+search.addEventListener('blur', ()=>{
+    let listOfElems = selectItemsUl.children;
+    for(let i=0; i<listOfElems.length; i++){
+        listOfElems[i].style.display = 'none'
+    }
+})
+search.addEventListener('keyup', ()=>{
+    liveSearch(selectItemsUl, search)
+})
+function liveSearch(parent, search){
+    let listOfElems = parent.children;
+    for(let i=0; i<listOfElems.length; i++){
+        if(listOfElems[i].textContent.toLowerCase().includes(search.value.toLowerCase())){
+            listOfElems[i].style.display = 'block'
+        } else listOfElems[i].style.display = 'none'
+    }
+}
+function setSelectedValue (parent,search){
+    let listOfElems = parent.children;
+    for(let i=0; i<listOfElems.length; i++){
+        listOfElems[i].addEventListener('mousedown', (e)=>{
+            search.value = e.target.textContent;
+            // getIdSelectedValue(search)
+        })
+    }
+}
+function getIdSelectedValue(input){
+    let idSelectedValue = ''
+    for(let i=0; i<products.length; i++){
+        if(products[i].name === input.value){
+            console.log(products[i].id)
+            idSelectedValue=products[i].id
+            break
+        }
+    }
+    return idSelectedValue;
+}
+
 
 
 

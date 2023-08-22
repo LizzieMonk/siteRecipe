@@ -10,17 +10,18 @@
 <body>
     <div class="container">
         <div class="header">
-            <!-- <div class="listProducts">
-                <input type="text" class="listProducts__input">
-                <ul class="listProducts__ul">
-                    <li>колбаска</li>
-                    <li>колбаска</li>
-                    <li>колбаска</li>
-                </ul>
-            </div> -->
-            <select name="" id="select-items">
-                <!-- <option value="">Название</option> -->
-            </select>
+            <div class="listProducts">
+                <input id="search" placeholder="Введите название..." type="text" class="listProducts__input">
+                <div class="listProducts__ul-block">
+                    <ul id="select-items-ul" class="listProducts__ul">
+                        <!-- <li>что-то</li>
+                        <li>что-то</li>
+                        <li>что-то</li> -->
+                    </ul>
+                </div>
+            </div>
+            <!-- <select name="" id="select-items">
+            </select> -->
             <input id="input-output-value" type="number" value="20">
             <button id="btn-calc" type="button">расчет</button>
             <button id="btn-sum" type="button">добавить в сумму</button>
