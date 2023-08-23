@@ -118,6 +118,7 @@ function getStartValuetMaterial (idProduct, endValueMaterial){ //string, string
                 ingredient.nameIngredient.includes('петля') ||
                 ingredient.nameIngredient.includes('контейнер') ||
                 ingredient.nameIngredient.includes('тарелка')) valueSecondaryIngredient = roundN(valueSecondaryIngredient,roundWhole);
+                else if(ingredient.nameIngredient.includes('черева')) valueSecondaryIngredient = roundN(valueSecondaryIngredient,1);
                 else valueSecondaryIngredient = roundN(valueSecondaryIngredient,roundSecondary); //number
 
                 // console.log(valueSecondaryIngredient);
@@ -153,13 +154,13 @@ function setColorPrimary (ingredient){
         ingredient.nameIngredient.includes('крахмал') ||
         ingredient.nameIngredient.includes('молоко') ||
         ingredient.nameIngredient.includes('порошок') ||
-        ingredient.nameIngredient.includes('манка') ||
+        ingredient.nameIngredient.includes('манная') ||
         ingredient.nameIngredient.includes('лук') ||
         ingredient.nameIngredient.includes('перец') ||
         ingredient.nameIngredient.includes('кориандр') ||
         ingredient.nameIngredient.includes('масло') ||
         ingredient.nameIngredient.includes('семена') ||
-        ingredient.nameIngredient.includes('гречка') ||
+        ingredient.nameIngredient.includes('гречневая') ||
         ingredient.nameIngredient.includes('орех') ||
         ingredient.nameIngredient.includes('мука') ||
         ingredient.nameIngredient.includes('чеснок') ||
