@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="./css/style.css">
+    <!-- use version 0.20.0 -->
+    <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -28,17 +30,79 @@
             <button id="btn-clean" type="button">очистить форму</button>
         </div>
         <div class="tables">
-            <ul id="list-product" class="ul">
+            <div class="ul-block">
+                <button id="btn-export-product" type="button">скачать</button>
+                <ul id="list-product" class="ul">
+                    <li id="elem-list-product"><span class="name" name="name-product">название ние ние ние ние ние ние ние ние ние ние</span><span class="amount" name="value-product">90</span></li>
+                </ul>
+            </div>
+            <div class="ul-block">
+                <button id="btn-export-sum" type="button">скачать</button>
+                <ul id="list-sum" class="ul">
+                    <li id="elem-list-sum"><span class="name" name="name-product">название</span><span class="amount" name="value-product">90</span></li>
+                </ul>
+            </div>
+            <div class="ul-block">
+                <button id="btn-export-sum-products" type="button">скачать</button>
+                <ul class="ul ul-last" id="list-sum-products">
+                    <li id="elem-list-sum-products">
+                        <span class="name" name="name-product">название</span>
+                        <span class="amount" name="value-product">90</span>
+                        <div class="delete"><div class="delete__cross"></div></div>
+                    </li>
+                </ul>
+            </div>
+            <!-- <ul id="list-product" class="ul">
                 <li id="elem-list-product"><span class="name" name="name-product">название ние ние ние ние ние ние ние ние ние ние</span><span class="amount" name="value-product">90</span></li>
-            </ul>
-            <ul id="list-sum" class="ul">
+            </ul> -->
+            <!-- <ul id="list-sum" class="ul">
                 <li id="elem-list-sum"><span class="name" name="name-product">название</span><span class="amount" name="value-product">90</span></li>
             </ul>
             <ul class="ul ul-last" id="list-sum-products">
-                <li id="elem-list-sum-products"><span class="name" name="name-product">название</span><span class="amount" name="value-product">90</span></li>
-            </ul>
+                <li id="elem-list-sum-products">
+                    <span class="name" name="name-product">название</span>
+                    <span class="amount" name="value-product">90</span>
+                    <div class="delete"><div class="delete__cross"></div></div>
+                </li>
+            </ul> -->
         </div>
+
+        <!-- <button id="btn-export" type="button">export</button>
+        <table id="tbl-export-to-xls">
+            <thead>
+                <th>Sr</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Job Profile</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <tr>1</tr>
+                    <tr><p>Amit Sarna</p>
+                    </tr>
+                    <tr>Florid</tr>
+                    <tr>Data Scientist</tr>
+                </tr>
+                <tr>
+                    <tr>2</tr>
+                    <tr><p>Sagar Gada</p>
+                    </tr>
+                    <tr>California</tr>
+                    <tr>Sr Fullstack dev</tr>
+                </tr>
+                <tr>
+                    <tr>3</tr>
+                    <tr><p>Ricky</p>
+                    </tr>
+                    <tr>Florid</tr>
+                    <tr>Data Scientist</tr>
+                </tr>
+            </tbody>
+        </table> -->
+
+
     </div>
     <script type="module" src="./js/main.js"></script>
+    <script type="module" src="./js/table.js"></script>
 </body>
 </html>

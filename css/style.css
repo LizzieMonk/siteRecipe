@@ -117,6 +117,16 @@ button {
   align-items: flex-start;
 }
 
+.ul-block {
+  display: flex;
+  flex-direction: column;
+}
+.ul-block button {
+  width: max-content;
+  align-self: flex-end;
+  padding: 5px 10px;
+}
+
 .ul {
   max-width: 360px;
   margin: 15px 10px 0 10px;
@@ -143,8 +153,34 @@ button {
   border: 0.5px solid #000;
 }
 
-.ul-last:hover {
+.ul-last .delete {
+  background: transparent;
+  min-height: 100%;
+  width: 30px;
+  border: 0.5px solid black;
+  position: relative;
   cursor: pointer;
+}
+.ul-last .delete__cross {
+  position: absolute;
+  top: 11px;
+  right: 14.5px;
+}
+.ul-last .delete__cross::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 1.5px;
+  background: red;
+  transform: rotate(45deg);
+}
+.ul-last .delete__cross::before {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 1.5px;
+  background: red;
+  transform: rotate(-45deg);
 }
 
 .listProducts {

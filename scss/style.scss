@@ -40,6 +40,16 @@ button{
     flex-wrap: wrap;
     align-items: flex-start;
 }
+.ul-block{
+    display: flex;
+    flex-direction: column;
+    button{
+        // background: #000;
+        width: max-content;
+        align-self: flex-end;
+        padding: 5px 10px;
+    }
+}
 .ul{
     // border: 1px solid #000;
     // min-width: 200px;
@@ -71,8 +81,37 @@ button{
 }
 .ul-last{
     &:hover{
-        cursor: pointer;
+        // cursor: pointer;
     }
+.delete{
+    background: transparent;
+    min-height: 100%;
+    width: 30px;
+    border: 0.5px solid black;
+    position: relative;
+    cursor: pointer;
+    &__cross{
+        position: absolute;
+        top: 11px;
+        right: 14.5px;
+        &::after{
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 1.5px;
+            background: red;
+            transform: rotate(45deg);
+        }
+        &::before{
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 1.5px;
+            background: red;
+            transform: rotate(-45deg);
+        }
+    }
+}
 }
 
 .listProducts {

@@ -28,7 +28,7 @@ export let products = [
     ingredientsPrimary: [{ nameIngredient: "свинина нежирная", amount: 100.0 }],
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 0.8 },
-      { nameIngredient: "про ветчина ЗОА", amount: 1.2 },
+      { nameIngredient: "про ветчина 30А", amount: 1.2 },
       { nameIngredient: "растительное масло", amount: 7.0 },
       { nameIngredient: "маринад пирожка", amount: 3.0 },
       { nameIngredient: "пакет большой", amount: 28 },
@@ -45,7 +45,7 @@ export let products = [
     ],
     ingredientsSecondary: [
       { nameIngredient: "пнс", amount: 1.2 },
-      { nameIngredient: "совмикс Ф500", amount: 1.5 },
+      { nameIngredient: " совмикс Ф500", amount: 1.5 },
       { nameIngredient: "соваром грибной", amount: 1.35 },
       { nameIngredient: "комбивит", amount: 0.4 },
       { nameIngredient: "совицель", amount: 0.3 },
@@ -176,7 +176,7 @@ export let products = [
     ],
     ingredientsSecondary: [
       { nameIngredient: "пнс", amount: 1.8 },
-      { nameIngredient: "совмикс ф500", amount: 1.4 },
+      { nameIngredient: " совмикс Ф500", amount: 1.4 },
       { nameIngredient: "соваром чоризо", amount: 1.1 },
       { nameIngredient: "комбивит", amount: 0.4 },
       { nameIngredient: "совицель", amount: 0.4 },
@@ -196,7 +196,7 @@ export let products = [
     ],
     ingredientsSecondary: [
       { nameIngredient: "пнс", amount: 1.8 },
-      { nameIngredient: "совмикс ф500", amount: 1.5 },
+      { nameIngredient: " совмикс Ф500", amount: 1.5 },
       { nameIngredient: "соваром телячья", amount: 0.8 },
       { nameIngredient: "комбивит", amount: 0.4 },
       { nameIngredient: "совицель", amount: 0.3 },
@@ -220,7 +220,7 @@ export let products = [
     ],
     ingredientsSecondary: [
       { nameIngredient: "пнс", amount: 1.8 },
-      { nameIngredient: "совмикс ф500", amount: 1.5 },
+      { nameIngredient: " совмикс Ф500", amount: 1.5 },
       { nameIngredient: "соваром братвурст", amount: 1.0 },
       { nameIngredient: "комбивит", amount: 0.4 },
       { nameIngredient: "совицель", amount: 0.3 },
@@ -240,7 +240,7 @@ export let products = [
     ],
     ingredientsSecondary: [
       { nameIngredient: "пнс", amount: 1.5 },
-      { nameIngredient: "совмикс ф500", amount: 1.0 },
+      { nameIngredient: " совмикс Ф500", amount: 1.0 },
       { nameIngredient: "соваром чоризо", amount: 1.0 },
       { nameIngredient: "комбивит", amount: 0.4 },
       { nameIngredient: "совицель", amount: 0.3 },
@@ -656,7 +656,7 @@ export let products = [
     name: "Смалец по-белорусски",
     id: 38,
     outputValue: 98.0,
-    ingredientsPrimary: [{ nameIngredient: "свин. п/ж", amount: 100.0 }],
+    ingredientsPrimary: [{ nameIngredient: "свинина полужирная", amount: 100.0 }],
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 3.0 },
       { nameIngredient: "про смак", amount: 1.5 },
@@ -817,7 +817,7 @@ export let products = [
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 1.0 },
       { nameIngredient: "пнс", amount: 1.0 },
-      { nameIngredient: "тарома стаб", amount: 1.0 },
+      { nameIngredient: "тарома стаб 11", amount: 1.0 },
       { nameIngredient: "тарома докторская", amount: 1.2 },
       { nameIngredient: "проаром премьера", amount: 0.3 },
       { nameIngredient: "черева говяжья", amount: 11.6 },
@@ -834,7 +834,7 @@ export let products = [
     ],
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 2.2 },
-      { nameIngredient: "аромикс 23", amount: 0.6 },
+      { nameIngredient: "аромикс 22", amount: 0.6 },
       { nameIngredient: "черева говяжья", amount: 10.0 },
       { nameIngredient: "шпагат", amount: 0.125 },
     ],

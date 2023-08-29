@@ -18,6 +18,10 @@ const btnSum = document.getElementById("btn-sum");
 const btnClean = document.getElementById("btn-clean");
 const inputOutputValue = document.getElementById("input-output-value");
 
+const btnExportProduct = document.getElementById('btn-export-product');
+const btnExportSum = document.getElementById('btn-export-sum');
+const btnExportSumProduct = document.getElementById('btn-export-sum-products');
+
 window.addEventListener("load", () => {
   // products.forEach(elem =>{
   //     let newOption = document.createElement('option');
@@ -29,49 +33,60 @@ window.addEventListener("load", () => {
   products.forEach((elem) => {
     let newOption = document.createElement("li");
     newOption.textContent = elem.name;
-    // newOption.value = elem.id;
     selectItemsUl.appendChild(newOption);
   });
   cleanList(listProduct);
   cleanList(listSum);
   cleanList(listSumProducts);
+
+  btnExportProduct.style.display = 'none'
+  btnExportSum.style.display = 'none'
+  btnExportSumProduct.style.display = 'none'
 });
 
 const listProduct = document.getElementById("list-product");
 const elemListProduct = document.getElementById("elem-list-product");
+export let arrProductToXLSX = []
+let countArrProductToXLSX =0;
+
+export let arrSumToXLSX = []
+let countArrSumToXLSX =0;
+
+export let arrSumProductToXLSX = []
+let countArrSumProductToXLSX =0;
 
 btnCalc.addEventListener("click", () => {
-  cleanList(listProduct);
-  // createNewElemList(getStartValuetMaterial(selectItems.value, inputOutputValue.value),listProduct,elemListProduct, 1); //'1', '200'
-  createNewElemList(
-    getStartValuetMaterial(getIdSelectedValue(search), inputOutputValue.value),
-    listProduct,
-    elemListProduct,
-    1
-  ); //1, '200'
+  if(search.value){
+    cleanList(listProduct);
+    // createNewElemList(getStartValuetMaterial(selectItems.value, inputOutputValue.value),listProduct,elemListProduct, 1); //'1', '200'
+    createNewElemList(getStartValuetMaterial(getIdSelectedValue(search), inputOutputValue.value),listProduct,elemListProduct,1); //1, '200'
+    btnExportProduct.style.display = 'inline-block'
+  }
 });
 btnSum.addEventListener("click", () => {
-  cleanList(listProduct);
-  // createNewElemList(getStartValuetMaterial(selectItems.value, inputOutputValue.value),listProduct,elemListProduct, 1);
-  createNewElemList(
-    getStartValuetMaterial(getIdSelectedValue(search), inputOutputValue.value),
-    listProduct,
-    elemListProduct,
-    1
-  );
-  cleanList(listSum);
-  // sumStartValueMaterial(getStartValuetMaterial(selectItems.value, inputOutputValue.value)); //arr
-  sumStartValueMaterial(
-    getStartValuetMaterial(getIdSelectedValue(search), inputOutputValue.value)
-  ); //arr
+  if(search.value){
+    btnExportProduct.style.display = 'inline-block'
+    // btnExportSum.style.display = 'inline-block'
+    // btnExportSumProduct.style.display = 'inline-block'
+    cleanList(listProduct);
+    // createNewElemList(getStartValuetMaterial(selectItems.value, inputOutputValue.value),listProduct,elemListProduct, 1);
+    createNewElemList(getStartValuetMaterial(getIdSelectedValue(search), inputOutputValue.value),listProduct,elemListProduct,1);
+    cleanList(listSum);
+    // sumStartValueMaterial(getStartValuetMaterial(selectItems.value, inputOutputValue.value)); //arr
+    sumStartValueMaterial(getStartValuetMaterial(getIdSelectedValue(search), inputOutputValue.value)); //arr
+  }
 });
-let startArrSum = [
+export let startArrSum = [
   {
     nameIngredient: "всего сырья",
     amount: 0,
     color: colorPrimaryOne,
   },
 ];
+let allRecipesSum = [];
+let countAllRecipesSum =0;
+
+
 btnClean.addEventListener("click", () => {
   cleanList(listProduct);
   cleanList(listSum);
@@ -83,6 +98,11 @@ btnClean.addEventListener("click", () => {
       color: colorPrimaryOne,
     },
   ];
+  allRecipesSum = [];
+  countAllRecipesSum =0;
+  btnExportProduct.style.display = 'none'
+  btnExportSum.style.display = 'none'
+  btnExportSumProduct.style.display = 'none'
 });
 
 function getStartValuetMaterial(idProduct, endValueMaterial) {
@@ -220,23 +240,30 @@ function roundN(number, count) {
 }
 
 function createNewElemList(arrElems, list, child, firstPosition) {
+  if(list===listProduct) arrProductToXLSX[countArrProductToXLSX++] = arrElems[0]
+
   if (firstPosition > 0) {
     let firstElemArr = arrElems[0]; //сохранение первого
     arrElems.splice(0, 1); //удаление первого
     arrElems.sort((a, b) => (a.nameIngredient > b.nameIngredient ? 1 : -1)); //сортировка массива без первого
     arrElems.unshift(firstElemArr); //возвращаем первый
-  } else
-    arrElems.sort((a, b) => (a.nameIngredient > b.nameIngredient ? 1 : -1));
+  } else arrElems.sort((a, b) => (a.nameIngredient > b.nameIngredient ? 1 : -1));
 
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorWhite) {
       let newElemListProduct = child.cloneNode(true);
-      newElemListProduct.querySelector('[name="name-product"]').textContent =
-        arrElems[i].nameIngredient;
-      newElemListProduct.querySelector('[name="value-product"]').textContent =
-        arrElems[i].amount;
-      newElemListProduct.style.background = arrElems[i].color;
-      list.appendChild(newElemListProduct);
+        newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
+        newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
+        newElemListProduct.style.background = arrElems[i].color;
+        newElemListProduct.querySelector('.delete').addEventListener('click', ()=>{
+          // console.log('delete')
+          cleanList(listSum);
+          // deleteProductFromSum(arrElems[i].nameIngredient) //название
+          deleteProductFromSum(arrElems[i])
+          newElemListProduct.remove()
+        })
+        list.appendChild(newElemListProduct);
+        if(list === listSumProducts) arrSumProductToXLSX [countArrSumProductToXLSX++] = arrElems[i];
     }
   }
   for (let i = firstPosition; i < arrElems.length; i++) {
@@ -248,6 +275,9 @@ function createNewElemList(arrElems, list, child, firstPosition) {
         arrElems[i].amount;
       newElemListProduct.style.background = arrElems[i].color;
       list.appendChild(newElemListProduct);
+
+      if(list === listProduct) arrProductToXLSX[countArrProductToXLSX++] = arrElems[i]
+      if(list === listSum) arrSumToXLSX[countArrSumToXLSX++] = arrElems[i]
     }
   }
   for (let i = firstPosition; i < arrElems.length; i++) {
@@ -259,6 +289,9 @@ function createNewElemList(arrElems, list, child, firstPosition) {
         arrElems[i].amount;
       newElemListProduct.style.background = arrElems[i].color;
       list.appendChild(newElemListProduct);
+
+      if(list === listProduct) arrProductToXLSX[countArrProductToXLSX++] = arrElems[i]
+      if(list === listSum) arrSumToXLSX[countArrSumToXLSX++] = arrElems[i]
     }
   }
   for (let i = firstPosition; i < arrElems.length; i++) {
@@ -270,6 +303,9 @@ function createNewElemList(arrElems, list, child, firstPosition) {
         arrElems[i].amount;
       newElemListProduct.style.background = arrElems[i].color;
       list.appendChild(newElemListProduct);
+
+      if(list === listProduct) arrProductToXLSX[countArrProductToXLSX++] = arrElems[i]
+      if(list === listSum) arrSumToXLSX[countArrSumToXLSX++] = arrElems[i]
     }
   }
   for (let i = firstPosition; i < arrElems.length; i++) {
@@ -281,6 +317,9 @@ function createNewElemList(arrElems, list, child, firstPosition) {
         arrElems[i].amount;
       newElemListProduct.style.background = arrElems[i].color;
       list.appendChild(newElemListProduct);
+
+      if(list === listProduct) arrProductToXLSX[countArrProductToXLSX++] = arrElems[i]
+      if(list === listSum) arrSumToXLSX[countArrSumToXLSX++] = arrElems[i]
     }
   }
   for (let i = firstPosition; i < arrElems.length; i++) {
@@ -292,6 +331,9 @@ function createNewElemList(arrElems, list, child, firstPosition) {
         arrElems[i].amount;
       newElemListProduct.style.background = arrElems[i].color;
       list.appendChild(newElemListProduct);
+
+      if(list === listProduct) arrProductToXLSX[countArrProductToXLSX++] = arrElems[i]
+      if(list === listSum) arrSumToXLSX[countArrSumToXLSX++] = arrElems[i]
     }
   }
   // for(let i=firstPosition; i<arrElems.length; i++){
@@ -308,6 +350,11 @@ const listSumProducts = document.getElementById("list-sum-products");
 const elemListSumProducts = document.getElementById("elem-list-sum-products");
 
 function sumStartValueMaterial(arrProduct) {
+  // console.log(arrProduct);
+  allRecipesSum[countAllRecipesSum] = structuredClone(arrProduct); //глубокое копирование
+  countAllRecipesSum++;
+  console.log(allRecipesSum)
+
   for (let i = 0; i < startArrSum.length; i++) {
     for (let j = 1; j < arrProduct.length; j++) {
       if (startArrSum[i].nameIngredient == arrProduct[j].nameIngredient) {
@@ -320,25 +367,79 @@ function sumStartValueMaterial(arrProduct) {
     }
   }
   createNewElemList(
-    [
-      {
+    [{
         nameIngredient: arrProduct[0].nameProduct,
         amount: arrProduct[0].outputValue,
         color: colorWhite,
       },
-    ],
-    listSumProducts,
-    elemListSumProducts,
-    0
-  );
+    ],listSumProducts,elemListSumProducts,0);
   arrProduct.splice(0, 1);
   startArrSum = startArrSum.concat(arrProduct);
   createNewElemList(startArrSum, listSum, elemListSum, 0);
-  // getStartValueMaterialSaveProducts();
 }
+function deleteProductFromSum(product) {
+  console.log(product)
+  let deletedArrProduct = [];
+  console.log('lenght   ',allRecipesSum.length)
+  //получение массива данных удаляемого элемента
+  for(let i=0; i<allRecipesSum.length; i++){
+    // console.log(allRecipesSum[i][0].nameProduct)
+    if(allRecipesSum[i][0].nameProduct === product.nameIngredient
+      && allRecipesSum[i][0].outputValue === product.amount){
+      // console.log(productName, '[fp[fpg[fpg[')
+      // console.log(allRecipesSum[i]) //массив удаляемых ингредиентов
+      deletedArrProduct = structuredClone(allRecipesSum[i])
+      console.log(allRecipesSum)
+      allRecipesSum.splice(i,1); --countAllRecipesSum
+      arrSumProductToXLSX.splice(i,1); --countArrSumProductToXLSX;
+      break;
+    }
+  }
+  console.log(deletedArrProduct)
+
+  //удаление данных из суммы
+  for (let i = 0; i < startArrSum.length; i++) {
+    for (let j = 1; j < deletedArrProduct.length; j++) {
+      if (startArrSum[i].nameIngredient == deletedArrProduct[j].nameIngredient) {
+        let sumAmount = startArrSum[i].amount - deletedArrProduct[j].amount;
+        sumAmount = roundN(sumAmount, roundSecondary);
+        startArrSum[i].amount = sumAmount;
+        if(sumAmount===0) startArrSum.splice(i,1); --i
+        deletedArrProduct.splice(j, 1);
+        break;
+      }
+    }
+  }
+  console.log(allRecipesSum)
+
+  // createNewElemList(
+  //   [{
+  //       nameIngredient: arrProduct[0].nameProduct,
+  //       amount: arrProduct[0].outputValue,
+  //       color: colorWhite,
+  //     },
+  //   ],listSumProducts,elemListSumProducts,0);
+  // arrProduct.splice(0, 1);
+  // startArrSum = startArrSum.concat(arrProduct);
+  createNewElemList(startArrSum, listSum, elemListSum, 0);
+
+}
+
 function cleanList(list) {
   while (list.firstChild) {
     list.removeChild(list.firstChild);
+  }
+
+  if(list === listProduct){
+    arrProductToXLSX = []
+    countArrProductToXLSX =0;
+  }else if(list === listSum){
+    arrSumToXLSX = []
+    countArrSumToXLSX =0;
+  }
+  else if(list === listSumProducts){
+  arrSumProductToXLSX = []
+  countArrSumProductToXLSX =0;
   }
 }
 
