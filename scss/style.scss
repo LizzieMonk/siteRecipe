@@ -8,8 +8,9 @@ select, input, button, option {
     padding: 10px;
     border: 1px solid #000;
     border-radius: 0%;
-    min-width: 100px;
+    min-width: 120px;
     margin: 15px 10px 0 10px;
+    color: #000;
 }
 select{
     height: 35px;
@@ -17,6 +18,9 @@ select{
 }
 button{
     background: gainsboro;
+}
+#input-output-value{
+    width: 120px;
 }
 
 .container {
@@ -119,13 +123,13 @@ button{
     height: 38px;
     // .listProducts__input
     &__input {
-        min-width: 400px;
+        min-width: 300px;
         height: 100%;
         margin: 0;
     }
     // .listProducts__ul-block
     &__ul-block {
-        width: 400px;
+        width: 300px;
         position: relative;
         top: -2px;
         z-index: 10;

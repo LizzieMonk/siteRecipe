@@ -21,6 +21,7 @@ const inputOutputValue = document.getElementById("input-output-value");
 const btnExportProduct = document.getElementById('btn-export-product');
 const btnExportSum = document.getElementById('btn-export-sum');
 const btnExportSumProduct = document.getElementById('btn-export-sum-products');
+const btnExportAll = document.getElementById('btn-export-all');
 
 window.addEventListener("load", () => {
   // products.forEach(elem =>{
@@ -42,6 +43,7 @@ window.addEventListener("load", () => {
   btnExportProduct.style.display = 'none'
   btnExportSum.style.display = 'none'
   btnExportSumProduct.style.display = 'none'
+  btnExportAll.style.display = 'none'
 });
 
 const listProduct = document.getElementById("list-product");
@@ -66,8 +68,9 @@ btnCalc.addEventListener("click", () => {
 btnSum.addEventListener("click", () => {
   if(search.value){
     btnExportProduct.style.display = 'inline-block'
-    // btnExportSum.style.display = 'inline-block'
-    // btnExportSumProduct.style.display = 'inline-block'
+    btnExportSum.style.display = 'inline-block'
+    btnExportSumProduct.style.display = 'inline-block'
+    btnExportAll.style.display = 'inline-block'
     cleanList(listProduct);
     // createNewElemList(getStartValuetMaterial(selectItems.value, inputOutputValue.value),listProduct,elemListProduct, 1);
     createNewElemList(getStartValuetMaterial(getIdSelectedValue(search), inputOutputValue.value),listProduct,elemListProduct,1);
@@ -83,7 +86,7 @@ export let startArrSum = [
     color: colorPrimaryOne,
   },
 ];
-let allRecipesSum = [];
+export let allRecipesSum = [];
 let countAllRecipesSum =0;
 
 
@@ -103,6 +106,7 @@ btnClean.addEventListener("click", () => {
   btnExportProduct.style.display = 'none'
   btnExportSum.style.display = 'none'
   btnExportSumProduct.style.display = 'none'
+  btnExportAll.style.display = 'none'
 });
 
 function getStartValuetMaterial(idProduct, endValueMaterial) {
@@ -122,6 +126,7 @@ function getStartValuetMaterial(idProduct, endValueMaterial) {
         nameProduct: products[i].name,
         outputValue: endValueMaterial,
         color: colorWhite,
+        outputValueStart: products[i].outputValue
       }; //0 элемент
       arrAllValuesCount++;
       arrAllValues[arrAllValuesCount] = {
@@ -411,18 +416,9 @@ function deleteProductFromSum(product) {
     }
   }
   console.log(allRecipesSum)
-
-  // createNewElemList(
-  //   [{
-  //       nameIngredient: arrProduct[0].nameProduct,
-  //       amount: arrProduct[0].outputValue,
-  //       color: colorWhite,
-  //     },
-  //   ],listSumProducts,elemListSumProducts,0);
   // arrProduct.splice(0, 1);
   // startArrSum = startArrSum.concat(arrProduct);
   createNewElemList(startArrSum, listSum, elemListSum, 0);
-
 }
 
 function cleanList(list) {
