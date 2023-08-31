@@ -430,9 +430,9 @@ function cleanList(list) {
 
 let search = document.getElementById("search");
 search.addEventListener("focus", () => {
+  search.value=''
   liveSearch(selectItemsUl, search);
   setSelectedValue(selectItemsUl, search);
-  // getIdSelectedValue(search.value)
 });
 search.addEventListener("blur", () => {
   let listOfElems = selectItemsUl.children;
@@ -447,10 +447,7 @@ function liveSearch(parent, search) {
   let listOfElems = parent.children;
   for (let i = 0; i < listOfElems.length; i++) {
     if (
-      listOfElems[i].textContent
-        .toLowerCase()
-        .includes(search.value.toLowerCase())
-    ) {
+      listOfElems[i].textContent.toLowerCase().includes(search.value.toLowerCase())) {
       listOfElems[i].style.display = "block";
     } else listOfElems[i].style.display = "none";
   }
@@ -460,7 +457,6 @@ function setSelectedValue(parent, search) {
   for (let i = 0; i < listOfElems.length; i++) {
     listOfElems[i].addEventListener("mousedown", (e) => {
       search.value = e.target.textContent;
-      // getIdSelectedValue(search)
     });
   }
 }

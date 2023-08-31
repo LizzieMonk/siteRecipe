@@ -81,7 +81,7 @@ select, input, button, option {
   padding: 10px;
   border: 1px solid #000;
   border-radius: 0%;
-  min-width: 120px;
+  min-width: 100px;
   margin: 15px 10px 0 10px;
   color: #000;
 }
@@ -131,7 +131,6 @@ button {
   flex-direction: column;
 }
 .ul-block button {
-  width: max-content;
   align-self: flex-end;
   padding: 5px 10px;
 }
@@ -222,6 +221,11 @@ button {
 }
 .listProducts li:hover {
   background: gainsboro;
+}
+
+img {
+  height: 16px;
+  width: 16px;
 }
 
 .modal {
