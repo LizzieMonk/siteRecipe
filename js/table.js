@@ -4,7 +4,12 @@ import{
     arrProductToXLSX,
     arrSumToXLSX,
     arrSumProductToXLSX,
-    allRecipesSum
+    allRecipesSum,
+    colorPrimaryOne,
+    colorPrimaryTwo,
+    colorSecondaryOne,
+    colorSecondaryTwo,
+    colorSecondaryTree
 } from './main.js'
 
 const btnExportProduct = document.getElementById('btn-export-product');
@@ -34,6 +39,7 @@ const btnExportAll = document.getElementById('btn-export-all');
 
 btnExportProduct.addEventListener('click', ()=>{
     let arrProductToXLSXClone = structuredClone(arrProductToXLSX);
+    //убираем цвет
     for(let i=0; i<arrProductToXLSXClone.length; i++){
         delete arrProductToXLSXClone[i].color;
     }
@@ -68,14 +74,15 @@ btnExportProduct.addEventListener('click', ()=>{
     XLSX.utils.sheet_add_aoa(worksheet, [["", "", ""]], { origin: "A1" });
     //рассчитать ширину столбца на 100 символов
     // const max_width = 300;
-    worksheet["!cols"] = [ { wpx: 200 }, //a
+    worksheet["!cols"] = [ { wpx: 190 }, //a
                             { wpx: 50}, //b
-                            { wpx: 150} ];//c
+                            { wpx: 180} ];//c
     // const max_height = 20
-    worksheet["!rows"] = [{ hpx: 50 },
+    worksheet["!rows"] = [{ hpx: 40},
                             {hpx: 40},
                             {hpx: 40},
-                            {hpx: 20}]
+                            {hpx: 20},
+                            {hpx: 30}]
 
     // создаем xlsx файл и пробуем сохранить его локально
     // XLSX.writeFile(workbook, "Product.xlsx", { compression: true });
@@ -132,7 +139,7 @@ btnExportSumProduct.addEventListener('click', ()=>{
     //добавление рабочего листа в рабочую тетрадь
     XLSX.utils.book_append_sheet(workbook, worksheet, "SumProduct");
     //исправить заголовки начиная с а1
-    XLSX.utils.sheet_add_aoa(worksheet, [["Продукт", "Количество", ""]], { origin: "A1" });
+    XLSX.utils.sheet_add_aoa(worksheet, [["Продукт", "Кол-во", ""]], { origin: "A1" });
     //рассчитать ширину столбца на 100 символов
     worksheet["!cols"] = [ { wpx: 200 }, //a
                             { wpx: 50}, //b
@@ -147,8 +154,14 @@ btnExportSumProduct.addEventListener('click', ()=>{
     XLSX.writeFile(workbook, "SumProduct.xlsx");
 })
 btnExportAll.addEventListener('click', ()=>{
-    console.log(allRecipesSum) //упорядочить по алфавита
+    console.log(allRecipesSum)
     let allRecipesSumClone = structuredClone(allRecipesSum);
+
+    //фильтрация по цвету и алфавиту
+    for(let i=0; i<allRecipesSumClone.length; i++){
+        allRecipesSumClone[i] = filterArrProduct(allRecipesSumClone[i])
+    }
+    //убираем цвет
     for(let i=0; i<allRecipesSumClone.length; i++){
         console.log(allRecipesSumClone[i])
         for(let j=0; j<allRecipesSumClone[i].length; j++){
@@ -156,32 +169,98 @@ btnExportAll.addEventListener('click', ()=>{
             delete allRecipesSumClone[i][j].color;
         }
     }
-    console.log(allRecipesSumClone)
+    //перестановка в первом объекте для корректной печати
+    for(let i=0; i<allRecipesSumClone.length; i++){
+        allRecipesSumClone[i][0]['nameIngredient'] = allRecipesSumClone[i][0]['nameProduct']
+        delete allRecipesSumClone[i][0]['nameProduct']
+        allRecipesSumClone[i][0]['amount'] = ''
+        let outputValue = allRecipesSumClone[i][0].outputValue
+        delete allRecipesSumClone[i][0]['outputValue']
+        let outputValueStart = allRecipesSumClone[i][0].outputValueStart
+        delete allRecipesSumClone[i][0]['outputValueStart']
+        allRecipesSumClone[i].splice(1,0,{
+            nameIngredient:'',
+            amount:'',
+            outputValue: outputValueStart,
+        })
+        allRecipesSumClone[i].splice(1,0,{
+            nameIngredient:'',
+            amount:'',
+            outputValue: outputValue,
+        })
+    }
+    // console.log(allRecipesSumClone)
 
     //создаем рабочую тетрадь
     const workbook = XLSX.utils.book_new();
-
+    //вносим листы с рецептурами в одну тетрадь
     for(let i=0; i<allRecipesSumClone.length; i++){
-        // console.log(allRecipesSumClone[i])
         //создаем рабочий лист
         const worksheet = XLSX.utils.json_to_sheet(allRecipesSumClone[i]);
         //добавление рабочего листа в рабочую тетрадь
         XLSX.utils.book_append_sheet(workbook, worksheet, `Recipe${i}`);
         //исправить заголовки начиная с а1
         XLSX.utils.sheet_add_aoa(worksheet, [["", "", ""]], { origin: "A1" });
-        worksheet["!cols"] = [ { wpx: 50 }, //a
-                            { wpx: 50}, //b
-                            { wpx: 50} ];//c
-        worksheet["!rows"] = [{ hpx: 50 },
+        worksheet["!cols"] = [{wpx: 190},  //a
+                            {wpx: 50},  //b
+                            {wpx: 180}];  //c
+        worksheet["!rows"] = [{ hpx: 40},
                             {hpx: 40},
                             {hpx: 40},
-                            {hpx: 20}]
+                            {hpx: 20},
+                            {hpx: 30}]
     }
 
     // создаем xlsx файл и пробуем сохранить его локально
     // XLSX.writeFile(workbook, "Product.xlsx", { compression: true });
     XLSX.writeFile(workbook, "Products.xlsx");
 })
+
+function filterArrProduct(arrElem) {
+    let newElemArr = []
+    let countNewElemArr = 0;
+    newElemArr[countNewElemArr++] = arrElem[0]  //добавление первого элемента в новый массив
+
+    //сортировка по алфавиту, кроме первого элемента
+    let firstElemArr = arrElem[0]; //сохранение первого
+    arrElem.splice(0, 1); //удаление первого
+    arrElem.sort((a, b) => (a.nameIngredient > b.nameIngredient ? 1 : -1)); //сортировка массива без первого
+    arrElem.unshift(firstElemArr); //возвращаем первый
+
+    //перебор оставшегося массива по цветам
+    for (let i = 1; i < arrElem.length; i++) {
+      if (arrElem[i].color == colorPrimaryOne) {
+        newElemArr[countNewElemArr++] = arrElem[i]
+      }
+    }
+    for (let i = 1; i < arrElem.length; i++) {
+      if (arrElem[i].color == colorPrimaryTwo) {
+        newElemArr[countNewElemArr++] = arrElem[i]
+       }
+    }
+    for (let i = 1; i < arrElem.length; i++) {
+      if (arrElem[i].color == colorSecondaryOne) {
+        newElemArr[countNewElemArr++] = arrElem[i]
+        }
+    }
+    for (let i = 1; i < arrElem.length; i++) {
+      if (arrElem[i].color == colorSecondaryTwo) {
+        newElemArr[countNewElemArr++] = arrElem[i]
+        }
+    }
+    for (let i = 1; i < arrElem.length; i++) {
+      if (arrElem[i].color == colorSecondaryTree) {
+        newElemArr[countNewElemArr++] = arrElem[i]
+      }
+    }
+    return newElemArr;
+}
+
+
+
+
+
+
 
 // function ExportToExcel(type, fn, dl) {
 //     var elt = document.getElementById('tbl_exporttable_to_xls');

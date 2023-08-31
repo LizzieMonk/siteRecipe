@@ -95,6 +95,10 @@ button {
   background: gainsboro;
 }
 
+.btn-export {
+  background: #A0CADE;
+}
+
 #input-output-value {
   width: 120px;
 }

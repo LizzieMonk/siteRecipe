@@ -1,10 +1,10 @@
 import { products, startValue } from "./data.js";
 
-const colorPrimaryOne = "#A5E6B2";
-const colorPrimaryTwo = "#D7F7DD";
-const colorSecondaryOne = "#A0CADE";
-const colorSecondaryTwo = "#C4ECFF";
-const colorSecondaryTree = "#F7D6CB";
+export const colorPrimaryOne = "#A5E6B2";
+export const colorPrimaryTwo = "#D7F7DD";
+export const colorSecondaryOne = "#A0CADE";
+export const colorSecondaryTwo = "#C4ECFF";
+export const colorSecondaryTree = "#F7D6CB";
 const colorWhite = "white";
 
 const roundPrimary = 1;
@@ -261,7 +261,6 @@ function createNewElemList(arrElems, list, child, firstPosition) {
         newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
         newElemListProduct.style.background = arrElems[i].color;
         newElemListProduct.querySelector('.delete').addEventListener('click', ()=>{
-          // console.log('delete')
           cleanList(listSum);
           // deleteProductFromSum(arrElems[i].nameIngredient) //название
           deleteProductFromSum(arrElems[i])
@@ -275,9 +274,9 @@ function createNewElemList(arrElems, list, child, firstPosition) {
     if (arrElems[i].color == colorPrimaryOne) {
       let newElemListProduct = child.cloneNode(true);
       newElemListProduct.querySelector('[name="name-product"]').textContent =
-        arrElems[i].nameIngredient;
+      arrElems[i].nameIngredient;
       newElemListProduct.querySelector('[name="value-product"]').textContent =
-        arrElems[i].amount;
+      arrElems[i].amount;
       newElemListProduct.style.background = arrElems[i].color;
       list.appendChild(newElemListProduct);
 
@@ -330,10 +329,8 @@ function createNewElemList(arrElems, list, child, firstPosition) {
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorSecondaryTree) {
       let newElemListProduct = child.cloneNode(true);
-      newElemListProduct.querySelector('[name="name-product"]').textContent =
-        arrElems[i].nameIngredient;
-      newElemListProduct.querySelector('[name="value-product"]').textContent =
-        arrElems[i].amount;
+      newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
+      newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
       newElemListProduct.style.background = arrElems[i].color;
       list.appendChild(newElemListProduct);
 
@@ -341,13 +338,6 @@ function createNewElemList(arrElems, list, child, firstPosition) {
       if(list === listSum) arrSumToXLSX[countArrSumToXLSX++] = arrElems[i]
     }
   }
-  // for(let i=firstPosition; i<arrElems.length; i++){
-  //     let newElemListProduct = child.cloneNode(true);
-  //     newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
-  //     newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
-  //     newElemListProduct.style.background = arrElems[i].color;
-  //     list.appendChild(newElemListProduct);
-  // }
 }
 const listSum = document.getElementById("list-sum");
 const elemListSum = document.getElementById("elem-list-sum");
@@ -355,7 +345,6 @@ const listSumProducts = document.getElementById("list-sum-products");
 const elemListSumProducts = document.getElementById("elem-list-sum-products");
 
 function sumStartValueMaterial(arrProduct) {
-  // console.log(arrProduct);
   allRecipesSum[countAllRecipesSum] = structuredClone(arrProduct); //глубокое копирование
   countAllRecipesSum++;
   console.log(allRecipesSum)
