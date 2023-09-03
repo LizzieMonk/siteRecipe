@@ -1,5 +1,3 @@
-// importScripts("https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/shim.min.js");
-// importScripts("https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js");
 import{
     arrProductToXLSX,
     arrSumToXLSX,
@@ -109,8 +107,6 @@ btnExportSum.addEventListener('click', ()=>{
     //создаем рабочий лист и рабочую тетрадь
     const worksheet = XLSX.utils.json_to_sheet(arrSumToXLSXClone);
     const workbook = XLSX.utils.book_new();
-    //добавление рабочего листа в рабочую тетрадь
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Sum");
     //исправить заголовки начиная с а1
     XLSX.utils.sheet_add_aoa(worksheet, [["Наименование", "Расход", ""]], { origin: "A1" });
     //рассчитать ширину столбца на 100 символов
@@ -121,6 +117,35 @@ btnExportSum.addEventListener('click', ()=>{
     //                         {hpx: 40},
     //                         {hpx: 40},
     //                         {hpx: 20}]
+    // let row = [
+    //     {s:{
+    //         border:{
+    //             top:{
+    //                 color: {rgb: "#000"}
+    //             },
+    //             bottom:{
+    //                 color: {rgb: "#000"}
+    //             },
+    //             left:{
+    //                 color: {rgb: "#000"}
+    //             },
+    //             right:{
+    //                 color: {rgb: "#000"}
+    //             },
+    //         }
+    //     }}
+    // ]
+    // let row = [
+    //     { v: "Courier: 24", t: "s", s: { font: { name: "Courier", sz: 24 } } },
+    //     { v: "bold & color", t: "s", s: { font: { bold: true, color: { rgb: "FF0000" } } } },
+    //     { v: "fill: color", t: "s", s: { fill: { fgColor: { rgb: "E9E9E9" } } } },
+    //     { v: "line\nbreak", t: "s", s: { alignment: { wrapText: true } } },
+    // ];
+
+    // worksheet = XLSX.utils.aoa_to_sheet([row]);
+
+    //добавление рабочего листа в рабочую тетрадь
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sum");
 
     // создаем xlsx файл и пробуем сохранить его локально
     // XLSX.writeFile(workbook, "Product.xlsx", { compression: true });

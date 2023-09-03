@@ -5,7 +5,7 @@ export const colorPrimaryTwo = "#D7F7DD";
 export const colorSecondaryOne = "#A0CADE";
 export const colorSecondaryTwo = "#C4ECFF";
 export const colorSecondaryTree = "#F7D6CB";
-const colorWhite = "white";
+export const colorWhite = "white";
 
 const roundPrimary = 1;
 const roundSecondary = 3;

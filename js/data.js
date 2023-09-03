@@ -69,7 +69,7 @@ export let products = [
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 1.4 },
       { nameIngredient: "пнс", amount: 1.0 },
-      { nameIngredient: "тарома микс венская", amount: 1.0 },
+      { nameIngredient: "тарома микс примо", amount: 1.0 },
       { nameIngredient: "тмин", amount: 0.3 },
       { nameIngredient: "черева говяжья", amount: 9.6 },
       { nameIngredient: "шпагат", amount: 0.25 },
@@ -127,7 +127,7 @@ export let products = [
       { nameIngredient: "говядина односортная", amount: 35.0 },
       { nameIngredient: "шпик", amount: 25.0 },
       { nameIngredient: "свинина полужирная", amount: 20.0 },
-      { nameIngredient: "м/о говяжья жилованная", amount: 20.0 },
+      { nameIngredient: "мясо говяжьих голов", amount: 20.0 },
     ],
     ingredientsSecondary: [
       { nameIngredient: "пнс", amount: 1.8 },
@@ -149,7 +149,7 @@ export let products = [
       { nameIngredient: "свинина полужирная", amount: 35.5 },
       { nameIngredient: "говядина односортная", amount: 34.0 },
       { nameIngredient: "шпик", amount: 15.0 },
-      { nameIngredient: "м/о говяжья жилованная", amount: 15.0 },
+      { nameIngredient: "мясо говяжьих голов", amount: 15.0 },
       { nameIngredient: "грецкий орех", amount: 0.5 },
     ],
     ingredientsSecondary: [
@@ -287,14 +287,14 @@ export let products = [
     ],
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 0.9 },
-      { nameIngredient: "маринад BBQ", amount: 4.0 },
+      { nameIngredient: "маринад Деревенский", amount: 4.0 },
       { nameIngredient: "инъекта", amount: 0.75 },
       { nameIngredient: "бактицид", amount: 0.15 },
       { nameIngredient: "пакет большой", amount: 10 },
     ],
   },
   {
-    name: "Сосиски вар. Русские особые в/с",
+    name: "Сосиски вареные Русские особые в/с",
     id: 16,
     outputValue: 137.0,
     ingredientsPrimary: [
@@ -304,7 +304,7 @@ export let products = [
       { nameIngredient: "свинина жирная", amount: 13.0 },
       { nameIngredient: "сухое молоко", amount: 5.0 },
       { nameIngredient: "меланж яичный сухой", amount: 0.548 },
-      { nameIngredient: "вода", amount: 0.118 },
+      { nameIngredient: "вода", amount: 1.452 },
     ],
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 1.2 },
@@ -347,7 +347,7 @@ export let products = [
     ],
   },
   {
-    name: "Колбаса в/к Польская 1с",
+    name: "Колбаса в/к Польская 1с.",
     id: 19,
     outputValue: 94.0,
     ingredientsPrimary: [
@@ -365,7 +365,7 @@ export let products = [
     ],
   },
   {
-    name: "Колбаса вар. Духмяная 2с.",
+    name: "Колбаса вареная Духмяная 2с.",
     id: 20,
     outputValue: 137.0,
     ingredientsPrimary: [
@@ -384,7 +384,7 @@ export let products = [
     ],
   },
   {
-    name: "Колбаса вар. Русская особая в/с.",
+    name: "Колбаса вареная Русская особая в/с.",
     id: 21,
     outputValue: 137.0,
     ingredientsPrimary: [
@@ -394,7 +394,7 @@ export let products = [
       { nameIngredient: "свинина жирная", amount: 13.0 },
       { nameIngredient: "сухое молоко", amount: 5.0 },
       { nameIngredient: "меланж яичный сухой", amount: 0.548 },
-      { nameIngredient: "вода", amount: 0.117 },
+      { nameIngredient: "вода", amount: 1.452 },
     ],
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 1.2 },
@@ -459,7 +459,7 @@ export let products = [
     ],
   },
   {
-    name: 'Смалец "Закусочный"',
+    name: 'Смалец соленый "Закусочный"',
     id: 25,
     outputValue: 98.0,
     ingredientsPrimary: [
@@ -470,7 +470,7 @@ export let products = [
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 3.0 },
       { nameIngredient: "про смак", amount: 1.5 },
-      { nameIngredient: "пряно-аром. пр. Домашняя", amount: 1.0 },
+      { nameIngredient: "пряно-аром. приправа Домашняя", amount: 1.0 },
       { nameIngredient: "фиброуз д45", amount: 88.2 },
       { nameIngredient: "скрепки", amount: 549 },
       { nameIngredient: "петли", amount: 274 },
@@ -478,7 +478,7 @@ export let products = [
     ],
   },
   {
-    name: 'Смалец "По-домашнему"',
+    name: 'Смалец соленый "По-домашнему"',
     id: 26,
     outputValue: 104.0,
     ingredientsPrimary: [
@@ -564,7 +564,7 @@ export let products = [
     ],
   },
   {
-    name: 'Ветчина вар. "Слойка Любительская"',
+    name: 'Ветчина вареная "Слойка Любительская"',
     id: 32,
     outputValue: 95.0,
     ingredientsPrimary: [
@@ -574,14 +574,14 @@ export let products = [
     ],
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 2.0 },
-      { nameIngredient: "тарома стаб 11", amount: 0.7 },
+      { nameIngredient: "тарома комби 3", amount: 0.7 },
       { nameIngredient: "проаром декор", amount: 0.5 },
       { nameIngredient: "чесночный порошок", amount: 0.017 },
       { nameIngredient: "пакет вакуумный", amount: 317 },
     ],
   },
   {
-    name: 'Ветчина вар. "Пикантная"',
+    name: 'Ветчина вареная "Пикантная"',
     id: 33,
     outputValue: 100.0,
     ingredientsPrimary: [
@@ -591,15 +591,15 @@ export let products = [
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 1.0 },
       { nameIngredient: "пнс", amount: 1.0 },
-      { nameIngredient: "тарома стаб 11", amount: 1.0 },
-      { nameIngredient: "перец черный молотый молотый", amount: 0.6 },
-      { nameIngredient: "лавровый лист", amount: 0.2 },
+      { nameIngredient: "тарома комби 3", amount: 1.0 },
+      { nameIngredient: "перец черный молотый", amount: 0.6 },
+      { nameIngredient: "лист лавровый", amount: 0.2 },
       { nameIngredient: "чесночный порошок", amount: 0.1 },
       { nameIngredient: "пакет вакуумный", amount: 333 },
     ],
   },
   {
-    name: 'Ветчина вар. "Медвежье ухо"',
+    name: 'Ветчина вареная "Медвежье ухо"',
     id: 34,
     outputValue: 110.0,
     ingredientsPrimary: [
@@ -609,7 +609,7 @@ export let products = [
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 2.0 },
       { nameIngredient: "кориандр молотый", amount: 0.2 },
-      { nameIngredient: "перец черный молотый молотый", amount: 0.15 },
+      { nameIngredient: "перец черный молотый", amount: 0.15 },
       { nameIngredient: "чесночный порошок", amount: 0.13 },
       { nameIngredient: "пакет вакуумный", amount: 367 },
     ],
@@ -634,7 +634,7 @@ export let products = [
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 5.0 },
       { nameIngredient: "про смак", amount: 1.5 },
-      { nameIngredient: "пряно-аром. пр. Домашняя", amount: 1.5 },
+      { nameIngredient: "пряно-аром. приправа Домашняя", amount: 1.5 },
       { nameIngredient: "пакет вакуумный", amount: 180 },
     ],
   },
@@ -653,20 +653,20 @@ export let products = [
     ],
   },
   {
-    name: "Смалец по-белорусски",
+    name: "Смалец соленый по-белорусски",
     id: 38,
     outputValue: 98.0,
     ingredientsPrimary: [{ nameIngredient: "свинина полужирная", amount: 100.0 }],
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 3.0 },
       { nameIngredient: "про смак", amount: 1.5 },
-      { nameIngredient: "барбекю обсыпка декор", amount: 1.0 },
+      { nameIngredient: "приправа Барбекю обсыпка декор", amount: 1.0 },
       { nameIngredient: "чесночный порошок", amount: 0.135 },
       { nameIngredient: "контейнер 0,28л", amount: 350 },
     ],
   },
   {
-    name: "Смалец Русский",
+    name: "Смалец соленый Русский",
     id: 39,
     outputValue: 98.0,
     ingredientsPrimary: [
@@ -775,22 +775,22 @@ export let products = [
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 1.2 },
       { nameIngredient: "пнс", amount: 1.0 },
-      { nameIngredient: "промикс 4000", amount: 1.8 },
+      { nameIngredient: "промикс 400С", amount: 1.8 },
       { nameIngredient: "смесь сосисочная", amount: 1.2 },
       { nameIngredient: "черева говяжья", amount: 10.4 },
       { nameIngredient: "шпагат", amount: 0.26 },
     ],
   },
   {
-    name: "Колбаса вар. Славянская новая 2с.",
+    name: "Колбаса вареная Славянская новая 2с.",
     id: 46,
     outputValue: 135.0,
     ingredientsPrimary: [
       { nameIngredient: "говядина 2 сорта", amount: 45.0 },
       { nameIngredient: "шпик", amount: 18.0 },
       { nameIngredient: "мясо свиных голов", amount: 31.0 },
-      { nameIngredient: "мука 1 сорт", amount: 5.0 },
       { nameIngredient: "сухое молоко", amount: 1.0 },
+      { nameIngredient: "мука 1 сорт", amount: 5.0 },
     ],
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 1.2 },
@@ -846,7 +846,7 @@ export let products = [
     ingredientsPrimary: [
       { nameIngredient: "шкурка вареная", amount: 30.0 },
       { nameIngredient: "крупа гречневая", amount: 6.7 },
-      { nameIngredient: "кровь пищеая", amount: 40.0 },
+      { nameIngredient: "кровь пищевая", amount: 40.0 },
       { nameIngredient: "шпик", amount: 10.0 },
       { nameIngredient: "вода", amount: 13.3 },
     ],
@@ -877,8 +877,8 @@ export let products = [
       { nameIngredient: "семена горчицы", amount: 0.4 },
       { nameIngredient: "бактицид", amount: 0.5 },
       { nameIngredient: "эком рт", amount: 0.6 },
-      { nameIngredient: "биоцель", amount: 2.0 },
-      { nameIngredient: "черева свиная", amount: 15.9 },
+      { nameIngredient: "клетчатка растительная Биоцель", amount: 2.0 },
+      { nameIngredient: "черева свиная", amount: 13.6 },
       { nameIngredient: "пакет вакуумный", amount: 188 },
     ],
   },
@@ -952,6 +952,256 @@ export let products = [
       { nameIngredient: "чесночный порошок", amount: 0.066 },
       { nameIngredient: "черева говяжья", amount: 9.1 },
       { nameIngredient: "шпагат", amount: 0.238 },
+    ],
+  },
+  {
+    name: "Продукт к/в Любимый",
+    id: 55,
+    outputValue: 101.0,
+    ingredientsPrimary: [
+      { nameIngredient: "шейная часть (свинина полужирная)", amount: 100.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "соль", amount: 0.4 },
+      { nameIngredient: "пнс", amount: 2.0 },
+      { nameIngredient: "хам брайн", amount: 2.25 },
+      { nameIngredient: "актив фреш", amount: 0.5 },
+      { nameIngredient: "пакет большой", amount: 10 },
+      { nameIngredient: "пакет вакуумный", amount: 337 },
+    ],
+  },
+  {
+    name: "Продукт к/в Славянский",
+    id: 56,
+    outputValue: 102.0,
+    ingredientsPrimary: [
+      { nameIngredient: "спинно-поясничная часть (свинина нежирная)", amount: 100.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "соль", amount: 0.4 },
+      { nameIngredient: "пнс", amount: 2.0 },
+      { nameIngredient: "хам брайн", amount: 2.25 },
+      { nameIngredient: "актив фреш", amount: 0.5 },
+      { nameIngredient: "пакет большой", amount: 10 },
+      { nameIngredient: "пакет вакуумный", amount: 408 },
+    ],
+  },
+  {
+    name: "Продукт к/в Княжеский",
+    id: 57,
+    outputValue: 101.0,
+    ingredientsPrimary: [
+      { nameIngredient: "тазобедренная часть (свинина нежирная)", amount: 100.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "соль", amount: 0.4 },
+      { nameIngredient: "пнс", amount: 2.0 },
+      { nameIngredient: "хам брайн", amount: 2.25 },
+      { nameIngredient: "актив фреш", amount: 0.5 },
+      { nameIngredient: "пакет большой", amount: 10 },
+      { nameIngredient: "пакет вакуумный", amount: 337 },
+    ],
+  },
+  {
+    name: "Продукт к/в Домашний",
+    id: 58,
+    outputValue: 101.0,
+    ingredientsPrimary: [
+      { nameIngredient: "лопаточная часть (свинина нежирная)", amount: 100.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "соль", amount: 0.4 },
+      { nameIngredient: "пнс", amount: 2.0 },
+      { nameIngredient: "хам брайн", amount: 2.25 },
+      { nameIngredient: "актив фреш", amount: 0.5 },
+      { nameIngredient: "пакет большой", amount: 10 },
+      { nameIngredient: "пакет вакуумный", amount: 337 },
+    ],
+  },
+  {
+    name: "Продукт к/в Закуска домашняя",
+    id: 59,
+    outputValue: 103.0,
+    ingredientsPrimary: [
+      { nameIngredient: "грудореберная часть свиная без ребер", amount: 100.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "соль", amount: 1.7 },
+      { nameIngredient: "пнс", amount: 0.8 },
+      { nameIngredient: "хам брайн", amount: 2.1 },
+      { nameIngredient: "актив фреш", amount: 0.25 },
+      { nameIngredient: "пакет большой", amount: 10 },
+      { nameIngredient: "пакет вакуумный", amount: 343 },
+    ],
+  },
+  {
+    name: "Продукт к/в Ребрышки любимые",
+    id: 60,
+    outputValue: 80.0,
+    ingredientsPrimary: [
+      { nameIngredient: "грудореберная часть свиная с ребрами 50/50", amount: 100.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "соль", amount: 0.4 },
+      { nameIngredient: "пнс", amount: 2.0 },
+      { nameIngredient: "хам брайн", amount: 2.25 },
+      { nameIngredient: "актив фреш", amount: 0.5 },
+      { nameIngredient: "пакет большой", amount: 8 },
+    ],
+  },
+  {
+    name: "Колбаса в/к Салями премиум в/с",
+    id: 61,
+    outputValue: 100.0,
+    ingredientsPrimary: [
+      { nameIngredient: "м/о говяжья жилованная", amount: 40.0 },
+      { nameIngredient: "свинина полужирная", amount: 20.0 },
+      { nameIngredient: "мясо птицы кусковое", amount: 20.0 },
+      { nameIngredient: "шпик", amount: 10.0 },
+      { nameIngredient: "шкурка свиная", amount: 10.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "пнс", amount: 1.8 },
+      { nameIngredient: "кутроцит", amount: 1.0 },
+      { nameIngredient: "соваром чоризо", amount: 1.2 },
+      { nameIngredient: "каркадогель", amount: 0.25 },
+      { nameIngredient: "колор КП", amount: 0.066 },
+      { nameIngredient: "фиброуз д45", amount: 105.6 },
+      { nameIngredient: "скрепки", amount: 446 },
+      { nameIngredient: "петли", amount: 223 },
+      { nameIngredient: "пакет вакуумный", amount: 333 },
+    ],
+  },
+  {
+    name: 'Соленый продукт из свинины "Солонина-буженина"',
+    id: 62,
+    outputValue: 90.0,
+    ingredientsPrimary: [
+      { nameIngredient: "свинина нежирная", amount: 100.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "соль", amount: 5.0 },
+      { nameIngredient: "про смак", amount: 1.5 },
+      { nameIngredient: "приправа Барбекю обсыпка декор", amount: 1.5 },
+      { nameIngredient: "пакет вакуумный", amount: 200 },
+    ],
+  },
+  {
+    name: 'Соленый продукт из свинины "Солонина-ковалочек"',
+    id: 63,
+    outputValue: 90.0,
+    ingredientsPrimary: [
+      { nameIngredient: "свинина нежирная", amount: 100.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "соль", amount: 5.0 },
+      { nameIngredient: "про смак", amount: 1.5 },
+      { nameIngredient: "приправа Карри гриль", amount: 1.5 },
+      { nameIngredient: "пакет вакуумный", amount: 200 },
+    ],
+  },
+  {
+    name: "Рулет к/в Филейный",
+    id: 64,
+    outputValue: 128.0,
+    ingredientsPrimary: [
+      { nameIngredient: "мясо птицы кусковое", amount: 65.0 },
+      { nameIngredient: "свинина полужирная", amount: 32.0 },
+      { nameIngredient: "крахмал", amount: 3.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "соль", amount: 1.65 },
+      { nameIngredient: "пнс", amount: 0.58 },
+      { nameIngredient: "комплект ветчинный", amount: 3.1 },
+      { nameIngredient: "аромат хам", amount: 0.2 },
+      { nameIngredient: "хаммикс 20", amount: 1.1 },
+      { nameIngredient: "фреш", amount: 0.25 },
+    ],
+  },
+  {
+    name: "Кулинарное изделие Флячки по-деревенски",
+    id: 65,
+    outputValue: 58.0,
+    ingredientsPrimary: [
+      { nameIngredient: "рубец зачищенный", amount: 100.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "соль", amount: 0.1 },
+      { nameIngredient: "бактицид", amount: 0.3 },
+      { nameIngredient: "приправа Деревенская", amount: 0.3 },
+      { nameIngredient: "пакет большой", amount: 50 },
+    ],
+  },
+  {
+    name: "Колбаса с/к Киндюк в/с",
+    id: 66,
+    outputValue: 60.0,
+    ingredientsPrimary: [
+      { nameIngredient: "свинина полужирная", amount: 50.0 },
+      { nameIngredient: "говядина односортная", amount: 30.0 },
+      { nameIngredient: "шпик", amount: 20.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "пнс", amount: 2.6 },
+      { nameIngredient: "соваром киндюк", amount: 1.5 },
+      { nameIngredient: "совмикс GP", amount: 0.4 },
+      { nameIngredient: "чесночный порошок", amount: 0.1 },
+      { nameIngredient: "черева свиная", amount: 11.3 },
+      { nameIngredient: "шпагат", amount: 0.18 },
+      { nameIngredient: "пакет вакуумный", amount: 240 },
+    ],
+  },
+  {
+    name: "Колбаса с/к Фирменная в/с",
+    id: 67,
+    outputValue: 70.0,
+    ingredientsPrimary: [
+      { nameIngredient: "свинина полужирная", amount: 80.0 },
+      { nameIngredient: "шпик", amount: 20.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "пнс", amount: 2.6 },
+      { nameIngredient: "соваром традиционная", amount: 1.5 },
+      { nameIngredient: "совмикс GP", amount: 0.4 },
+      { nameIngredient: "чесночный порошок", amount: 0.1 },
+      { nameIngredient: "черева свиная", amount: 13.2 },
+      { nameIngredient: "шпагат", amount: 0.21 },
+      { nameIngredient: "пакет вакуумный", amount: 280 },
+    ],
+  },
+  {
+    name: "Колбаса с/к Для свояка в/с",
+    id: 68,
+    outputValue: 70.0,
+    ingredientsPrimary: [
+      { nameIngredient: "свинина полужирная", amount: 80.0 },
+      { nameIngredient: "шпик", amount: 20.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "пнс", amount: 2.6 },
+      { nameIngredient: "соваром ароматная", amount: 1.3 },
+      { nameIngredient: "совмикс GP", amount: 0.4 },
+      { nameIngredient: "чесночный порошок", amount: 0.1 },
+      { nameIngredient: "черева свиная", amount: 13.2 },
+      { nameIngredient: "шпагат", amount: 0.21 },
+      { nameIngredient: "пакет вакуумный", amount: 280 },
+    ],
+  },
+  {
+    name: "Колбаса с/к Для охотника в/с",
+    id: 69,
+    outputValue: 52.0,
+    ingredientsPrimary: [
+      { nameIngredient: "свинина полужирная", amount: 100.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "соль", amount: 0.3 },
+      { nameIngredient: "пнс", amount: 1.8 },
+      { nameIngredient: "совмикс GP", amount: 0.5 },
+      { nameIngredient: "соваром чоризо", amount: 0.5 },
+      { nameIngredient: "соваром ведзонка", amount: 0.5 },
+      { nameIngredient: "натурин д20", amount: 87.2 },
+      { nameIngredient: "пакет вакуумный", amount: 11 },
     ],
   },
 ];

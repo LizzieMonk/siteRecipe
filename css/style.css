@@ -94,9 +94,28 @@ select {
 button {
   background: gainsboro;
 }
+button:hover {
+  background: transparent;
+}
+
+.btn-passive {
+  background: whitesmoke;
+  color: grey;
+  border-color: grey;
+}
+.btn-passive:hover {
+  background: whitesmoke;
+  color: grey;
+  border-color: grey;
+  cursor: auto;
+}
 
 .btn-export {
   background: #A0CADE;
+}
+
+.btn-report {
+  background: #A5E6B2;
 }
 
 #input-output-value {
@@ -132,7 +151,9 @@ button {
 }
 .ul-block button {
   align-self: flex-end;
-  padding: 5px 10px;
+}
+.ul-block .ul-report-btn {
+  align-self: flex-end;
 }
 
 .ul {
@@ -157,6 +178,39 @@ button {
   text-align: center;
 }
 .ul li span {
+  padding: 5px 10px;
+  border: 0.5px solid #000;
+}
+
+.ul-report {
+  width: 750px;
+  margin: 15px 10px 0 10px;
+  border: 0.5px solid #000;
+}
+.ul-report li {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.ul-report li:hover {
+  background: gainsboro;
+}
+.ul-report li .name {
+  width: 100%;
+}
+.ul-report li input {
+  display: inline-block;
+  font-size: 16px;
+  padding: 5px 10px;
+  border: 0.5px solid #000;
+  border-radius: 0%;
+  width: 100px;
+  margin: 0;
+  color: #000;
+  text-align: center;
+}
+.ul-report li span {
   padding: 5px 10px;
   border: 0.5px solid #000;
 }

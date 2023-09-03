@@ -18,9 +18,26 @@ select{
 }
 button{
     background: gainsboro;
+    &:hover{
+        background: transparent;
+    }
+}
+.btn-passive{
+    background: whitesmoke;
+    color: grey;
+    border-color: grey;
+    &:hover{
+        background: whitesmoke;
+        color: grey;
+        border-color: grey;
+        cursor: auto;
+    }
 }
 .btn-export{
     background: #A0CADE;
+}
+.btn-report{
+    background: #A5E6B2;
 }
 #input-output-value{
     width: 120px;
@@ -53,13 +70,17 @@ button{
     button{
         // width: max-content;
         align-self: flex-end;
-        padding: 5px 10px;
+        // padding: 5px 10px;
+    }
+    .ul-report-btn{
+        // background: red;
+        align-self: flex-end;
     }
 }
 .ul{
-    // border: 1px solid #000;
-    // min-width: 200px;
+    // background: grey;
     max-width: 360px;
+    // width: 360px;
     margin: 15px 10px 0 10px;
     border: 0.5px solid #000;
     li{
@@ -79,6 +100,46 @@ button{
             width: 130px;
             text-align: center;
         }
+        span{
+            padding: 5px 10px;
+            border: 0.5px solid #000;
+        }
+    }
+}
+.ul-report{
+    // background: grey;
+    // max-width: 360px;
+    width: 750px;
+    margin: 15px 10px 0 10px;
+    border: 0.5px solid #000;
+    li{
+        width: 100%;
+        // background: red;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        &:hover{
+            background: gainsboro;;
+        }
+        .name{
+            width: 100%;
+            // flex-grow: 1;
+        }
+        input{
+            display: inline-block;
+            font-size: 16px;
+            padding: 5px 10px; //
+            border: 0.5px solid #000; //
+            border-radius: 0%;
+            width: 100px; //
+            margin: 0; //
+            color: #000;
+            text-align: center; //
+        }
+        // .amount{
+        //     width: 130px;
+        //     text-align: center;
+        // }
         span{
             padding: 5px 10px;
             border: 0.5px solid #000;
