@@ -10,6 +10,7 @@ import{
     colorSecondaryTwo,
     colorSecondaryTree
 } from './main.js'
+import { products, startValue } from "./data.js";
 
 
 const btnReport = document.getElementById("btn-report");
@@ -19,22 +20,31 @@ const btnSum = document.getElementById("btn-sum");
 const btnClean = document.getElementById("btn-clean");
 
 const listProductBlock = document.querySelector(".ul-block__product");
+const listSumBlock = document.querySelector(".ul-block__sum");
 const listSumProductsBlock = document.querySelector(".ul-block__sum-products");
 const listReportBlock = document.querySelector(".ul-block__report");
+
+const addingBlock = document.querySelector(".adding")
 
 const btnExportReport = document.getElementById('btn-export-report');
 const btnReportUpdateAmount = document.getElementById('btn-report-update-amount')
 const btnReportUpdateRemainder = document.getElementById('btn-report-update-remainder')
 const btnReportDeleteStorage = document.getElementById('btn-report-delete-storage')
 const btnReportCalcSum = document.getElementById('btn-report-calc-sum')
+const btnAddAllIngredients = document.getElementById('btn-add-all-ingredients')
+const btnAddNewIngredient = document.getElementById('btn-add-new-ingredient')
+const btnSaveNewElem = document.getElementById('btn-save-new-elem')
+
+let nameNewElem = document.getElementById('name-new-elem')
+
+
 
 const listReport = document.getElementById("list-report");
 const elemListReport = document.getElementById("elem-list-report");
 
 btnReport.addEventListener('click',()=>{
-    console.log('clicked')
-    cleanList(listReport)
-    createNewElemList()
+    // cleanList(listReport)
+    // createNewElemList()
     if(btnCalc.matches('.btn-passive')){
         btnCalc.classList.remove('btn-passive')
         btnCalc.disabled = false;
@@ -43,9 +53,13 @@ btnReport.addEventListener('click',()=>{
         btnClean.classList.remove('btn-passive')
         btnClean.disabled = false;
 
+        btnReport.innerText = `в режим "отчет"`
+
         listProductBlock.style.display = 'flex'
         listSumProductsBlock.style.display = 'flex'
+        listSumBlock.style.display = 'flex'
         listReportBlock.style.display = 'none'
+        addingBlock.style.display ='none'
     }
     else{
         btnCalc.classList.add('btn-passive');
@@ -54,6 +68,8 @@ btnReport.addEventListener('click',()=>{
         btnSum.disabled = true;
         btnClean.classList.add('btn-passive');
         btnClean.disabled = true;
+
+        btnReport.innerText = `в режим "расчет"`
 
         listProductBlock.style.display = 'none'
         listSumProductsBlock.style.display = 'none'
@@ -67,7 +83,24 @@ btnReport.addEventListener('click',()=>{
     }
 })
 btnReportUpdateAmount.addEventListener('click', ()=>{
-    console.log('update')
+    //обнуление всех расходов
+    for(let j=0; j<localStorage.length; j++) {
+        let key = localStorage.key(j);
+        //получение значений продукта
+        let product = JSON.parse( localStorage.getItem(key) );
+        //сохранение продукта в локальное хранилище
+        let keyNameProduct = product.name //название ингредиента - ключ
+        let obj = {
+            'name' : product.name,
+            'remainder' : product.remainder,
+            'coming' : product.coming,
+            'amount' : 0,
+            'sum': product.sum,
+            'color': product.color,
+        }
+        createLocalStorage(obj, keyNameProduct)
+    }
+    //обновление имеющихся расходов
     //глубокое копирование списка с суммой
     let arrSumToXLSXClone = structuredClone(arrSumToXLSX);
     for(let i=0; i<arrSumToXLSXClone.length; i++){
@@ -165,21 +198,180 @@ btnReportCalcSum.addEventListener('click', ()=>{
     createNewElemList()
     updateStorageInput()
 })
+btnAddAllIngredients.addEventListener('click', ()=>{
+    //очистка хранилища и списка
+    localStorage.clear()
+    cleanList(listReport)
+    //заполнение хранилища
+    for(let i=0; i<products.length; i++){
+        products[i].ingredientsPrimary.forEach((ingredient)=>{
+            let keyNameProduct = ingredient.nameIngredient //название ингредиента - ключ
+            let obj = {
+                'name' : ingredient.nameIngredient,
+                'remainder' : 0,
+                'coming' : 0,
+                'amount' : 0,
+                'sum': 0,
+                'color': colorPrimaryTwo,
+            }
+            createLocalStorage(obj, keyNameProduct)
+            // console.log(ingredient.nameIngredient)
+        })
+        products[i].ingredientsSecondary.forEach((ingredient)=>{
+            let keyNameProduct = ingredient.nameIngredient //название ингредиента - ключ
+            let obj = {
+                'name' : ingredient.nameIngredient,
+                'remainder' : 0,
+                'coming' : 0,
+                'amount' : 0,
+                'sum': 0,
+                'color': setColorPrimary(ingredient),
+            }
+            createLocalStorage(obj, keyNameProduct)
+            // console.log(ingredient.nameIngredient)
+        })
+    }
+    function setColorPrimary(ingredient) {
+        if (
+          ingredient.nameIngredient.includes("черева") ||
+          ingredient.nameIngredient.includes("шпагат") ||
+          ingredient.nameIngredient.includes("фиброуз") ||
+          ingredient.nameIngredient.includes("пакет") ||
+          ingredient.nameIngredient.includes("скрепки") ||
+          ingredient.nameIngredient.includes("скрепки") ||
+          ingredient.nameIngredient.includes("петли") ||
+          ingredient.nameIngredient.includes("петли") ||
+          ingredient.nameIngredient.includes("коллаген") ||
+          ingredient.nameIngredient.includes("контейнер") ||
+          ingredient.nameIngredient.includes("тарелка")
+        )
+          return colorSecondaryTree;
+        else if (
+          ingredient.nameIngredient.includes("соль") ||
+          ingredient.nameIngredient.includes("пнс") ||
+          ingredient.nameIngredient.includes("крахмал") ||
+          ingredient.nameIngredient.includes("молоко") ||
+          ingredient.nameIngredient.includes("порошок") ||
+          ingredient.nameIngredient.includes("манная") ||
+          ingredient.nameIngredient.includes("лук") ||
+          ingredient.nameIngredient.includes("перец") ||
+          ingredient.nameIngredient.includes("кориандр") ||
+          ingredient.nameIngredient.includes("масло") ||
+          ingredient.nameIngredient.includes("семена") ||
+          ingredient.nameIngredient.includes("гречневая") ||
+          ingredient.nameIngredient.includes("орех") ||
+          ingredient.nameIngredient.includes("мука") ||
+          ingredient.nameIngredient.includes("чеснок") ||
+          ingredient.nameIngredient.includes("тмин") ||
+          ingredient.nameIngredient.includes("изолят") ||
+          ingredient.nameIngredient.includes("лист") ||
+          ingredient.nameIngredient.includes("клетчатка")
+        )
+          return colorSecondaryOne;
+        else return colorSecondaryTwo;
+    }
+
+    //вывод хранилища в список
+    createNewElemList()
+    //обработчик
+    updateStorageInput()
+})
+let categoryPrimary = document.getElementsByName('category-primary');
+// динамика отображения подгрупп
+for (let i=0; i<categoryPrimary.length; i++){
+    let second1 = document.querySelector('.second1')
+    let second2 = document.querySelector('.second2')
+    let second3 = document.querySelector('.second3')
+    categoryPrimary[i].addEventListener('change', ()=>{
+        if (categoryPrimary[i].checked) {
+            if(categoryPrimary[i].closest('.adding__radioElem ').querySelector('h3').textContent==='специи'){
+                console.log('перебор подгруппы специй')
+                second1.style.display = 'flex'
+                second2.style.display = 'flex'
+                second3.style.display = 'flex'
+            }
+            else{
+                console.log('перебор подгруппы сырья')
+                second1.style.display = 'none'
+                second2.style.display = 'none'
+                second3.style.display = 'none'
+            }
+            // console.log(categoryPrimary[i].closest('.adding__radioElem ').querySelector('h3').textContent)
+        }
+    })
+}
+btnAddNewIngredient.addEventListener('click', ()=>{
+    if(addingBlock.style.display==='none'){
+        listSumBlock.style.display = 'none'
+        addingBlock.style.display = 'flex'
+    }
+    else{
+        listSumBlock.style.display = 'flex'
+        addingBlock.style.display = 'none'
+    }
+})
+btnSaveNewElem.addEventListener('click', ()=>{
+  //сохранение нового продукта в локальное хранилище
+  let keyNameProduct = nameNewElem.value //название ингредиента - ключ
+  let obj = {
+      'name' : nameNewElem.value,
+      'remainder' : 0,
+      'coming' : 0,
+      'amount' : 0,
+      'sum': 0,
+      'color': getColorNewElem(),
+  }
+  createLocalStorage(obj, keyNameProduct)
+  cleanList(listReport)
+  createNewElemList()
+  updateStorageInput()
+
+  function getColorNewElem (){
+      let categoryPrimary = document.getElementsByName('category-primary');
+      for (let i=0; i<categoryPrimary.length; i++){
+      if (categoryPrimary[i].checked) {
+          if(categoryPrimary[i].closest('.adding__radioElem').querySelector('h3').textContent==='специи'){
+              // console.log('перебор подгруппы специй')
+              let categorySecondary = document.getElementsByName('category-secondary');
+              for(let j=0; j<categorySecondary.length; j++){
+                  if (categorySecondary[j].checked) {
+                      if(categorySecondary[j].closest('.adding__radioElem').querySelector('h4').textContent==='природные'){
+                          return colorSecondaryOne
+                      }
+                      else if(categorySecondary[j].closest('.adding__radioElem').querySelector('h4').textContent==='химозные'){
+                          return colorSecondaryTwo
+                      }
+                      else return colorSecondaryTree
+                  }
+              }
+          }
+          else{
+              return colorPrimaryTwo
+          }
+          // console.log(categoryPrimary[i].closest('.adding__radioElem ').querySelector('h3').textContent)
+      }
+      }
+  }
+})
+
 btnExportReport.addEventListener('click', ()=>{
     let arr = []
     let countArr = 0
+    //создаем дубликат хранилища
     for(let j=0; j<localStorage.length; j++) {
         let key = localStorage.key(j);
         //получение значений продукта
         let product = JSON.parse( localStorage.getItem(key) );
         arr[countArr++] = product
     }
+    //фильтрация по алфавиту и цвету
+    // arr = filterArrProduct(arr)
+
+    //убираем цвет
     for(let i=0; i<arr.length; i++){
         delete arr[i].color;
     }
-    console.log(arr)
-
-    //ДОБАВИТЬ СОРТИРОВКУ
+    // console.log(arr)
 
     //создаем рабочий лист и рабочую тетрадь
     const worksheet = XLSX.utils.json_to_sheet(arr);
@@ -199,6 +391,45 @@ btnExportReport.addEventListener('click', ()=>{
     // создаем xlsx файл и пробуем сохранить его локально
     XLSX.writeFile(workbook, "Perort.xlsx");
 })
+function filterArrProduct(arrElem) {
+    let newElemArr = []
+    let countNewElemArr = 0;
+    // newElemArr[countNewElemArr++] = arrElem[0]  //добавление первого элемента в новый массив
+
+    //сортировка по алфавиту, кроме первого элемента
+    // let firstElemArr = arrElem[0]; //сохранение первого
+    // arrElem.splice(0, 1); //удаление первого
+    arrElem.sort((a, b) => (a.nameIngredient > b.nameIngredient ? 1 : -1)); //сортировка массива без первого
+    // arrElem.unshift(firstElemArr); //возвращаем первый
+
+    //перебор оставшегося массива по цветам
+    for (let i = 1; i < arrElem.length; i++) {
+      if (arrElem[i].color == colorPrimaryOne) {
+        newElemArr[countNewElemArr++] = arrElem[i]
+      }
+    }
+    for (let i = 1; i < arrElem.length; i++) {
+      if (arrElem[i].color == colorPrimaryTwo) {
+        newElemArr[countNewElemArr++] = arrElem[i]
+       }
+    }
+    for (let i = 1; i < arrElem.length; i++) {
+      if (arrElem[i].color == colorSecondaryOne) {
+        newElemArr[countNewElemArr++] = arrElem[i]
+        }
+    }
+    for (let i = 1; i < arrElem.length; i++) {
+      if (arrElem[i].color == colorSecondaryTwo) {
+        newElemArr[countNewElemArr++] = arrElem[i]
+        }
+    }
+    for (let i = 1; i < arrElem.length; i++) {
+      if (arrElem[i].color == colorSecondaryTree) {
+        newElemArr[countNewElemArr++] = arrElem[i]
+      }
+    }
+    return newElemArr;
+}
 
 
 function updateStorageInput (){
@@ -405,7 +636,7 @@ function createNewElemList() {
         let product = JSON.parse( localStorage.getItem(key) );
         arrProductsClone[countArrProductsClone++] = structuredClone(product)
     }
-    console.log(arrProductsClone)
+    // console.log(arrProductsClone)
 
     //сортировка по алфавиту
     arrProductsClone.sort((a, b) => (a.name > b.name ? 1 : -1));
@@ -550,11 +781,11 @@ function createLocalStorage(obj, keyNameProduct){
 
     let product = JSON.parse( localStorage.getItem(keyNameProduct) );
     // let user = JSON.parse( localStorage.user );
-    console.log( product.name );
-    console.log( product.remainder );
-    console.log( product.coming );
-    console.log( product.amount );
-    console.log( product.color );
+    // console.log( product.name );
+    // console.log( product.remainder );
+    // console.log( product.coming );
+    // console.log( product.amount );
+    // console.log( product.color );
 }
 
 window.addEventListener('load', ()=>{
@@ -562,15 +793,11 @@ window.addEventListener('load', ()=>{
     // listSumProductsBlock.style.display = 'none'
 
     listReportBlock.style.display = 'none'
+    addingBlock.style.display ='none'
     cleanList(listReport)
     createNewElemList()
+    //обновление списка (длина списка !=0)
     updateStorageInput()
-
-    // //вывод списка на экран
-    // cleanList(listReport)
-    // createNewElemList()
-    // //обновление списка (длина списка !=0)
-    // updateStorageInput()
 
     // btnExportReport.style.display = 'none'
 })

@@ -72,9 +72,9 @@ btnExportProduct.addEventListener('click', ()=>{
     XLSX.utils.sheet_add_aoa(worksheet, [["", "", ""]], { origin: "A1" });
     //рассчитать ширину столбца на 100 символов
     // const max_width = 300;
-    worksheet["!cols"] = [ { wpx: 195 }, //a
+    worksheet["!cols"] = [ { wpx: 197 }, //a
                             { wpx: 50}, //b
-                            { wpx: 190} ];//c
+                            { wpx: 200} ];//c
     // const max_height = 20
     worksheet["!rows"] = [{ hpx: 40},
                             {hpx: 40},
@@ -226,9 +226,9 @@ btnExportAll.addEventListener('click', ()=>{
         XLSX.utils.book_append_sheet(workbook, worksheet, `Recipe${i}`);
         //исправить заголовки начиная с а1
         XLSX.utils.sheet_add_aoa(worksheet, [["", "", ""]], { origin: "A1" });
-        worksheet["!cols"] = [{wpx: 195},  //a
+        worksheet["!cols"] = [{wpx: 197},  //a
                             {wpx: 50},  //b
-                            {wpx: 190}];  //c
+                            {wpx: 200}];  //c
         worksheet["!rows"] = [{ hpx: 40},
                             {hpx: 40},
                             {hpx: 40},
@@ -263,8 +263,20 @@ function filterArrProduct(arrElem) {
         newElemArr[countNewElemArr++] = arrElem[i]
        }
     }
+    let addEmptyObj = 7
     for (let i = 1; i < arrElem.length; i++) {
       if (arrElem[i].color == colorSecondaryOne) {
+
+        //добавление пустых объектов(муляж) для нормальной печати
+        while(addEmptyObj!=0){
+            newElemArr[countNewElemArr++] = {
+            nameIngredient:'',
+            amount:'',
+            color:''
+        }
+        addEmptyObj--;
+        }
+
         newElemArr[countNewElemArr++] = arrElem[i]
         }
     }

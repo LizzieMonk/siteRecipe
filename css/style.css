@@ -122,6 +122,14 @@ button:hover {
   width: 120px;
 }
 
+h3 {
+  font-size: 20px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
 .container {
   width: 90%;
   margin: 0 auto;
@@ -145,6 +153,42 @@ button:hover {
   align-items: flex-start;
 }
 
+.adding {
+  background: #C4ECFF;
+  border: 1px solid black;
+  padding: 10px;
+  width: 400px;
+  margin: 15px 10px 0 10px;
+  display: flex;
+  flex-direction: column;
+}
+.adding__title input {
+  width: 350px;
+}
+.adding__category {
+  padding: 10px 0;
+}
+.adding__radioElem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px 0;
+}
+.adding__radioElem input {
+  margin: 0;
+  min-width: fit-content;
+}
+.adding__radioElem h4, .adding__radioElem h3 {
+  margin: 0 10px;
+}
+.adding__radioElem_second {
+  margin-left: 20px;
+}
+.adding__btn {
+  min-width: 100px;
+  width: fit-content;
+}
+
 .ul-block {
   display: flex;
   flex-direction: column;
@@ -153,7 +197,9 @@ button:hover {
   align-self: flex-end;
 }
 .ul-block .ul-report-btn {
+  max-width: 800px;
   align-self: flex-end;
+  flex-wrap: wrap;
 }
 
 .ul {

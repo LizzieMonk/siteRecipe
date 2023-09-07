@@ -42,6 +42,13 @@ button{
 #input-output-value{
     width: 120px;
 }
+h3{
+    font-size: 20px;
+}
+h4{
+    font-size: 16px;
+}
+
 
 .container {
     // background: red;
@@ -64,6 +71,57 @@ button{
     flex-wrap: wrap;
     align-items: flex-start;
 }
+.adding {
+    background: #C4ECFF;
+    border: 1px solid black;
+    padding: 10px;
+    width: 400px;
+    margin: 15px 10px 0 10px;
+    display: flex;
+    flex-direction: column;
+    // .adding__title
+    &__title {
+        h3{
+            // background: grey;
+        }
+        input{
+            width: 350px;
+            // background: green;
+            // margin: 0;
+        }
+
+    }
+    // .adding__category
+    &__category {
+        padding: 10px 0;
+    }
+    // .adding__radioElem
+    &__radioElem {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 5px 0;
+        input{
+            // background: green;
+            margin: 0;
+            min-width: fit-content;
+            // padding: 20px;
+        }
+        h4, h3{
+            // background: grey;
+            margin: 0 10px;
+        }
+        &_second{
+            margin-left: 20px;
+        }
+    }
+    //.adding__btn
+    &__btn{
+        min-width: 100px;
+        width: fit-content;
+    }
+}
+
 .ul-block{
     display: flex;
     flex-direction: column;
@@ -74,7 +132,9 @@ button{
     }
     .ul-report-btn{
         // background: red;
+        max-width: 800px;
         align-self: flex-end;
+        flex-wrap: wrap;
     }
 }
 .ul{
