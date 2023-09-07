@@ -109,7 +109,7 @@ button{
 .ul-report{
     // background: grey;
     // max-width: 360px;
-    width: 750px;
+    max-width: 800px;
     margin: 15px 10px 0 10px;
     border: 0.5px solid #000;
     li{
@@ -135,11 +135,34 @@ button{
             margin: 0; //
             color: #000;
             text-align: center; //
+            &:nth-child(6){
+                border-right: 1px solid black;
+            }
         }
         // .amount{
         //     width: 130px;
         //     text-align: center;
         // }
+        .hide{
+            border: 0.5px solid white; //
+            outline: 0.5px solid white;
+            margin-left: 0.5px;
+            // background: red;
+        }
+        .sign{
+            width: 100px;
+            text-align: center;
+            padding-top: 4.5px;
+            background: white;
+            margin: 0 0.5px;
+            color: grey;
+            // border: 0.5px solid white; //
+            outline: 0.5px solid white;
+            &:hover{
+                cursor: pointer;
+                color: black;
+            }
+        }
         span{
             padding: 5px 10px;
             border: 0.5px solid #000;

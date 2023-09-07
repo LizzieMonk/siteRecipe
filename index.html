@@ -72,8 +72,9 @@
             <div class="ul-block ul-block__report">
                 <div class="ul-report-btn">
                     <button style="background: #F7D6CB;" class="btn-report" id="btn-report-delete-storage" type="button">удалить список</button>
-                    <button class="btn-report" id="btn-report-update-remainder" type="button">обновить список</button>
+                    <button class="btn-report" id="btn-report-update-remainder" type="button">обновить остаток</button>
                     <button class="btn-report" id="btn-report-update-amount" type="button">обновить расход</button>
+                    <button class="btn-report" id="btn-report-calc-sum" type="button">посчитать сумму</button>
                     <button class="btn-export" id="btn-export-report" type="button">
                         <img src="./img/export.png">
                     </button>
@@ -84,10 +85,13 @@
                 <ul id="list-report" class="ul-report">
                     <li id="elem-list-report">
                         <span class="name" name="name-product">название</span>
-                        <input disabled class="remainder" name="remainder" type="number" value="0">
+                        <input class="remainder" name="remainder" type="number" value="0">
                         <input class="coming" name="coming" type="number" value="0">
                         <input class="consumption" name="amount" type="number" value="0">
-                        <input disabled class="remainder" name="remainder-sum" type="number" value="0">
+                        <div class="sign">=</div>
+                        <!-- <input class="remainder hide_sign" name="sign" type="text" value="="> -->
+                        <input class="remainder" name="remainder-sum" type="number" value="0">
+                        <input class="remainder hide" name="hint" type="text" value="-2.93">
                         <!-- <span class="amount" name="value-product">90</span> -->
                     </li>
                 </ul>

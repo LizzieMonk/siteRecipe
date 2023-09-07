@@ -26,6 +26,7 @@ const btnExportReport = document.getElementById('btn-export-report');
 const btnReportUpdateAmount = document.getElementById('btn-report-update-amount')
 const btnReportUpdateRemainder = document.getElementById('btn-report-update-remainder')
 const btnReportDeleteStorage = document.getElementById('btn-report-delete-storage')
+const btnReportCalcSum = document.getElementById('btn-report-calc-sum')
 
 const listReport = document.getElementById("list-report");
 const elemListReport = document.getElementById("elem-list-report");
@@ -86,10 +87,11 @@ btnReportUpdateAmount.addEventListener('click', ()=>{
                     'remainder' : product.remainder,
                     'coming' : product.coming,
                     'amount' : arrSumToXLSXClone[i].amount, //обновление расхода
-                    'sum' : roundN( Number(product.remainder)
-                    + Number(product.coming)
-                    - Number(arrSumToXLSXClone[i].amount),
-                    3),
+                    // 'sum' : roundN( Number(product.remainder)
+                    // + Number(product.coming)
+                    // - Number(arrSumToXLSXClone[i].amount),
+                    // 3),
+                    'sum' : product.sum,
                     'color': arrSumToXLSXClone[i].color,
                 }
                 createLocalStorage(obj, keyNameProduct)
@@ -105,7 +107,7 @@ btnReportUpdateAmount.addEventListener('click', ()=>{
                 'remainder' : 0,
                 'coming' : 0,
                 'amount' : arrSumToXLSXClone[i].amount,
-                'sum': arrSumToXLSXClone[i].amount,
+                'sum': 0,
                 'color': arrSumToXLSXClone[i].color,
             }
             createLocalStorage(obj, keyNameProduct)
@@ -113,6 +115,7 @@ btnReportUpdateAmount.addEventListener('click', ()=>{
     }
     cleanList(listReport)
     createNewElemList()
+    updateStorageInput()
 })
 btnReportDeleteStorage.addEventListener('click', ()=>{
     console.log('delete')
@@ -132,7 +135,7 @@ btnReportUpdateRemainder.addEventListener('click', ()=>{
             'remainder' : product.sum,
             'coming' : 0,
             'amount' : 0,
-            'sum': product.sum,
+            'sum': 0,
             'color': product.color,
         }
         createLocalStorage(obj, keyNameProduct)
@@ -141,13 +144,68 @@ btnReportUpdateRemainder.addEventListener('click', ()=>{
     createNewElemList()
     updateStorageInput()
 })
+btnReportCalcSum.addEventListener('click', ()=>{
+    for(let j=0; j<localStorage.length; j++) {
+        let key = localStorage.key(j);
+        //получение значений продукта
+        let product = JSON.parse( localStorage.getItem(key) );
+        //сохранение продукта в локальное хранилище
+        let keyNameProduct = product.name //название ингредиента - ключ
+        let obj = {
+            'name' : product.name,
+            'remainder' : product.remainder,
+            'coming' : product.coming,
+            'amount' : product.amount,
+            'sum':  updateSum(product),
+            'color': product.color,
+        }
+        createLocalStorage(obj, keyNameProduct)
+    }
+    cleanList(listReport)
+    createNewElemList()
+    updateStorageInput()
+})
+btnExportReport.addEventListener('click', ()=>{
+    let arr = []
+    let countArr = 0
+    for(let j=0; j<localStorage.length; j++) {
+        let key = localStorage.key(j);
+        //получение значений продукта
+        let product = JSON.parse( localStorage.getItem(key) );
+        arr[countArr++] = product
+    }
+    for(let i=0; i<arr.length; i++){
+        delete arr[i].color;
+    }
+    console.log(arr)
+
+    //ДОБАВИТЬ СОРТИРОВКУ
+
+    //создаем рабочий лист и рабочую тетрадь
+    const worksheet = XLSX.utils.json_to_sheet(arr);
+    const workbook = XLSX.utils.book_new();
+    //исправить заголовки начиная с а1
+    XLSX.utils.sheet_add_aoa(worksheet, [["Наименование", "Остаток", "Приход", "Расход", "Сумма"]], { origin: "A1" });
+    //рассчитать ширину столбца на 100 символов
+    worksheet["!cols"] = [ { wpx: 200 }, //a
+                            { wpx: 50}, //b
+                            { wpx: 50},
+                            { wpx: 50},
+                            { wpx: 50} ];//c
+
+    //добавление рабочего листа в рабочую тетрадь
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
+
+    // создаем xlsx файл и пробуем сохранить его локально
+    XLSX.writeFile(workbook, "Perort.xlsx");
+})
+
 
 function updateStorageInput (){
     let arrElems = listReport.children;
     for(let i=0; i<arrElems.length; i++){
         arrElems[i].querySelector('[name="coming"]').addEventListener('input', ()=>{
-            console.log('input')
-            updateSum(arrElems[i]);
+            // updateSum(arrElems[i]);
             for(let j=0; j<localStorage.length; j++) {
                 let key = localStorage.key(j);
                 if(key === arrElems[i].querySelector('[name="name-product"]').textContent){
@@ -159,16 +217,18 @@ function updateStorageInput (){
                         'remainder' : product.remainder,
                         'coming' : Number(arrElems[i].querySelector('[name="coming"]').value), //обновление расхода
                         'amount' : product.amount,
-                        'sum' : updateSum(arrElems[i]),
+                        // 'sum' : updateSum(arrElems[i]),
+                        'sum' : product.sum,
                         'color': product.color,
                     }
                     createLocalStorage(obj, keyNameProduct)
+                    checkSum(arrElems[i], arrElems[i].querySelector('[name="remainder-sum"]').value)
                     break;
                 }
             }
         })
         arrElems[i].querySelector('[name="amount"]').addEventListener('input', ()=>{
-            updateSum(arrElems[i]);
+            // updateSum(arrElems[i]);
             for(let j=0; j<localStorage.length; j++) {
                 let key = localStorage.key(j);
                 if(key === arrElems[i].querySelector('[name="name-product"]').textContent){
@@ -178,12 +238,60 @@ function updateStorageInput (){
                     let obj = {
                         'name' : product.name,
                         'remainder' : product.remainder,
-                        'coming' : product.coming, //обновление расхода
+                        'coming' : product.coming, //обновление
                         'amount' : Number(arrElems[i].querySelector('[name="amount"]').value),
-                        'sum' : updateSum(arrElems[i]),
+                        // 'sum' : updateSum(arrElems[i]),
+                        'sum' : product.sum,
                         'color': product.color,
                     }
                     createLocalStorage(obj, keyNameProduct)
+                    checkSum(arrElems[i], arrElems[i].querySelector('[name="remainder-sum"]').value)
+                    break;
+                }
+            }
+        })
+        arrElems[i].querySelector('[name="remainder"]').addEventListener('input', ()=>{
+            // updateSum(arrElems[i]);
+            for(let j=0; j<localStorage.length; j++) {
+                let key = localStorage.key(j);
+                if(key === arrElems[i].querySelector('[name="name-product"]').textContent){
+                    //получение значений продукта
+                    let product = JSON.parse( localStorage.getItem(key) );
+                    let keyNameProduct = product.name
+                    let obj = {
+                        'name' : product.name,
+                        'remainder' : Number(arrElems[i].querySelector('[name="remainder"]').value),
+                        'coming' : product.coming, //обновление расхода
+                        'amount' : product.amount,
+                        // 'sum' : updateSum(arrElems[i]),
+                        'sum' : product.sum,
+                        'color': product.color,
+                    }
+                    createLocalStorage(obj, keyNameProduct)
+                    checkSum(arrElems[i], arrElems[i].querySelector('[name="remainder-sum"]').value)
+                    break;
+                }
+            }
+        })
+        arrElems[i].querySelector('[name="remainder-sum"]').addEventListener('input', ()=>{
+            // updateSum(arrElems[i]);
+            for(let j=0; j<localStorage.length; j++) {
+                let key = localStorage.key(j);
+                if(key === arrElems[i].querySelector('[name="name-product"]').textContent){
+                    //получение значений продукта
+                    let product = JSON.parse( localStorage.getItem(key) );
+                    let keyNameProduct = product.name
+                    let obj = {
+                        'name' : product.name,
+                        'remainder' : product.remainder,
+                        'coming' : product.coming,
+                        'amount' : product.amount,
+                        'sum' : Number(arrElems[i].querySelector('[name="remainder-sum"]').value),
+                        'color': product.color,
+                    }
+                    createLocalStorage(obj, keyNameProduct)
+                    // console.log(arrElems[i].querySelector('[name="remainder-sum"]').value)
+                    checkSum(arrElems[i], arrElems[i].querySelector('[name="remainder-sum"]').value)
                     break;
                 }
             }
@@ -197,6 +305,47 @@ function updateStorageInput (){
             - Number(elem.querySelector('[name="amount"]').value),
             3);
         return elem.querySelector('[name="remainder-sum"]').value
+    }
+}
+
+function updateSum(product){
+    let sum = roundN(
+        Number(product.remainder)
+        + Number(product.coming)
+        - Number(product.amount),
+        3);
+    return sum
+}
+function checkSum(elem, value){
+    let sum = roundN(
+        Number(elem.querySelector('[name="remainder"]').value)
+        + Number(elem.querySelector('[name="coming"]').value)
+        - Number(elem.querySelector('[name="amount"]').value),
+        3)
+    if(sum>value){
+        elem.querySelector('[name="hint"]').style.color = 'red'
+        elem.querySelector('[name="hint"]').value = roundN((value-sum),3)
+        elem.querySelector('[name="coming"]').style.color = 'red'
+        elem.querySelector('[name="amount"]').style.color = 'red'
+        elem.querySelector('[name="coming"]').style.borderColor = 'red'
+        elem.querySelector('[name="amount"]').style.borderColor = 'red'
+    }
+    else if(sum<value){
+        elem.querySelector('[name="hint"]').style.color = 'green'
+        elem.querySelector('[name="hint"]').value = roundN((value-sum),3)
+        elem.querySelector('[name="coming"]').style.color = 'green'
+        elem.querySelector('[name="amount"]').style.color = 'green'
+        elem.querySelector('[name="coming"]').style.borderColor = 'green'
+        elem.querySelector('[name="amount"]').style.borderColor = 'green'
+    }
+    else if(sum==value){
+        elem.querySelector('[name="hint"]').style.color = 'black'
+        elem.querySelector('[name="hint"]').value = roundN((value-sum),3)
+        elem.querySelector('[name="hint"]').style.color = 'white'
+        elem.querySelector('[name="coming"]').style.color = 'black'
+        elem.querySelector('[name="amount"]').style.color = 'black'
+        elem.querySelector('[name="coming"]').style.borderColor = 'black'
+        elem.querySelector('[name="amount"]').style.borderColor = 'black'
     }
 }
 
@@ -300,6 +449,37 @@ function createNewElemList() {
         newElemListProduct.querySelector('[name="remainder-sum"]').value = product.sum;
         newElemListProduct.style.background = product.color;
         listReport.appendChild(newElemListProduct);
+        checkSum(newElemListProduct, newElemListProduct.querySelector('[name="remainder-sum"]').value)
+
+        newElemListProduct.querySelector('.sign').addEventListener('click', ()=>{
+            //обновление внешнее (только список)
+            let newSum =  roundN(
+                Number(newElemListProduct.querySelector('[name="remainder"]').value)
+                + Number(newElemListProduct.querySelector('[name="coming"]').value)
+                - Number(newElemListProduct.querySelector('[name="amount"]').value)
+                ,3);
+            newElemListProduct.querySelector('[name="remainder-sum"]').value = newSum
+
+            // console.log(product.remainder)
+            // console.log(product.coming)
+            // console.log(product.amount)
+            // console.log(product.sum)
+            // console.log(updateSum(product))
+
+            //обновление элемента с экрана
+            let keyNameProduct = product.name //название ингредиента - ключ
+            let obj = {
+                'name' : product.name,
+                'remainder' : Number(newElemListProduct.querySelector('[name="remainder"]').value),
+                'coming' : Number(newElemListProduct.querySelector('[name="coming"]').value),
+                'amount' :  Number(newElemListProduct.querySelector('[name="amount"]').value),
+                'sum':  newSum, //внутренне обновление суммы одного элемента
+                'color': product.color,
+            }
+            createLocalStorage(obj, keyNameProduct)
+
+            checkSum(newElemListProduct, newElemListProduct.querySelector('[name="remainder-sum"]').value)
+        })
     }
 }
 
@@ -380,7 +560,11 @@ function createLocalStorage(obj, keyNameProduct){
 window.addEventListener('load', ()=>{
     // listProductBlock.style.display = 'none'
     // listSumProductsBlock.style.display = 'none'
+
     listReportBlock.style.display = 'none'
+    cleanList(listReport)
+    createNewElemList()
+    updateStorageInput()
 
     // //вывод списка на экран
     // cleanList(listReport)
@@ -388,7 +572,7 @@ window.addEventListener('load', ()=>{
     // //обновление списка (длина списка !=0)
     // updateStorageInput()
 
-    btnExportReport.style.display = 'none'
+    // btnExportReport.style.display = 'none'
 })
 function cleanList(list) {
     while (list.firstChild) {

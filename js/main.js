@@ -298,13 +298,23 @@ function createNewElemList(arrElems, list, child, firstPosition) {
       if(list === listSum) arrSumToXLSX[countArrSumToXLSX++] = arrElems[i]
     }
   }
+  let addEmptyObj = 7
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorSecondaryOne) {
+
+      //добавление пустых объектов(муляж) для нормальной печати
+      while(addEmptyObj!=0){
+          arrProductToXLSX[countArrProductToXLSX++] = {
+            nameIngredient:'',
+            amount:'',
+            color:''
+          }
+          addEmptyObj--;
+      }
+
       let newElemListProduct = child.cloneNode(true);
-      newElemListProduct.querySelector('[name="name-product"]').textContent =
-        arrElems[i].nameIngredient;
-      newElemListProduct.querySelector('[name="value-product"]').textContent =
-        arrElems[i].amount;
+      newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
+      newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
       newElemListProduct.style.background = arrElems[i].color;
       list.appendChild(newElemListProduct);
 
