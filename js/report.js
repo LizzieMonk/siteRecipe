@@ -365,7 +365,7 @@ btnExportReport.addEventListener('click', ()=>{
         arr[countArr++] = product
     }
     //фильтрация по алфавиту и цвету
-    // arr = filterArrProduct(arr)
+    arr = filterArrProduct(arr)
 
     //убираем цвет
     for(let i=0; i<arr.length; i++){
@@ -394,13 +394,9 @@ btnExportReport.addEventListener('click', ()=>{
 function filterArrProduct(arrElem) {
     let newElemArr = []
     let countNewElemArr = 0;
-    // newElemArr[countNewElemArr++] = arrElem[0]  //добавление первого элемента в новый массив
 
-    //сортировка по алфавиту, кроме первого элемента
-    // let firstElemArr = arrElem[0]; //сохранение первого
-    // arrElem.splice(0, 1); //удаление первого
-    arrElem.sort((a, b) => (a.nameIngredient > b.nameIngredient ? 1 : -1)); //сортировка массива без первого
-    // arrElem.unshift(firstElemArr); //возвращаем первый
+    //сортировка по алфавиту, начиная с 1го
+    arrElem.sort((a, b) => (a.name > b.name ? 1 : -1)); //сортировка массива
 
     //перебор оставшегося массива по цветам
     for (let i = 1; i < arrElem.length; i++) {
