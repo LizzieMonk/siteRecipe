@@ -118,6 +118,10 @@ button:hover {
   background: #A5E6B2;
 }
 
+.btn-func {
+  background: #F7D6CB;
+}
+
 #input-output-value {
   width: 120px;
 }
@@ -281,6 +285,35 @@ h4 {
   padding: 5px 10px;
   border: 0.5px solid #000;
 }
+.ul-report .delete {
+  background: white;
+  min-height: 100%;
+  width: 30px;
+  outline: 0.5px solid white;
+  position: relative;
+  cursor: pointer;
+}
+.ul-report .delete__cross {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+}
+.ul-report .delete__cross::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 1.5px;
+  background: red;
+  transform: rotate(45deg);
+}
+.ul-report .delete__cross::before {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 1.5px;
+  background: red;
+  transform: rotate(-45deg);
+}
 
 .ul-last .delete {
   background: transparent;
@@ -314,7 +347,7 @@ h4 {
 
 .listProducts {
   margin: 15px 10px 0 10px;
-  height: 38px;
+  height: 40px;
 }
 .listProducts__input {
   min-width: 300px;
@@ -369,4 +402,8 @@ img {
 }
 .modal input {
   margin: 50px 30px;
+}
+
+.report-input {
+  min-width: 670px;
 }/*# sourceMappingURL=style.css.map */

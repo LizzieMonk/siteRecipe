@@ -7,7 +7,15 @@
     <title>Document</title>
     <link rel="stylesheet" href="./css/style.css">
     <!-- use version 0.20.0 -->
+    <!-- подключение таблиц эксель -->
     <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    <!-- подключение supabase -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script> -->
+
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
+    
+
     <!-- <script src="https://cdn.sheetjs.com/dist/xlsx.bundle.js"></script> -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
     <script src="dist/xlsx.bundle.js"></script> -->
@@ -100,19 +108,19 @@
             </div>
             <div class="ul-block ul-block__report">
                 <div class="ul-report-btn">
-                    <button style="background: #F7D6CB;" class="btn-report" id="btn-report-delete-storage" type="button">удалить список</button>
+                    <button class="btn-func" id="btn-report-delete-storage" type="button">удалить список</button>
                     <button class="btn-report" id="btn-add-all-ingredients" type="button">вывести все ингредиенты</button>
-                    <button class="btn-report" id="btn-add-new-ingredient" type="button">добавить новый ингреиент</button>
+                    <button class="btn-report" id="btn-add-new-ingredient" type="button">добавить новый ингредиент</button>
                     <button class="btn-report" id="btn-report-update-remainder" type="button">обновить остаток</button>
                     <button class="btn-report" id="btn-report-update-amount" type="button">обновить расход</button>
                     <button class="btn-report" id="btn-report-calc-sum" type="button">посчитать сумму</button>
+                    <button class="btn-func" id="btn-export-supabase" type="button">экспорт базы</button>
+                    <button class="btn-func" id="btn-import-supabase" type="button">импорт базы</button>
                     <button class="btn-export" id="btn-export-report" type="button">
                         <img src="./img/export.png">
                     </button>
+                    <input id="report-search" placeholder="Поиск..." type="text" class="report-input">
                 </div>
-                <!-- <button class="btn-export" id="btn-export-report" type="button">
-                    <img src="./img/export.png">
-                </button> -->
                 <ul id="list-report" class="ul-report">
                     <li id="elem-list-report">
                         <span class="name" name="name-product">название</span>
@@ -124,6 +132,7 @@
                         <input class="remainder" name="remainder-sum" type="number" value="0">
                         <input class="remainder hide" name="hint" type="text" value="-2.93">
                         <!-- <span class="amount" name="value-product">90</span> -->
+                        <div class="delete"><div class="delete__cross"></div></div>
                     </li>
                 </ul>
             </div>
@@ -187,5 +196,6 @@
     <script type="module" src="./js/table.js"></script>
     <script type="module" src="./js/modal.js"></script>
     <script type="module" src="./js/report.js"></script>
+    <script type="module" src="./js/supabase.js"></script>
 </body>
 </html>

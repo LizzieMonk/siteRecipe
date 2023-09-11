@@ -438,6 +438,8 @@ function cleanList(list) {
   }
 }
 
+
+//ПЕРЕДЕЛАТЬ ОБРАБОТЧИК
 let search = document.getElementById("search");
 search.addEventListener("focus", () => {
   search.value=''
@@ -482,11 +484,3 @@ function getIdSelectedValue(input) {
   return idSelectedValue;
 }
 
-// function getStartValueMaterialSaveProducts(){
-//     let elemsList = listSumProducts.children;
-//     listSumProducts.forEach(elem =>{
-//         elem.addEventListener('click', ()=>{
-//             console.log('d[f[pdf[dpf[p')
-//         })
-//     })
-// }

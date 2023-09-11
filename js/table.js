@@ -166,13 +166,11 @@ btnExportSumProduct.addEventListener('click', ()=>{
     //исправить заголовки начиная с а1
     XLSX.utils.sheet_add_aoa(worksheet, [["Продукт", "Кол-во", ""]], { origin: "A1" });
     //рассчитать ширину столбца на 100 символов
-    worksheet["!cols"] = [ { wpx: 200 }, //a
+    worksheet["!cols"] = [ { wpx: 300 }, //a
                             { wpx: 50}, //b
                             { wpx: 50} ];//c
-    // worksheet["!rows"] = [{ hpx: 50 },
-    //                         {hpx: 40},
-    //                         {hpx: 40},
-    //                         {hpx: 20}]
+    worksheet["!rows"] = [{ hpx: 20 },
+                            {hpx: 40}, ]
 
     // создаем xlsx файл и пробуем сохранить его локально
     // XLSX.writeFile(workbook, "Product.xlsx", { compression: true });
