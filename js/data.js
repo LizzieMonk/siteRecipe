@@ -896,7 +896,7 @@ export let products = [
       { nameIngredient: "пнс", amount: 1.4 },
       { nameIngredient: "ветчинная краковская комби", amount: 0.9 },
       { nameIngredient: "инъекта", amount: 1.0 },
-      { nameIngredient: "чесночный порошок", amount: 0.066 },
+      // { nameIngredient: "чесночный порошок", amount: 0.066 },
       { nameIngredient: "коллаген д55", amount: 80.5 },
       { nameIngredient: "шпагат", amount: 0.035 },
     ],
