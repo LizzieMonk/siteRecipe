@@ -1204,4 +1204,23 @@ export let products = [
       { nameIngredient: "пакет вакуумный", amount: 11 },
     ],
   },
+  {
+    name: "Сальтисон Банкетный",
+    id: 70,
+    outputValue: 120.0,
+    ingredientsPrimary: [
+      { nameIngredient: "мясо свиных голов", amount: 40.0 },
+      { nameIngredient: "печень", amount: 15.0 },
+      { nameIngredient: "сердце говяжье", amount: 5.0 },
+      { nameIngredient: "легкие говяжьи", amount: 15.0 },
+      { nameIngredient: "шкурка вареная", amount: 25.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "соль", amount: 2.2 },
+      { nameIngredient: "гамма с нотой кардамона", amount: 1.0 },
+      { nameIngredient: "мит фреш", amount: 0.3 },
+      { nameIngredient: "синюги говяжьи", amount: 40.0 },
+      { nameIngredient: "шпагат", amount: 0.36 },
+    ],
+  },
 ];
