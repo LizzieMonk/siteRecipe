@@ -1,5 +1,9 @@
 import { products, startValue } from "./data.js";
 
+import {
+  addElemLocalStorage
+} from "./report.js";
+
 export const colorPrimaryOne = "#A5E6B2";
 export const colorPrimaryTwo = "#D7F7DD";
 export const colorSecondaryOne = "#A0CADE";
@@ -61,7 +65,7 @@ btnCalc.addEventListener("click", () => {
   if(search.value){
     cleanList(listProduct);
     // createNewElemList(getStartValuetMaterial(selectItems.value, inputOutputValue.value),listProduct,elemListProduct, 1); //'1', '200'
-    createNewElemList(getStartValuetMaterial(getIdSelectedValue(search), inputOutputValue.value),listProduct,elemListProduct,1); //1, '200'
+    createNewElemList(getStartValuetMaterial(getIdSelectedValue(search.value), inputOutputValue.value),listProduct,elemListProduct,1); //1, '200'
     btnExportProduct.style.display = 'inline-block'
   }
 });
@@ -73,11 +77,12 @@ btnSum.addEventListener("click", () => {
     btnExportAll.style.display = 'inline-block'
     cleanList(listProduct);
     // createNewElemList(getStartValuetMaterial(selectItems.value, inputOutputValue.value),listProduct,elemListProduct, 1);
-    createNewElemList(getStartValuetMaterial(getIdSelectedValue(search), inputOutputValue.value),listProduct,elemListProduct,1);
+    createNewElemList(getStartValuetMaterial(getIdSelectedValue(search.value), inputOutputValue.value),listProduct,elemListProduct,1);
     cleanList(listSum);
     // sumStartValueMaterial(getStartValuetMaterial(selectItems.value, inputOutputValue.value)); //arr
-    sumStartValueMaterial(getStartValuetMaterial(getIdSelectedValue(search), inputOutputValue.value)); //arr
+    sumStartValueMaterial(getStartValuetMaterial(getIdSelectedValue(search.value), inputOutputValue.value)); //arr
   }
+  fillLocalStorage ()
 });
 export let startArrSum = [
   {
@@ -107,6 +112,8 @@ btnClean.addEventListener("click", () => {
   btnExportSum.style.display = 'none'
   btnExportSumProduct.style.display = 'none'
   btnExportAll.style.display = 'none'
+
+  localStorage.clear();
 });
 
 function getStartValuetMaterial(idProduct, endValueMaterial) {
@@ -156,7 +163,7 @@ function getStartValuetMaterial(idProduct, endValueMaterial) {
         // console.log(i,arrAllValues[i].amount)
         sum += arrAllValues[i].amount;
         sum = idProduct == 47?roundN(sum, roundSecondary): roundN(sum, roundPrimary);
-        console.log(i, sum)
+        // console.log(i, sum)
       }
       if (sum != allMaterials) {
         console.log("сумма  ", sum);
@@ -265,6 +272,8 @@ function createNewElemList(arrElems, list, child, firstPosition) {
           // deleteProductFromSum(arrElems[i].nameIngredient) //название
           deleteProductFromSum(arrElems[i])
           newElemListProduct.remove()
+
+          fillLocalStorage ()
         })
         list.appendChild(newElemListProduct);
         if(list === listSumProducts) arrSumProductToXLSX [countArrSumProductToXLSX++] = arrElems[i];
@@ -357,7 +366,7 @@ const elemListSumProducts = document.getElementById("elem-list-sum-products");
 function sumStartValueMaterial(arrProduct) {
   allRecipesSum[countAllRecipesSum] = structuredClone(arrProduct); //глубокое копирование
   countAllRecipesSum++;
-  console.log(allRecipesSum)
+  // console.log(allRecipesSum)
 
   for (let i = 0; i < startArrSum.length; i++) {
     for (let j = 1; j < arrProduct.length; j++) {
@@ -475,8 +484,8 @@ function setSelectedValue(parent, search) {
 function getIdSelectedValue(input) {
   let idSelectedValue = "";
   for (let i = 0; i < products.length; i++) {
-    if (products[i].name === input.value) {
-      console.log(products[i].id);
+    if (products[i].name === input) {
+      // console.log(products[i].id);
       idSelectedValue = products[i].id;
       break;
     }
@@ -484,3 +493,39 @@ function getIdSelectedValue(input) {
   return idSelectedValue;
 }
 
+
+//локальное хранилище расчета
+function fillLocalStorage (){
+  //очистка хранилища
+  localStorage.clear();
+  //заполнение заново хранилища всеми данными
+  for(let i=0; i<allRecipesSum.length; i++){ //массив массивов
+    let keyNameProduct = allRecipesSum[i][0].nameProduct; //название продукта - ключ
+      let obj = {
+        nameProduct: allRecipesSum[i][0].nameProduct,
+        outputValue: allRecipesSum[i][0].outputValue,
+      };
+      addElemLocalStorage(obj, keyNameProduct);
+  }
+  // for (let j = 0; j < localStorage.length; j++) {
+  //   let key = localStorage.key(j);
+  //   let product = JSON.parse(localStorage.getItem(key));
+  //   console.log(product)
+  // }
+}
+window.addEventListener('load', ()=>{
+  if(localStorage.length!=0){
+    for (let j = 0; j < localStorage.length; j++) {
+      let key = localStorage.key(j);
+      let product = JSON.parse(localStorage.getItem(key));
+      // console.log(product)
+      if(product.nameProduct){
+        cleanList(listSum);
+        sumStartValueMaterial(getStartValuetMaterial(getIdSelectedValue(product.nameProduct), product.outputValue)); //arr
+      }
+    }
+      // btnExportSum.style.display = 'inline-block'
+      // btnExportSumProduct.style.display = 'inline-block'
+      // btnExportAll.style.display = 'inline-block'
+  }
+})

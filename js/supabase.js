@@ -3,7 +3,8 @@ import {
   listReport,
   createNewElemList,
   updateStorageInput,
-  addElemLocalStorage
+  addElemLocalStorage,
+  deleteLocalStorageReport
 } from "./report.js";
 
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
@@ -19,15 +20,12 @@ const btnImportSupabase = document.getElementById("btn-import-supabase");
 
 btnExportSupabase.addEventListener("click", () => {
   console.log("кукусики");
-  // for(let j=0; j<localStorage.length; j++) {
-  //     let key = localStorage.key(j);
-  //     let product = JSON.parse( localStorage.getItem(key) );
-  // }
-  // console.log(localStorage.length)
-  // console.log(getDataReport())
+
 //   deleteAllDataSupabase()
 //   ll()
+
   updateSupabaseByLocalStorage()
+  // prob()
 });
 btnImportSupabase.addEventListener("click", () => {
   updatelLocalStorageBySupabase();
@@ -119,73 +117,51 @@ async function deleteAllDataSupabase(){
     }
 }
 async function prob(){
+    console.log('начало')
+    isOpenModalLoad(true)
     let dataReport = await getDataReport();
-    console.log(dataReport)
-    let startValue = 3;
-    console.log('используемая длина', dataReport.length) //6
-    for(let i=startValue; i<--dataReport.length; i++){
-        let oldValue = 0
-        let newValue = 0;
-        for(let j=0; j<dataReport.length; j++){
-            if(dataReport[j].id === startValue){
-                oldValue = dataReport[j]
-                deleteDataReport(j)
-            }
-            else if(dataReport[j].id === startValue+1){
-                newValue = dataReport[j]
-                oldValue.id = startValue
-                setDataReport(oldValue)
-            }
-            // if(oldValue!=0 && newValue!=0){
-            //     console.log(oldValue)
-            //     console.log(newValue)
-            //     oldValue=0;
-            //     newValue=0;
-            //     break;
-            // }
-        }
-        // console.log(dataReport[i])
+    for(let i=70; i<dataReport.length; i++){
+      let dataReportTwo = await getDataReport();
     }
-    console.log(dataReport)
-
-    // for(let i=0; i<--dataReport.length; i++){ //5
-    //     console.log('используемая длина', dataReport.length)
-    //     if(dataReport[i].id === 5) console.log(dataReport[i])
-    // }
-    // let product = dataReport[5];
-    // console.log('используемая длина', dataReport[4])
+    console.log('конец')
+    isOpenModalLoad(false)
 }
 
 async function updateSupabaseByLocalStorage(){
     // let dataReport = await getDataReport() //length =0
-    // console.log(dataReport)
+    isOpenModalLoad(true)
     //очистка базы
     await deleteAllDataSupabase()
 
     //заполнение базы хранилищем
-    // let id = 1; //значение id для создания следующего элемента
+    let id = 1; //значение id для создания следующего элемента
     for (let i = 0; i < localStorage.length; i++) {
         let key = localStorage.key(i);
         let product = JSON.parse(localStorage.getItem(key));
-        let idObj = i+1;
-        let obj = {
-          id: idObj,
-          name: product.name,
-          remainder: Number(product.remainder),
-          coming: Number(product.coming),
-          amount: Number(product.amount),
-          sum: Number(product.sum),
-          color: product.color,
-        };
-        await setDataReport(obj);
+        if(!product.nameProduct){
+          let idObj = id++;
+          let obj = {
+            id: idObj,
+            name: product.name,
+            remainder: Number(product.remainder),
+            coming: Number(product.coming),
+            amount: Number(product.amount),
+            sum: Number(product.sum),
+            color: product.color,
+          };
+          await setDataReport(obj);
+        }
     }
+    isOpenModalLoad(false)
 }
 
 async function updatelLocalStorageBySupabase() {
   //очистка хранилища
-  localStorage.clear();
+  // localStorage.clear();
+  deleteLocalStorageReport()
   //заполнение хранилища базой
   let dataReport = await getDataReport();
+  console.log(dataReport)
   for (let i = 0; i < dataReport.length; i++) {
     //сохранение нового продукта в локальное хранилище
     let keyNameProduct = dataReport[i].name; //название ингредиента - ключ
@@ -202,6 +178,13 @@ async function updatelLocalStorageBySupabase() {
   cleanList(listReport);
   createNewElemList();
   updateStorageInput();
+
+
+  for (let i = 0; i < localStorage.length; i++) {
+    let key = localStorage.key(i);
+    let product = JSON.parse(localStorage.getItem(key));
+    console.log(product)
+  }
 }
 
 //получение данных
@@ -255,3 +238,15 @@ async function deleteDataReport(id) {
 window.addEventListener("load", () => {
   console.log(getDataReport());
 });
+
+//модалка для загрузки
+const modalLoad = document.getElementById('modal-load');
+
+function isOpenModalLoad(option){
+  if(option){
+    modalLoad.style.display = "block";
+  }
+  else{
+    modalLoad.style.display = "none";
+  }
+}

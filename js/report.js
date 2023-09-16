@@ -88,17 +88,19 @@ btnReportUpdateAmount.addEventListener("click", () => {
     let key = localStorage.key(j);
     //получение значений продукта
     let product = JSON.parse(localStorage.getItem(key));
-    //сохранение продукта в локальное хранилище
-    let keyNameProduct = product.name; //название ингредиента - ключ
-    let obj = {
-      name: product.name,
-      remainder: product.remainder,
-      coming: product.coming,
-      amount: 0,
-      sum: product.sum,
-      color: product.color,
-    };
-    addElemLocalStorage(obj, keyNameProduct);
+    if(!product.nameProduct){
+      //сохранение продукта в локальное хранилище
+      let keyNameProduct = product.name; //название ингредиента - ключ
+      let obj = {
+        name: product.name,
+        remainder: product.remainder,
+        coming: product.coming,
+        amount: 0,
+        sum: product.sum,
+        color: product.color,
+      };
+      addElemLocalStorage(obj, keyNameProduct);
+    }
   }
   //обновление имеющихся расходов
   //глубокое копирование списка с суммой
@@ -152,7 +154,8 @@ btnReportUpdateAmount.addEventListener("click", () => {
 });
 btnReportDeleteStorage.addEventListener("click", () => {
   console.log("delete");
-  localStorage.clear();
+  // localStorage.clear();
+  deleteLocalStorageReport()
   cleanList(listReport);
   createNewElemList();
 });
@@ -161,17 +164,19 @@ btnReportUpdateRemainder.addEventListener("click", () => {
     let key = localStorage.key(j);
     //получение значений продукта
     let product = JSON.parse(localStorage.getItem(key));
-    //сохранение продукта в локальное хранилище
-    let keyNameProduct = product.name; //название ингредиента - ключ
-    let obj = {
-      name: product.name,
-      remainder: product.sum,
-      coming: 0,
-      amount: 0,
-      sum: 0,
-      color: product.color,
-    };
-    addElemLocalStorage(obj, keyNameProduct);
+    if(!product.nameProduct){
+      //сохранение продукта в локальное хранилище
+      let keyNameProduct = product.name; //название ингредиента - ключ
+      let obj = {
+        name: product.name,
+        remainder: product.sum,
+        coming: 0,
+        amount: 0,
+        sum: 0,
+        color: product.color,
+      };
+      addElemLocalStorage(obj, keyNameProduct);
+    }
   }
   cleanList(listReport);
   createNewElemList();
@@ -182,17 +187,19 @@ btnReportCalcSum.addEventListener("click", () => {
     let key = localStorage.key(j);
     //получение значений продукта
     let product = JSON.parse(localStorage.getItem(key));
-    //сохранение продукта в локальное хранилище
-    let keyNameProduct = product.name; //название ингредиента - ключ
-    let obj = {
-      name: product.name,
-      remainder: product.remainder,
-      coming: product.coming,
-      amount: product.amount,
-      sum: updateSum(product),
-      color: product.color,
-    };
-    addElemLocalStorage(obj, keyNameProduct);
+    if(!product.nameProduct){
+      //сохранение продукта в локальное хранилище
+      let keyNameProduct = product.name; //название ингредиента - ключ
+      let obj = {
+        name: product.name,
+        remainder: product.remainder,
+        coming: product.coming,
+        amount: product.amount,
+        sum: updateSum(product),
+        color: product.color,
+      };
+      addElemLocalStorage(obj, keyNameProduct);
+    }
   }
   cleanList(listReport);
   createNewElemList();
@@ -200,7 +207,8 @@ btnReportCalcSum.addEventListener("click", () => {
 });
 btnAddAllIngredients.addEventListener("click", () => {
   //очистка хранилища и списка
-  localStorage.clear();
+  // localStorage.clear();
+  deleteLocalStorageReport()
   cleanList(listReport);
   //заполнение хранилища
   for (let i = 0; i < products.length; i++) {
@@ -276,6 +284,26 @@ btnAddAllIngredients.addEventListener("click", () => {
   //обработчик
   updateStorageInput();
 });
+export function deleteLocalStorageReport(){
+  for (let j = 0; j <localStorage.length; j++) {
+    let key = localStorage.key(j);
+    let product = JSON.parse(localStorage.getItem(key));
+    if(!product.nameProduct){
+      deleteElemLocalStorage(key);
+      console.log(localStorage.length)
+      j=0
+    }
+    // else{
+    //   console.log(product)
+    //   console.log(localStorage.length)
+    // }
+  }
+  // for (let j = 0; j < localStorage.length; j++) {
+  //   let key = localStorage.key(j);
+  //   let product = JSON.parse(localStorage.getItem(key));
+  //   console.log(product)
+  // }
+}
 let categoryPrimary = document.getElementsByName("category-primary");
 // динамика отображения подгрупп
 for (let i = 0; i < categoryPrimary.length; i++) {
@@ -372,7 +400,9 @@ btnExportReport.addEventListener("click", () => {
     let key = localStorage.key(j);
     //получение значений продукта
     let product = JSON.parse(localStorage.getItem(key));
-    arr[countArr++] = product;
+    if(!product.nameProduct){
+      arr[countArr++] = product;
+    }
   }
   //фильтрация по алфавиту и цвету
   arr = filterArrProduct(arr);
@@ -446,16 +476,11 @@ function filterArrProduct(arrElem) {
 export function updateStorageInput() {
   let arrElems = listReport.children;
   for (let i = 0; i < arrElems.length; i++) {
-    arrElems[i]
-      .querySelector('[name="coming"]')
-      .addEventListener("input", () => {
+    arrElems[i].querySelector('[name="coming"]').addEventListener("input", () => {
         // updateSum(arrElems[i]);
         for (let j = 0; j < localStorage.length; j++) {
           let key = localStorage.key(j);
-          if (
-            key ===
-            arrElems[i].querySelector('[name="name-product"]').textContent
-          ) {
+          if (key ===arrElems[i].querySelector('[name="name-product"]').textContent) {
             //получение значений продукта
             let product = JSON.parse(localStorage.getItem(key));
             let keyNameProduct = product.name;
@@ -684,7 +709,9 @@ export function createNewElemList() {
   for (let i = 0; i < localStorage.length; i++) {
     let key = localStorage.key(i);
     let product = JSON.parse(localStorage.getItem(key));
-    arrProductsClone[countArrProductsClone++] = structuredClone(product);
+    if(!product.nameProduct){
+      arrProductsClone[countArrProductsClone++] = structuredClone(product);
+    }
   }
 
   //сортировка по алфавиту
@@ -777,9 +804,7 @@ export function createNewElemList() {
       );
     });
 
-    newElemListProduct
-      .querySelector(".delete")
-      .addEventListener("click", () => {
+    newElemListProduct.querySelector(".delete").addEventListener("click", () => {
         newElemListProduct.remove(); //удаление с экрана
         let keyNameProduct = product.name; //название ингредиента - ключ
         deleteElemLocalStorage(keyNameProduct); //удаление с хранилища
