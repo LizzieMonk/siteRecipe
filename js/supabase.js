@@ -287,7 +287,6 @@ async function updateColor (){
         };
       await updateDataReport(obj, dataReport[i].id)
       // console.log(dataReport[i].id,obj)
-      break;
     }
     else if(dataReport[i].color== "#D7F7DD"){  //  colorPrimaryTwo = "#D7F7DD";
       if (
@@ -311,7 +310,6 @@ async function updateColor (){
         };
         // console.log(obj.name)
         await updateDataReport(obj, dataReport[i].id)
-        break;
       }
       else{
         let obj = {
@@ -323,7 +321,6 @@ async function updateColor (){
           color: colorPrimaryTwo,
         };
         await updateDataReport(obj, dataReport[i].id)
-        break
       }
     }
     else if(dataReport[i].color== "#A0CADE"){ //  colorSecondaryOne = "#A0CADE";
@@ -336,7 +333,6 @@ async function updateColor (){
         color: colorSecondaryOne,
       };
       await updateDataReport(obj, dataReport[i].id)
-      break
     }
     else if(dataReport[i].color== "#C4ECFF"){  // colorSecondaryTwo = "#C4ECFF";
       let obj = {
@@ -348,7 +344,6 @@ async function updateColor (){
         color: colorSecondaryTwo,
       };
       await updateDataReport(obj, dataReport[i].id)
-      break
     }
     else if(dataReport[i].color== "#F7D6CB"){  // colorSecondaryTree = "#F7D6CB";
       let obj = {
@@ -360,7 +355,6 @@ async function updateColor (){
         color: colorSecondaryTree,
       };
       await updateDataReport(obj, dataReport[i].id)
-      break
     }
   }
   isOpenModalLoad(false)
