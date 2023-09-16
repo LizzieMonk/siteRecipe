@@ -4,11 +4,19 @@ import {
   addElemLocalStorage
 } from "./report.js";
 
-export const colorPrimaryOne = "#A5E6B2";
-export const colorPrimaryTwo = "#D7F7DD";
-export const colorSecondaryOne = "#A0CADE";
-export const colorSecondaryTwo = "#C4ECFF";
-export const colorSecondaryTree = "#F7D6CB";
+// export const colorPrimaryOne = "#A5E6B2";
+// export const colorPrimaryTwo = "#D7F7DD";
+// export const colorSecondaryOne = "#A0CADE";
+// export const colorSecondaryTwo = "#C4ECFF";
+// export const colorSecondaryTree = "#F7D6CB";
+// export const colorWhite = "white";
+
+export const colorPrimaryOne = "#B5FFE4";
+export const colorPrimaryTwo = "#A4EDE4";
+export const colorPrimaryThree = "#9ED0DE";
+export const colorSecondaryOne = "#B9C6F5";
+export const colorSecondaryTwo = "#D3BAFF";
+export const colorSecondaryTree = "#F6B4FA";
 export const colorWhite = "white";
 
 const roundPrimary = 1;
@@ -153,7 +161,8 @@ function getStartValuetMaterial(idProduct, endValueMaterial) {
         arrAllValues[arrAllValuesCount] = {
           nameIngredient: ingredient.nameIngredient,
           amount: valuePrimaryIngredient,
-          color: colorPrimaryTwo,
+          // color: colorPrimaryTwo,
+          color: setColorPrimary(ingredient),
         };
         arrAllValuesCount++;
       });
@@ -196,7 +205,7 @@ function getStartValuetMaterial(idProduct, endValueMaterial) {
         arrAllValues[arrAllValuesCount] = {
           nameIngredient: ingredient.nameIngredient,
           amount: valueSecondaryIngredient,
-          color: setColorPrimary(ingredient),
+          color: setColorSecondary(ingredient),
         };
         arrAllValuesCount++;
       });
@@ -208,6 +217,20 @@ function getStartValuetMaterial(idProduct, endValueMaterial) {
 }
 
 function setColorPrimary(ingredient) {
+  if (
+    ingredient.nameIngredient.includes("орех") ||
+    ingredient.nameIngredient.includes("изолят") ||
+    ingredient.nameIngredient.includes("клетчатка") ||
+    ingredient.nameIngredient.includes("крахмал") ||
+    ingredient.nameIngredient.includes("крупа") ||
+    ingredient.nameIngredient.includes("лук") ||
+    ingredient.nameIngredient.includes("меланж") ||
+    ingredient.nameIngredient.includes("мука") ||
+    ingredient.nameIngredient.includes("молоко")
+  ) return colorPrimaryThree;
+  else return colorPrimaryTwo;
+}
+function setColorSecondary(ingredient) {
   if (
     ingredient.nameIngredient.includes("черева") ||
     ingredient.nameIngredient.includes("шпагат") ||
@@ -295,6 +318,20 @@ function createNewElemList(arrElems, list, child, firstPosition) {
   }
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorPrimaryTwo) {
+      let newElemListProduct = child.cloneNode(true);
+      newElemListProduct.querySelector('[name="name-product"]').textContent =
+        arrElems[i].nameIngredient;
+      newElemListProduct.querySelector('[name="value-product"]').textContent =
+        arrElems[i].amount;
+      newElemListProduct.style.background = arrElems[i].color;
+      list.appendChild(newElemListProduct);
+
+      if(list === listProduct) arrProductToXLSX[countArrProductToXLSX++] = arrElems[i]
+      if(list === listSum) arrSumToXLSX[countArrSumToXLSX++] = arrElems[i]
+    }
+  }
+  for (let i = firstPosition; i < arrElems.length; i++) {
+    if (arrElems[i].color == colorPrimaryThree) {
       let newElemListProduct = child.cloneNode(true);
       newElemListProduct.querySelector('[name="name-product"]').textContent =
         arrElems[i].nameIngredient;

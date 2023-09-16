@@ -5,6 +5,7 @@ import{
     allRecipesSum,
     colorPrimaryOne,
     colorPrimaryTwo,
+    colorPrimaryThree,
     colorSecondaryOne,
     colorSecondaryTwo,
     colorSecondaryTree
@@ -258,6 +259,11 @@ function filterArrProduct(arrElem) {
     }
     for (let i = 1; i < arrElem.length; i++) {
       if (arrElem[i].color == colorPrimaryTwo) {
+        newElemArr[countNewElemArr++] = arrElem[i]
+       }
+    }
+    for (let i = 1; i < arrElem.length; i++) {
+      if (arrElem[i].color == colorPrimaryThree) {
         newElemArr[countNewElemArr++] = arrElem[i]
        }
     }

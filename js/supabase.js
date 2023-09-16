@@ -7,6 +7,15 @@ import {
   deleteLocalStorageReport
 } from "./report.js";
 
+import{
+  colorPrimaryOne,
+  colorPrimaryTwo,
+  colorPrimaryThree,
+  colorSecondaryOne,
+  colorSecondaryTwo,
+  colorSecondaryTree
+} from './main.js'
+
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 // const { createClient } = supabase
 
@@ -112,8 +121,9 @@ async function ll() {
 
 async function deleteAllDataSupabase(){
     let dataReport = await getDataReport();
-    for(let i=1; i <= dataReport.length; i++){
-        await deleteDataReport(i)
+    for(let i=0; i < dataReport.length; i++){
+        // await deleteDataReport(i+1)
+        await deleteDataReport(dataReport[i].id)
     }
 }
 async function prob(){
@@ -156,6 +166,7 @@ async function updateSupabaseByLocalStorage(){
 }
 
 async function updatelLocalStorageBySupabase() {
+  isOpenModalLoad(true)
   //очистка хранилища
   // localStorage.clear();
   deleteLocalStorageReport()
@@ -185,6 +196,7 @@ async function updatelLocalStorageBySupabase() {
     let product = JSON.parse(localStorage.getItem(key));
     console.log(product)
   }
+  isOpenModalLoad(false)
 }
 
 //получение данных
@@ -249,4 +261,107 @@ function isOpenModalLoad(option){
   else{
     modalLoad.style.display = "none";
   }
+}
+
+
+//обновить цвет
+const btnUpdateColor = document.getElementById("update-color");
+
+btnUpdateColor.addEventListener('click', ()=>{
+  updateColor()
+})
+
+async function updateColor (){
+  isOpenModalLoad(true)
+
+  let dataReport = await getDataReport();
+  for(let i=0; i<dataReport.length; i++){
+    if(dataReport[i].color== "#A5E6B2"){  // colorPrimaryOne = "#A5E6B2";
+      let obj = {
+          name: dataReport[i].name,
+          remainder: dataReport[i].remainder,
+          coming: dataReport[i].coming,
+          amount: dataReport[i].amount,
+          sum: dataReport[i].sum,
+          color: colorPrimaryOne,
+        };
+      await updateDataReport(obj, dataReport[i].id)
+      // console.log(dataReport[i].id,obj)
+      break;
+    }
+    else if(dataReport[i].color== "#D7F7DD"){  //  colorPrimaryTwo = "#D7F7DD";
+      if (
+        dataReport[i].name.includes("орех") ||
+        dataReport[i].name.includes("изолят") ||
+        dataReport[i].name.includes("клетчатка") ||
+        dataReport[i].name.includes("крахмал") ||
+        dataReport[i].name.includes("крупа") ||
+        dataReport[i].name.includes("лук") ||
+        dataReport[i].name.includes("меланж") ||
+        dataReport[i].name.includes("мука") ||
+        dataReport[i].name.includes("молоко")
+      ) {
+        let obj = {
+          name: dataReport[i].name,
+          remainder: dataReport[i].remainder,
+          coming: dataReport[i].coming,
+          amount: dataReport[i].amount,
+          sum: dataReport[i].sum,
+          color: colorPrimaryThree,
+        };
+        // console.log(obj.name)
+        await updateDataReport(obj, dataReport[i].id)
+        break;
+      }
+      else{
+        let obj = {
+          name: dataReport[i].name,
+          remainder: dataReport[i].remainder,
+          coming: dataReport[i].coming,
+          amount: dataReport[i].amount,
+          sum: dataReport[i].sum,
+          color: colorPrimaryTwo,
+        };
+        await updateDataReport(obj, dataReport[i].id)
+        break
+      }
+    }
+    else if(dataReport[i].color== "#A0CADE"){ //  colorSecondaryOne = "#A0CADE";
+      let obj = {
+        name: dataReport[i].name,
+        remainder: dataReport[i].remainder,
+        coming: dataReport[i].coming,
+        amount: dataReport[i].amount,
+        sum: dataReport[i].sum,
+        color: colorSecondaryOne,
+      };
+      await updateDataReport(obj, dataReport[i].id)
+      break
+    }
+    else if(dataReport[i].color== "#C4ECFF"){  // colorSecondaryTwo = "#C4ECFF";
+      let obj = {
+        name: dataReport[i].name,
+        remainder: dataReport[i].remainder,
+        coming: dataReport[i].coming,
+        amount: dataReport[i].amount,
+        sum: dataReport[i].sum,
+        color: colorSecondaryTwo,
+      };
+      await updateDataReport(obj, dataReport[i].id)
+      break
+    }
+    else if(dataReport[i].color== "#F7D6CB"){  // colorSecondaryTree = "#F7D6CB";
+      let obj = {
+        name: dataReport[i].name,
+        remainder: dataReport[i].remainder,
+        coming: dataReport[i].coming,
+        amount: dataReport[i].amount,
+        sum: dataReport[i].sum,
+        color: colorSecondaryTree,
+      };
+      await updateDataReport(obj, dataReport[i].id)
+      break
+    }
+  }
+  isOpenModalLoad(false)
 }

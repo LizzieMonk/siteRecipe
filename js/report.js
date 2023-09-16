@@ -6,6 +6,7 @@ import {
   colorWhite,
   colorPrimaryOne,
   colorPrimaryTwo,
+  colorPrimaryThree,
   colorSecondaryOne,
   colorSecondaryTwo,
   colorSecondaryTree,
@@ -220,7 +221,7 @@ btnAddAllIngredients.addEventListener("click", () => {
         coming: 0,
         amount: 0,
         sum: 0,
-        color: colorPrimaryTwo,
+        color: setColorPrimary(ingredient),
       };
       addElemLocalStorage(obj, keyNameProduct);
       // console.log(ingredient.nameIngredient)
@@ -233,13 +234,27 @@ btnAddAllIngredients.addEventListener("click", () => {
         coming: 0,
         amount: 0,
         sum: 0,
-        color: setColorPrimary(ingredient),
+        color: setColorSecondary(ingredient),
       };
       addElemLocalStorage(obj, keyNameProduct);
       // console.log(ingredient.nameIngredient)
     });
   }
   function setColorPrimary(ingredient) {
+    if (
+      ingredient.nameIngredient.includes("орех") ||
+      ingredient.nameIngredient.includes("изолят") ||
+      ingredient.nameIngredient.includes("клетчатка") ||
+      ingredient.nameIngredient.includes("крахмал") ||
+      ingredient.nameIngredient.includes("крупа") ||
+      ingredient.nameIngredient.includes("лук") ||
+      ingredient.nameIngredient.includes("меланж") ||
+      ingredient.nameIngredient.includes("мука") ||
+      ingredient.nameIngredient.includes("молоко")
+    ) return colorPrimaryThree;
+    else return colorPrimaryTwo;
+  }
+  function setColorSecondary(ingredient) {
     if (
       ingredient.nameIngredient.includes("черева") ||
       ingredient.nameIngredient.includes("шпагат") ||
@@ -452,6 +467,11 @@ function filterArrProduct(arrElem) {
   }
   for (let i = 1; i < arrElem.length; i++) {
     if (arrElem[i].color == colorPrimaryTwo) {
+      newElemArr[countNewElemArr++] = arrElem[i];
+    }
+  }
+  for (let i = 1; i < arrElem.length; i++) {
+    if (arrElem[i].color == colorPrimaryThree) {
       newElemArr[countNewElemArr++] = arrElem[i];
     }
   }
@@ -729,6 +749,11 @@ export function createNewElemList() {
   }
   for (let i = 0; i < arrProductsClone.length; i++) {
     if (arrProductsClone[i].color == colorPrimaryTwo) {
+      addInList(arrProductsClone[i]);
+    }
+  }
+  for (let i = 0; i < arrProductsClone.length; i++) {
+    if (arrProductsClone[i].color == colorPrimaryThree) {
       addInList(arrProductsClone[i]);
     }
   }
