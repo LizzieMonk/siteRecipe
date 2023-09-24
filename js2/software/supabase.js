@@ -190,7 +190,7 @@
 
   export async function updateSupabaseByLocalStorageSum(arr){
     isOpenModalLoad(true)
-    //очистка базы
+    // очистка базы
     await deleteAllDataSupabaseSum()
 
     //заполнение базы хранилищем
@@ -201,6 +201,7 @@
             id: idObj,
             nameIngredient: arr[i].nameIngredient,
             amount: arr[i].amount,
+            color: arr[i].color,
         };
         await setDataSum(obj);
     }

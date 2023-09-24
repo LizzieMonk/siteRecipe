@@ -55,75 +55,74 @@ const elemListReport = document.getElementById("elem-list-report");
 console.log(arrSumToXLSX)
 
 btnReportUpdateAmount.addEventListener("click", () => {
-  //обнуление всех расходов
+  updateAmount();
+});
+async function updateAmount(){
+//обнуление всех расходов
+for (let j = 0; j < localStorage.length; j++) {
+  let key = localStorage.key(j);
+  //получение значений продукта
+  let product = JSON.parse(localStorage.getItem(key));
+  if(!product.nameProduct){
+    //сохранение продукта в локальное хранилище
+    let keyNameProduct = product.name; //название ингредиента - ключ
+    let obj = {
+      name: product.name,
+      remainder: product.remainder,
+      coming: product.coming,
+      amount: 0,
+      sum: product.sum,
+      color: product.color,
+    };
+    addElemLocalStorage(obj, keyNameProduct);
+  }
+}
+//обновление имеющихся расходов
+//глубокое копирование списка с суммой
+// let arrSumToXLSXClone = structuredClone(arrSumToXLSX);
+let arrSumToXLSXClone = await getDataSum();
+for (let i = 0; i < arrSumToXLSXClone.length; i++) {
+  let repeat = false;
   for (let j = 0; j < localStorage.length; j++) {
     let key = localStorage.key(j);
-    //получение значений продукта
-    let product = JSON.parse(localStorage.getItem(key));
-    if(!product.nameProduct){
+    //если в хранилище уже есть этот продукт, обновляем только расход
+    if (key === arrSumToXLSXClone[i].nameIngredient) {
+      repeat = true;
+      //получение значений продукта
+      let product = JSON.parse(localStorage.getItem(key));
+      console.log(arrSumToXLSXClone[i]);
       //сохранение продукта в локальное хранилище
-      let keyNameProduct = product.name; //название ингредиента - ключ
+      let keyNameProduct = arrSumToXLSXClone[i].nameIngredient; //название ингредиента - ключ
       let obj = {
         name: product.name,
         remainder: product.remainder,
         coming: product.coming,
-        amount: 0,
+        amount: arrSumToXLSXClone[i].amount, //обновление расхода
         sum: product.sum,
-        color: product.color,
-      };
-      addElemLocalStorage(obj, keyNameProduct);
-    }
-  }
-  //обновление имеющихся расходов
-  //глубокое копирование списка с суммой
-  let arrSumToXLSXClone = structuredClone(arrSumToXLSX);
-  for (let i = 0; i < arrSumToXLSXClone.length; i++) {
-    let repeat = false;
-    for (let j = 0; j < localStorage.length; j++) {
-      let key = localStorage.key(j);
-      //если в хранилище уже есть этот продукт, обновляем только расход
-      if (key === arrSumToXLSXClone[i].nameIngredient) {
-        repeat = true;
-        //получение значений продукта
-        let product = JSON.parse(localStorage.getItem(key));
-        console.log(arrSumToXLSXClone[i]);
-        //сохранение продукта в локальное хранилище
-        let keyNameProduct = arrSumToXLSXClone[i].nameIngredient; //название ингредиента - ключ
-        let obj = {
-          name: product.name,
-          remainder: product.remainder,
-          coming: product.coming,
-          amount: arrSumToXLSXClone[i].amount, //обновление расхода
-          // 'sum' : roundN( Number(product.remainder)
-          // + Number(product.coming)
-          // - Number(arrSumToXLSXClone[i].amount),
-          // 3),
-          sum: product.sum,
-          color: arrSumToXLSXClone[i].color,
-        };
-        addElemLocalStorage(obj, keyNameProduct);
-        break;
-      }
-    }
-    //если в хранилище нет продукта, добавляем как новый
-    if (!repeat) {
-      //сохранение нового продукта в локальное хранилище
-      let keyNameProduct = arrSumToXLSXClone[i].nameIngredient; //название ингредиента - ключ
-      let obj = {
-        name: arrSumToXLSXClone[i].nameIngredient,
-        remainder: 0,
-        coming: 0,
-        amount: arrSumToXLSXClone[i].amount,
-        sum: 0,
         color: arrSumToXLSXClone[i].color,
       };
       addElemLocalStorage(obj, keyNameProduct);
+      break;
     }
   }
-  cleanList(listReport);
-  createNewElemList();
-  // updateStorageInput();
-});
+  //если в хранилище нет продукта, добавляем как новый
+  if (!repeat) {
+    //сохранение нового продукта в локальное хранилище
+    let keyNameProduct = arrSumToXLSXClone[i].nameIngredient; //название ингредиента - ключ
+    let obj = {
+      name: arrSumToXLSXClone[i].nameIngredient,
+      remainder: 0,
+      coming: 0,
+      amount: arrSumToXLSXClone[i].amount,
+      sum: 0,
+      color: arrSumToXLSXClone[i].color,
+    };
+    addElemLocalStorage(obj, keyNameProduct);
+  }
+}
+cleanList(listReport);
+createNewElemList();
+}
 btnReportDeleteStorage.addEventListener("click", () => {
   console.log("delete");
   // localStorage.clear();
