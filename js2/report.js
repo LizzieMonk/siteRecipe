@@ -32,7 +32,6 @@ let nav = document.querySelector(".nav");
 navigationNav(nav);
 
 
-
 import {
   products,
   startValue
@@ -52,6 +51,7 @@ const btnAddNewIngredient = document.getElementById("btn-add-new-ingredient");
 export const listReport = document.getElementById("list-report");
 const elemListReport = document.getElementById("elem-list-report");
 
+console.log(arrSumToXLSX)
 
 btnReportUpdateAmount.addEventListener("click", () => {
   //обнуление всех расходов

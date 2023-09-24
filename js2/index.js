@@ -14,7 +14,7 @@ import {
   liveSearch,
   setValueArrToXLSX,
   cleanArrToXLSX,
-  deleteValueArrToXLSX
+  deleteValueArrToXLSX,
   // arrProductToXLSX,
   // arrSumToXLSX,
   // arrSumProductToXLSX,
@@ -33,6 +33,7 @@ import {
 
 import {
   getDataProducts,
+  updateSupabaseByLocalStorageSum,
 }from "../js2/software/supabase.js"
 
 const selectItemsUl = document.getElementById("select-items-ul");

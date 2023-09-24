@@ -15,6 +15,11 @@ import {
     arrSumProductToXLSX,
   } from "./commonFunc.js";
 
+  import {
+    getDataProducts,
+    updateSupabaseByLocalStorageSum,
+  }from "../js2/software/supabase.js"
+
 
 const btnExportProduct = document.getElementById('btn-export-product');
 const btnExportSum = document.getElementById('btn-export-sum');
@@ -281,3 +286,9 @@ function filterArrProduct(arrElem) {
     }
     return newElemArr;
 }
+
+  //сохранение
+  const btnSaveAll = document.getElementById('btn-save-all')
+  btnSaveAll.addEventListener('click', ()=>{
+    updateSupabaseByLocalStorageSum(arrSumToXLSX)
+  })

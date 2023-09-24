@@ -113,6 +113,12 @@
           await deleteDataReport(dataReport[i].id)
       }
   }
+  async function deleteAllDataSupabaseSum(){
+      let dataSum = await getDataSum();
+      for(let i=0; i < dataSum.length; i++){
+          await deleteDataSum(dataSum[i].id)
+      }
+  }
   async function prob(){
       console.log('начало')
       isOpenModalLoad(true)
@@ -181,6 +187,25 @@
     }
     isOpenModalLoad(false)
   }
+
+  export async function updateSupabaseByLocalStorageSum(arr){
+    isOpenModalLoad(true)
+    //очистка базы
+    await deleteAllDataSupabaseSum()
+
+    //заполнение базы хранилищем
+    let id = 1; //значение id для создания следующего элемента
+    for (let i = 0; i < arr.length; i++) {
+        let idObj = id++;
+        let obj = {
+            id: idObj,
+            name: arr[i].nameIngredient,
+            value: arr[i].amount,
+        };
+        await setDataSum(obj);
+    }
+    isOpenModalLoad(false)
+}
 
 //---------------------report
 
@@ -285,6 +310,38 @@
   async function deleteDataProducts(id) {
     const { error } = await _supabase
     .from("recipes")
+    .delete()
+    .eq("id", id);
+  }
+//---------------------sum
+
+  //получение данных
+ export async function getDataSum() {
+    const { data, error } = await _supabase.from("sum").select();
+    return data; //promise
+  }
+
+  //добавление новых данных
+ export async function setDataSum(obj) {
+    const { error } = await _supabase.from("sum").insert(
+      obj
+    );
+  }
+
+  //обновление данных по id
+  export async function updateDataSum(obj, id) {
+    const { error } = await _supabase
+      .from("sum")
+      .update(
+        obj
+      )
+      .eq("id", id);
+  }
+
+  //удаление данных по id
+  async function deleteDataSum(id) {
+    const { error } = await _supabase
+    .from("sum")
     .delete()
     .eq("id", id);
   }
