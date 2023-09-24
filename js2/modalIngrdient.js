@@ -108,7 +108,7 @@ btnSaveNewIngredient.addEventListener("click", () => {
   //сохранение нового продукта в локальное хранилище
   let keyNameProduct = nameNewIngredient.value; //название ингредиента - ключ
     let obj = {
-      name: nameNewElem.value,
+      name: nameNewIngredient.value,
       remainder: 0,
       coming: 0,
       amount: 0,
@@ -118,8 +118,8 @@ btnSaveNewIngredient.addEventListener("click", () => {
     addElemLocalStorage(obj, keyNameProduct);
 
     //отрисовка нового списка на экране
-    cleanList(listReport);
-    createNewElemList();
+    // cleanList(listReport);
+    // createNewElemList();
     // updateStorageInput();
   
     function getColorNewElem() {
@@ -153,6 +153,8 @@ btnSaveNewIngredient.addEventListener("click", () => {
         }
       }
     }
+
+    modalSaveIngredient.style.display = "none";
   });
 
 

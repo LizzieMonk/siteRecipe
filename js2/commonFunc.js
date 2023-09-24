@@ -21,7 +21,7 @@ export function navigationNav(nav){
             document.location.href = './data.html'
         }
         else if(event.target.classList.contains('btn_a-sum')){
-            document.location.href = './index2.html'
+            document.location.href = './index.html'
         }
         else if(event.target.classList.contains('btn_a-report')){
             document.location.href = './report.html'
