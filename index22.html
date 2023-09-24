@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- use version 0.20.0 -->
+    <!-- подключение таблиц эксель -->
+    <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+    <!-- подключение supabase -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script> -->
+
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script> -->
+    
+
+    <!-- <script src="https://cdn.sheetjs.com/dist/xlsx.bundle.js"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.min.js"></script>
+    <script src="dist/xlsx.bundle.js"></script> -->
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="listProducts">
+                <input id="search" placeholder="Введите название..." type="text" class="listProducts__input">
+                <div class="listProducts__ul-block">
+                    <ul id="select-items-ul" class="listProducts__ul">
+                        <!-- <li>что-то</li>
+                        <li>что-то</li>
+                        <li>что-то</li> -->
+                    </ul>
+                </div>
+            </div>
+            <!-- <select name="" id="select-items">
+            </select> -->
+            <input id="input-output-value" type="number" value="20">
+            <button id="btn-calc" type="button">расчет</button>
+            <button id="btn-sum" type="button">
+                добавить в сумму
+            </button>
+            <button id="btn-clean" type="button">очистить форму</button>
+            <button class="btn-report" id="btn-report" type="button">
+                в режим "отчет"
+            </button>
+            <button class="btn-export" id="btn-export-all" type="button">
+                <img src="./img/export.png"> все
+            </button>
+        </div>
+        <div class="tables">
+            <div class="ul-block ul-block__product">
+                <button class="btn-export" id="btn-export-product" type="button">
+                    <img src="./img/export.png">
+                </button>
+                <ul id="list-product" class="ul">
+                    <li id="elem-list-product"><span class="name" name="name-product">название ние ние ние ние ние ние ние ние ние ние</span><span class="amount" name="value-product">90</span></li>
+                </ul>
+            </div>
+            <div class="ul-block ul-block__sum">
+                <button class="btn-export" id="btn-export-sum" type="button">
+                    <img src="./img/export.png">
+                </button>
+                <ul id="list-sum" class="ul">
+                    <li id="elem-list-sum"><span class="name" name="name-product">название</span><span class="amount" name="value-product">90</span></li>
+                </ul>
+            </div>
+            <div class="ul-block ul-block__sum-products">
+                <button class="btn-export" id="btn-export-sum-products" type="button">
+                    <img src="./img/export.png">
+                </button>
+                <ul class="ul ul-last" id="list-sum-products">
+                    <li id="elem-list-sum-products">
+                        <span class="name" name="name-product">название</span>
+                        <span class="amount" name="value-product">90</span>
+                        <div class="delete"><div class="delete__cross"></div></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="adding">
+                <div class="adding__title">
+                    <h3>Название ингредиента</h3>
+                    <input id="name-new-elem" type="text" placeholder="говядина рафинированная">
+                </div>
+                <div class="adding__category">
+                    <div class="adding__radioElem">
+                        <input type="radio" name="category-primary">
+                        <h3>сырье</h3>
+                    </div>
+                    <div class="adding__radioElem">
+                        <input checked type="radio" name="category-primary">
+                        <h3>специи</h3>
+                    </div>
+                    <div class="adding__radioElem adding__radioElem_second second1">
+                        <input checked type="radio" name="category-secondary">
+                        <h4>природные</h4>
+                    </div>
+                    <div class="adding__radioElem adding__radioElem_second second2">
+                        <input type="radio" name="category-secondary">
+                        <h4>химозные</h4>
+                    </div>
+                    <div class="adding__radioElem adding__radioElem_second second3">
+                        <input type="radio" name="category-secondary">
+                        <h4>несъедобные</h4>
+                    </div>
+                </div>
+                <button class="btn-report adding__btn" id="btn-save-new-elem" type="button">сохранить</button>
+            </div>
+            <div class="ul-block ul-block__report">
+                <div class="ul-report-btn">
+                    <button class="btn-func" id="btn-report-delete-storage" type="button">удалить список</button>
+                    <button class="btn-report" id="btn-add-all-ingredients" type="button">вывести все ингредиенты</button>
+                    <button class="btn-report" id="btn-add-new-ingredient" type="button">добавить новый ингредиент</button>
+                    <button class="btn-report" id="btn-report-update-remainder" type="button">обновить остаток</button>
+                    <button class="btn-report" id="btn-report-update-amount" type="button">обновить расход</button>
+                    <button class="btn-report" id="btn-report-calc-sum" type="button">посчитать сумму</button>
+                    <button class="btn-func" id="btn-export-supabase" type="button">сохранить</button>
+                    <button class="btn-func" id="btn-import-supabase" type="button">импорт базы</button>
+                    <button class="btn-export" id="btn-export-report" type="button">
+                        <img src="./img/export.png">
+                    </button>
+                    <!-- <button class="btn-report" id="update-color" type="button">обновить цвет</button> -->
+                    <input id="report-search" placeholder="Поиск..." type="text" class="report-input">
+                </div>
+                <ul id="list-report" class="ul-report">
+                    <li id="elem-list-report">
+                        <span class="name" name="name-product">название</span>
+                        <input class="remainder" name="remainder" type="number" value="0">
+                        <input class="coming" name="coming" type="number" value="0">
+                        <input class="consumption" name="amount" type="number" value="0">
+                        <div class="sign">=</div>
+                        <!-- <input class="remainder hide_sign" name="sign" type="text" value="="> -->
+                        <input class="remainder" name="remainder-sum" type="number" value="0">
+                        <input class="remainder hide" name="hint" type="text" value="-2.93">
+                        <!-- <span class="amount" name="value-product">90</span> -->
+                        <div class="delete"><div class="delete__cross"></div></div>
+                    </li>
+                </ul>
+            </div>
+            <!-- <ul id="list-product" class="ul">
+                <li id="elem-list-product"><span class="name" name="name-product">название ние ние ние ние ние ние ние ние ние ние</span><span class="amount" name="value-product">90</span></li>
+            </ul> -->
+            <!-- <ul id="list-sum" class="ul">
+                <li id="elem-list-sum"><span class="name" name="name-product">название</span><span class="amount" name="value-product">90</span></li>
+            </ul>
+            <ul class="ul ul-last" id="list-sum-products">
+                <li id="elem-list-sum-products">
+                    <span class="name" name="name-product">название</span>
+                    <span class="amount" name="value-product">90</span>
+                    <div class="delete"><div class="delete__cross"></div></div>
+                </li>
+            </ul> -->
+        </div>
+
+        <!-- <button id="btn-export" type="button">export</button>
+        <table id="tbl-export-to-xls">
+            <thead>
+                <th>Sr</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Job Profile</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <tr>1</tr>
+                    <tr><p>Amit Sarna</p>
+                    </tr>
+                    <tr>Florid</tr>
+                    <tr>Data Scientist</tr>
+                </tr>
+                <tr>
+                    <tr>2</tr>
+                    <tr><p>Sagar Gada</p>
+                    </tr>
+                    <tr>California</tr>
+                    <tr>Sr Fullstack dev</tr>
+                </tr>
+                <tr>
+                    <tr>3</tr>
+                    <tr><p>Ricky</p>
+                    </tr>
+                    <tr>Florid</tr>
+                    <tr>Data Scientist</tr>
+                </tr>
+            </tbody>
+        </table> -->
+
+
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal__content">
+            <input id="modal-input" type="text" placeholder="Введите пароль...">
+        </div>
+    </div>
+
+    <div id="modal-load" class="modal-load">
+        <div class="modal-load__content">
+            <h3 class="modal-load__text">Грузит...<br>Подожди чуц-чуц</h3>
+            <!-- <input id="modal-input" type="text" placeholder="Введите пароль..."> -->
+        </div>
+    </div>
+    <script type="module" src="./js/main.js"></script>
+    <script type="module" src="./js/table.js"></script>
+    <script type="module" src="./js/modal.js"></script>
+    <script type="module" src="./js/report.js"></script>
+    <script type="module" src="./js/supabase.js"></script>
+</body>
+</html>

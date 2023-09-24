@@ -11,6 +11,11 @@ import {
   colorSecondaryTwo,
   colorSecondaryTree,
 } from "./main.js";
+
+import {
+  updatelLocalStorageBySupabase
+} from "./supabase.js"
+
 import { products, startValue } from "./data.js";
 
 const btnReport = document.getElementById("btn-report");
@@ -27,15 +32,9 @@ const listReportBlock = document.querySelector(".ul-block__report");
 const addingBlock = document.querySelector(".adding");
 
 const btnExportReport = document.getElementById("btn-export-report");
-const btnReportUpdateAmount = document.getElementById(
-  "btn-report-update-amount"
-);
-const btnReportUpdateRemainder = document.getElementById(
-  "btn-report-update-remainder"
-);
-const btnReportDeleteStorage = document.getElementById(
-  "btn-report-delete-storage"
-);
+const btnReportUpdateAmount = document.getElementById("btn-report-update-amount");
+const btnReportUpdateRemainder = document.getElementById("btn-report-update-remainder");
+const btnReportDeleteStorage = document.getElementById("btn-report-delete-storage");
 const btnReportCalcSum = document.getElementById("btn-report-calc-sum");
 const btnAddAllIngredients = document.getElementById("btn-add-all-ingredients");
 const btnAddNewIngredient = document.getElementById("btn-add-new-ingredient");
@@ -81,6 +80,8 @@ btnReport.addEventListener("click", () => {
     createNewElemList();
     //обновление списка (длина списка !=0)
     updateStorageInput();
+    // updatelLocalStorageBySupabase()
+    // //внутри clean, create, update
   }
 });
 btnReportUpdateAmount.addEventListener("click", () => {
@@ -434,16 +435,16 @@ btnExportReport.addEventListener("click", () => {
   //исправить заголовки начиная с а1
   XLSX.utils.sheet_add_aoa(
     worksheet,
-    [["Наименование", "Остаток", "Приход", "Расход", "Сумма"]],
+    [["Наименование", "Остаток на", "Приход", "Расход", "Остаток на"]],
     { origin: "A1" }
   );
   //рассчитать ширину столбца на 100 символов
   worksheet["!cols"] = [
     { wpx: 200 }, //a
-    { wpx: 50 }, //b
-    { wpx: 50 },
-    { wpx: 50 },
-    { wpx: 50 },
+    { wpx: 60 }, //b
+    { wpx: 60 },
+    { wpx: 60 },
+    { wpx: 60 },
   ]; //c
 
   //добавление рабочего листа в рабочую тетрадь
@@ -774,14 +775,11 @@ export function createNewElemList() {
   }
   function addInList(product) {
     let newElemListProduct = elemListReport.cloneNode(true);
-    newElemListProduct.querySelector('[name="name-product"]').textContent =
-      product.name;
-    newElemListProduct.querySelector('[name="remainder"]').value =
-      product.remainder;
+    newElemListProduct.querySelector('[name="name-product"]').textContent = product.name;
+    newElemListProduct.querySelector('[name="remainder"]').value = product.remainder;
     newElemListProduct.querySelector('[name="coming"]').value = product.coming;
     newElemListProduct.querySelector('[name="amount"]').value = product.amount;
-    newElemListProduct.querySelector('[name="remainder-sum"]').value =
-      product.sum;
+    newElemListProduct.querySelector('[name="remainder-sum"]').value = product.sum;
     newElemListProduct.style.background = product.color;
     listReport.appendChild(newElemListProduct);
     checkSum(
@@ -830,7 +828,8 @@ export function createNewElemList() {
     });
 
     newElemListProduct.querySelector(".delete").addEventListener("click", () => {
-        newElemListProduct.remove(); //удаление с экрана
+        // newElemListProduct.remove(); //удаление с экрана
+        listReport.removeChild(newElemListProduct);  //удаление с экрана
         let keyNameProduct = product.name; //название ингредиента - ключ
         deleteElemLocalStorage(keyNameProduct); //удаление с хранилища
       });
@@ -903,17 +902,20 @@ export function addElemLocalStorage(obj, keyNameProduct) {
   // let user = JSON.parse( localStorage.user );
 }
 
-function deleteElemLocalStorage(key) {
+export function deleteElemLocalStorage(key) {
   localStorage.removeItem(key);
 }
 
 window.addEventListener("load", () => {
   listReportBlock.style.display = 'none'
   addingBlock.style.display = "none";
-  cleanList(listReport);
-  createNewElemList();
-  //обновление списка (длина списка !=0)
-  updateStorageInput();
+
+
+
+  // cleanList(listReport);
+  // createNewElemList();
+  // //обновление списка (длина списка !=0)
+  // updateStorageInput();
 });
 export function cleanList(list) {
   while (list.firstChild) {

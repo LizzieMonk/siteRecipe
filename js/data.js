@@ -109,7 +109,7 @@ export let products = [
     ],
     ingredientsSecondary: [
       { nameIngredient: "пнс", amount: 1.8 },
-      { nameIngredient: "соваром из под стехи", amount: 1.0 },
+      { nameIngredient: "соваром из-под стрехи", amount: 1.0 },
       { nameIngredient: "кутроцит", amount: 0.8 },
       { nameIngredient: "комбивит", amount: 0.4 },
       { nameIngredient: "каркадогель", amount: 0.1 },
@@ -648,7 +648,7 @@ export let products = [
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 5.5 },
       { nameIngredient: "про смак", amount: 1.5 },
-      { nameIngredient: "карри гриль", amount: 1.2 },
+      { nameIngredient: "приправа Карри гриль", amount: 1.2 },
       { nameIngredient: "пакет вакуумный", amount: 180 },
     ],
   },
@@ -675,7 +675,7 @@ export let products = [
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 3.0 },
       { nameIngredient: "про смак", amount: 1.5 },
-      { nameIngredient: "карри гриль", amount: 1.0 },
+      { nameIngredient: "приправа Карри гриль", amount: 1.0 },
       { nameIngredient: "чесночный порошок", amount: 0.135 },
       { nameIngredient: "контейнер 0,28л", amount: 350 },
     ],
@@ -844,7 +844,7 @@ export let products = [
     id: 49,
     outputValue: 130.0,
     ingredientsPrimary: [
-      { nameIngredient: "шкурка вареная", amount: 30.0 },
+      { nameIngredient: "шкурка свиная вареная", amount: 30.0 },
       { nameIngredient: "крупа гречневая", amount: 6.7 },
       { nameIngredient: "кровь пищевая", amount: 40.0 },
       { nameIngredient: "шпик", amount: 10.0 },
@@ -1209,11 +1209,11 @@ export let products = [
     id: 70,
     outputValue: 120.0,
     ingredientsPrimary: [
-      { nameIngredient: "мясо свиных голов", amount: 40.0 },
-      { nameIngredient: "печень", amount: 15.0 },
-      { nameIngredient: "сердце говяжье", amount: 5.0 },
-      { nameIngredient: "легкие говяжьи", amount: 15.0 },
-      { nameIngredient: "шкурка вареная", amount: 25.0 },
+      { nameIngredient: "мясо свиных голов вареное", amount: 40.0 },
+      { nameIngredient: "печень вареная", amount: 15.0 },
+      { nameIngredient: "сердце говяжье вареное", amount: 5.0 },
+      { nameIngredient: "легкие говяжьи вареные", amount: 15.0 },
+      { nameIngredient: "шкурка свиная вареная", amount: 25.0 },
     ],
     ingredientsSecondary: [
       { nameIngredient: "соль", amount: 2.2 },
@@ -1221,6 +1221,23 @@ export let products = [
       { nameIngredient: "мит фреш", amount: 0.3 },
       { nameIngredient: "синюги говяжьи", amount: 40.0 },
       { nameIngredient: "шпагат", amount: 0.36 },
+    ],
+  },
+  {
+    name: "Колбаски сырые Итальянские",
+    id: 71,
+    outputValue: 120.0,
+    ingredientsPrimary: [
+      { nameIngredient: "свинина полужирная", amount: 80.0 },
+      { nameIngredient: "свинина жирная", amount: 20.0 },
+    ],
+    ingredientsSecondary: [
+      { nameIngredient: "соль", amount: 1.0 },
+      { nameIngredient: "маринад шашлычный Ред", amount: 1.0 },
+      { nameIngredient: "шинка GF", amount: 0.5 },
+      { nameIngredient: "бактицид", amount: 0.4 },
+      { nameIngredient: "натурин д20", amount: 462 },
+      { nameIngredient: "пакет большой", amount: 30 },
     ],
   },
 ];

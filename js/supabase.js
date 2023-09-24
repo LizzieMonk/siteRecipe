@@ -29,10 +29,6 @@ const btnImportSupabase = document.getElementById("btn-import-supabase");
 
 btnExportSupabase.addEventListener("click", () => {
   console.log("кукусики");
-
-//   deleteAllDataSupabase()
-//   ll()
-
   updateSupabaseByLocalStorage()
   // prob()
 });
@@ -165,7 +161,7 @@ async function updateSupabaseByLocalStorage(){
     isOpenModalLoad(false)
 }
 
-async function updatelLocalStorageBySupabase() {
+export async function updatelLocalStorageBySupabase() {
   isOpenModalLoad(true)
   //очистка хранилища
   // localStorage.clear();
@@ -264,98 +260,98 @@ function isOpenModalLoad(option){
 }
 
 
-//обновить цвет
-const btnUpdateColor = document.getElementById("update-color");
+// //обновить цвет
+// const btnUpdateColor = document.getElementById("update-color");
 
-btnUpdateColor.addEventListener('click', ()=>{
-  updateColor()
-})
+// btnUpdateColor.addEventListener('click', ()=>{
+//   updateColor()
+// })
 
-async function updateColor (){
-  isOpenModalLoad(true)
+// async function updateColor (){
+//   isOpenModalLoad(true)
 
-  let dataReport = await getDataReport();
-  for(let i=0; i<dataReport.length; i++){
-    if(dataReport[i].color== "#A5E6B2"){  // colorPrimaryOne = "#A5E6B2";
-      let obj = {
-          name: dataReport[i].name,
-          remainder: dataReport[i].remainder,
-          coming: dataReport[i].coming,
-          amount: dataReport[i].amount,
-          sum: dataReport[i].sum,
-          color: colorPrimaryOne,
-        };
-      await updateDataReport(obj, dataReport[i].id)
-      // console.log(dataReport[i].id,obj)
-    }
-    else if(dataReport[i].color== "#D7F7DD"){  //  colorPrimaryTwo = "#D7F7DD";
-      if (
-        dataReport[i].name.includes("орех") ||
-        dataReport[i].name.includes("изолят") ||
-        dataReport[i].name.includes("клетчатка") ||
-        dataReport[i].name.includes("крахмал") ||
-        dataReport[i].name.includes("крупа") ||
-        dataReport[i].name.includes("лук") ||
-        dataReport[i].name.includes("меланж") ||
-        dataReport[i].name.includes("мука") ||
-        dataReport[i].name.includes("молоко")
-      ) {
-        let obj = {
-          name: dataReport[i].name,
-          remainder: dataReport[i].remainder,
-          coming: dataReport[i].coming,
-          amount: dataReport[i].amount,
-          sum: dataReport[i].sum,
-          color: colorPrimaryThree,
-        };
-        // console.log(obj.name)
-        await updateDataReport(obj, dataReport[i].id)
-      }
-      else{
-        let obj = {
-          name: dataReport[i].name,
-          remainder: dataReport[i].remainder,
-          coming: dataReport[i].coming,
-          amount: dataReport[i].amount,
-          sum: dataReport[i].sum,
-          color: colorPrimaryTwo,
-        };
-        await updateDataReport(obj, dataReport[i].id)
-      }
-    }
-    else if(dataReport[i].color== "#A0CADE"){ //  colorSecondaryOne = "#A0CADE";
-      let obj = {
-        name: dataReport[i].name,
-        remainder: dataReport[i].remainder,
-        coming: dataReport[i].coming,
-        amount: dataReport[i].amount,
-        sum: dataReport[i].sum,
-        color: colorSecondaryOne,
-      };
-      await updateDataReport(obj, dataReport[i].id)
-    }
-    else if(dataReport[i].color== "#C4ECFF"){  // colorSecondaryTwo = "#C4ECFF";
-      let obj = {
-        name: dataReport[i].name,
-        remainder: dataReport[i].remainder,
-        coming: dataReport[i].coming,
-        amount: dataReport[i].amount,
-        sum: dataReport[i].sum,
-        color: colorSecondaryTwo,
-      };
-      await updateDataReport(obj, dataReport[i].id)
-    }
-    else if(dataReport[i].color== "#F7D6CB"){  // colorSecondaryTree = "#F7D6CB";
-      let obj = {
-        name: dataReport[i].name,
-        remainder: dataReport[i].remainder,
-        coming: dataReport[i].coming,
-        amount: dataReport[i].amount,
-        sum: dataReport[i].sum,
-        color: colorSecondaryTree,
-      };
-      await updateDataReport(obj, dataReport[i].id)
-    }
-  }
-  isOpenModalLoad(false)
-}
+//   let dataReport = await getDataReport();
+//   for(let i=0; i<dataReport.length; i++){
+//     if(dataReport[i].color== "#A5E6B2"){  // colorPrimaryOne = "#A5E6B2";
+//       let obj = {
+//           name: dataReport[i].name,
+//           remainder: dataReport[i].remainder,
+//           coming: dataReport[i].coming,
+//           amount: dataReport[i].amount,
+//           sum: dataReport[i].sum,
+//           color: colorPrimaryOne,
+//         };
+//       await updateDataReport(obj, dataReport[i].id)
+//       // console.log(dataReport[i].id,obj)
+//     }
+//     else if(dataReport[i].color== "#D7F7DD"){  //  colorPrimaryTwo = "#D7F7DD";
+//       if (
+//         dataReport[i].name.includes("орех") ||
+//         dataReport[i].name.includes("изолят") ||
+//         dataReport[i].name.includes("клетчатка") ||
+//         dataReport[i].name.includes("крахмал") ||
+//         dataReport[i].name.includes("крупа") ||
+//         dataReport[i].name.includes("лук") ||
+//         dataReport[i].name.includes("меланж") ||
+//         dataReport[i].name.includes("мука") ||
+//         dataReport[i].name.includes("молоко")
+//       ) {
+//         let obj = {
+//           name: dataReport[i].name,
+//           remainder: dataReport[i].remainder,
+//           coming: dataReport[i].coming,
+//           amount: dataReport[i].amount,
+//           sum: dataReport[i].sum,
+//           color: colorPrimaryThree,
+//         };
+//         // console.log(obj.name)
+//         await updateDataReport(obj, dataReport[i].id)
+//       }
+//       else{
+//         let obj = {
+//           name: dataReport[i].name,
+//           remainder: dataReport[i].remainder,
+//           coming: dataReport[i].coming,
+//           amount: dataReport[i].amount,
+//           sum: dataReport[i].sum,
+//           color: colorPrimaryTwo,
+//         };
+//         await updateDataReport(obj, dataReport[i].id)
+//       }
+//     }
+//     else if(dataReport[i].color== "#A0CADE"){ //  colorSecondaryOne = "#A0CADE";
+//       let obj = {
+//         name: dataReport[i].name,
+//         remainder: dataReport[i].remainder,
+//         coming: dataReport[i].coming,
+//         amount: dataReport[i].amount,
+//         sum: dataReport[i].sum,
+//         color: colorSecondaryOne,
+//       };
+//       await updateDataReport(obj, dataReport[i].id)
+//     }
+//     else if(dataReport[i].color== "#C4ECFF"){  // colorSecondaryTwo = "#C4ECFF";
+//       let obj = {
+//         name: dataReport[i].name,
+//         remainder: dataReport[i].remainder,
+//         coming: dataReport[i].coming,
+//         amount: dataReport[i].amount,
+//         sum: dataReport[i].sum,
+//         color: colorSecondaryTwo,
+//       };
+//       await updateDataReport(obj, dataReport[i].id)
+//     }
+//     else if(dataReport[i].color== "#F7D6CB"){  // colorSecondaryTree = "#F7D6CB";
+//       let obj = {
+//         name: dataReport[i].name,
+//         remainder: dataReport[i].remainder,
+//         coming: dataReport[i].coming,
+//         amount: dataReport[i].amount,
+//         sum: dataReport[i].sum,
+//         color: colorSecondaryTree,
+//       };
+//       await updateDataReport(obj, dataReport[i].id)
+//     }
+//   }
+//   isOpenModalLoad(false)
+// }

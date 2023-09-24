@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <!-- подключение таблиц эксель -->
+    <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
+</head>
+</head>
+<body>
+    <!-- ------------------NAVBAR------------------ -->
+    <nav class="nav">
+        <div class="nav__container container">
+            <ul class="menu">
+                <li><button class="btn btn_a btn_a-data" type="button">База</button></li>
+                <li><button class="btn btn_a btn_a-sum" type="button">Расчет</button></li>
+                <li><button class="btn btn_a btn_a-report" type="button">Отчет</button></li>
+                <!-- <li><button class="btn btn_a" type="button">Накладная</button></li> -->
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ------------------REPORT------------------ -->
+    <section class="report">
+        <div class="report__container container">
+            <div class="report__btns">
+                <button class="btn" id="btn-report-delete-storage" type="button">удалить список</button>
+                <button class="btn" id="btn-add-all-ingredients" type="button">вывести все ингредиенты</button>
+                <button class="btn" id="btn-add-new-ingredient" type="button">добавить новый ингредиент</button>
+                <button class="btn btn_report" id="btn-report-update-remainder" type="button">обновить остаток</button>
+                <button class="btn btn_report" id="btn-report-update-amount" type="button">обновить расход</button>
+                <button class="btn btn_report" id="btn-report-calc-sum" type="button">посчитать сумму</button>
+                <button class="btn" id="btn-export-supabase" type="button">сохранить</button>
+                <button class="btn" id="btn-import-supabase" type="button">импорт базы</button>
+                <button class="btn btn_download" id="btn-export-report" type="button">
+                    <img src="./img/export.png">
+                </button>
+                <!-- <button class="btn" id="update-color" type="button">обновить цвет</button> -->
+            </div>
+            <div class="report__table">
+                <input id="report-search" placeholder="Поиск..." type="text" class="report__search">
+                <ul id="list-report" class="ul-report">
+                    <li id="elem-list-report">
+                        <span class="ul-report__name" name="name-product">название</span>
+                        <input class="ul-report__remainder" name="remainder" type="number" value="0">
+                        <input class="ul-report__coming" name="coming" type="number" value="0">
+                        <input class="ul-report__consumption" name="amount" type="number" value="0">
+                        <div class="sign">=</div>
+                        <!-- <input class="remainder hide_sign" name="sign" type="text" value="="> -->
+                        <input class="ul-report__remainder" name="remainder-sum" type="number" value="0">
+                        <input class="ul-report__remainder hide" name="hint" type="text" value="-2.93">
+                        <!-- <span class="amount" name="value-product">90</span> -->
+                        <div class="delete"><div class="delete__cross"></div></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <div id="modal-load" class="modal-load">
+        <div class="modal-load__content">
+            <h3 class="modal-load__text">Грузит...<br>Подожди чуц-чуц</h3>
+            <!-- <input id="modal-input" type="text" placeholder="Введите пароль..."> -->
+        </div>
+    </div>
+
+    <div id="modal-save-ingredient" class="modal-save-ingredient">
+        <div class="modal-save-ingredient__content">
+            <div class="modal-save-ingredient__cancel">
+                <div class="cancel">
+                    <div class="cancel__cross"></div>
+                </div>
+            </div>
+            <h3 class="modal-save-ingredient__text">Добавить новый? Пфф, изи...</h3>
+            <div class="adding">
+                <div class="adding__title">
+                    <h3>Введите название ингредиента</h3>
+                    <input id="name-new-ingredient" type="text" placeholder="говядина рафинированная">
+                </div>
+                <div class="adding__category">
+                    <h3>Выберите категорию</h3>
+                    <div class="adding__radioElem">
+                        <input type="radio" name="category-primary">
+                        <h3>сырье</h3>
+                    </div>
+                    <div class="adding__radioElem adding__radioElem_second second4">
+                        <input checked type="radio" name="category-secondary2">
+                        <h3>основные</h3>
+                    </div>
+                    <div class="adding__radioElem adding__radioElem_second second5">
+                        <input type="radio" name="category-secondary2">
+                        <h3>непонятные</h3>
+                    </div>
+                    <div class="adding__radioElem">
+                        <input checked type="radio" name="category-primary">
+                        <h3>специи</h3>
+                    </div>
+                    <div class="adding__radioElem adding__radioElem_second second1">
+                        <input checked type="radio" name="category-secondary">
+                        <h3>природные</h3>
+                    </div>
+                    <div class="adding__radioElem adding__radioElem_second second2">
+                        <input type="radio" name="category-secondary">
+                        <h3>химозные</h3>
+                    </div>
+                    <div class="adding__radioElem adding__radioElem_second second3">
+                        <input type="radio" name="category-secondary">
+                        <h3>несъедобные</h3>
+                    </div>
+                </div>
+                <button class="btn btn_report adding__btn" id="btn-save-new-ingredient" type="button">сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="./js2/report.js"></script>
+    <script type="module" src="./js2/modalIngrdient.js"></script>
+</body>
+</html>
