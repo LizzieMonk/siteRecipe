@@ -481,7 +481,7 @@ async function updateReportByIngredient(oldNameIngredient, objNewIngredient){
                 color: data[j].color,
             };
             // console.log(obj)
-            await updateDataReport(obj, data[i].id);
+            await updateDataReport(obj, data[j].id);
             break;
         }
     }
