@@ -24,7 +24,8 @@ import {
 
 import {
   updateSupabaseByLocalStorage,
-  updatelLocalStorageBySupabase
+  updatelLocalStorageBySupabase,
+  getDataSum,
 }from "../js2/software/supabase.js"
 
 

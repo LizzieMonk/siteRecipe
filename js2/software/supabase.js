@@ -199,8 +199,8 @@
         let idObj = id++;
         let obj = {
             id: idObj,
-            name: arr[i].nameIngredient,
-            value: arr[i].amount,
+            nameIngredient: arr[i].nameIngredient,
+            amount: arr[i].amount,
         };
         await setDataSum(obj);
     }
