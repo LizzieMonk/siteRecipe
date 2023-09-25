@@ -290,5 +290,5 @@ function filterArrProduct(arrElem) {
   //сохранение
   const btnSaveAll = document.getElementById('btn-save-all')
   btnSaveAll.addEventListener('click', ()=>{
-    updateSupabaseByLocalStorageSum(arrSumToXLSX)
+    updateSupabaseByLocalStorageSum(allRecipesSum)
   })

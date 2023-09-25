@@ -16,7 +16,8 @@
 
   import {
     addElemLocalStorage,
-    deleteLocalStorageReport
+    deleteLocalStorageReport,
+    deleteLocalStorageSumProducts
   } from "./storage.js";
 
   import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
@@ -199,14 +200,38 @@
         let idObj = id++;
         let obj = {
             id: idObj,
-            nameIngredient: arr[i].nameIngredient,
-            amount: arr[i].amount,
-            color: arr[i].color,
+            nameProduct: arr[i][0].nameProduct,
+            outputValue: arr[i][0].outputValue,
         };
         await setDataSum(obj);
     }
     isOpenModalLoad(false)
 }
+
+export async function updatelLocalStorageBySupabaseSum() {
+    isOpenModalLoad(true)
+    //очистка хранилища
+    deleteLocalStorageSumProducts()
+    //заполнение хранилища базой
+    let dataSum = await getDataSum();
+    // console.log(dataReport)
+    for (let i = 0; i < dataSum.length; i++) {
+      //сохранение нового продукта в локальное хранилище
+      let keyNameProduct = dataSum[i].nameIngredient; //название ингредиента - ключ
+      let obj = {
+        nameProduct: dataSum[i].nameIngredient,
+        outputValue: dataSum[i].amount,
+      };
+      addElemLocalStorage(obj, keyNameProduct);
+    }
+  
+    // for (let i = 0; i < localStorage.length; i++) {
+    //   let key = localStorage.key(i);
+    //   let product = JSON.parse(localStorage.getItem(key));
+    //   console.log(product)
+    // }
+    isOpenModalLoad(false)
+  }
 
 //---------------------report
 

@@ -34,6 +34,7 @@ import {
 import {
   getDataProducts,
   updateSupabaseByLocalStorageSum,
+  updatelLocalStorageBySupabaseSum
 }from "../js2/software/supabase.js"
 
 const selectItemsUl = document.getElementById("select-items-ul");
@@ -686,6 +687,12 @@ window.addEventListener("load", () => {
   localStorageWindowLoad()
 });
 async function localStorageWindowLoad(){
+  // for (let i = 0; i < localStorage.length; i++) {
+  //     let key = localStorage.key(i);
+  //     let product = JSON.parse(localStorage.getItem(key));
+  //     console.log(product)
+  //   }
+  // await updatelLocalStorageBySupabaseSum()
   if (localStorage.length != 0) {
     for (let j = 0; j < localStorage.length; j++) {
       let key = localStorage.key(j);
