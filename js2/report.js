@@ -849,16 +849,11 @@ export function createNewElemList() {
 }
 
 window.addEventListener("load", () => {
-  //вывод списка на экран
-  cleanList(listReport);
-  createNewElemList();
-  //обновление списка (длина списка !=0)
-  // updateStorageInput();
-
-
-  // updatelLocalStorageBySupabase() зде ь через await
+  // //вывод списка на экран
   // cleanList(listReport);
   // createNewElemList();
+
+  importData();
 });
 export function cleanList(list) {
   while (list.firstChild) {
@@ -880,14 +875,14 @@ search.addEventListener("keyup", () => {
 
 //supabase
 const btnExportSupabase = document.getElementById("btn-export-supabase");
-const btnImportSupabase = document.getElementById("btn-import-supabase");
+// const btnImportSupabase = document.getElementById("btn-import-supabase");
 
 btnExportSupabase.addEventListener("click", () => {
   updateSupabaseByLocalStorage()
 });
-btnImportSupabase.addEventListener("click", () => {
-  importData()
-});
+// btnImportSupabase.addEventListener("click", () => {
+//   importData()
+// });
 
 async function importData(){
   await updatelLocalStorageBySupabase();
@@ -896,3 +891,23 @@ async function importData(){
   createNewElemList();
 }
 
+//скрытие доп кнопок
+window.addEventListener('load', ()=>{
+  btnReportDeleteStorage.style.display = 'none';
+  btnAddAllIngredients.style.display = 'none';
+  btnAddNewIngredient.style.display = 'none';
+})
+
+const btnReportShowBtns = document.getElementById('btn-report-show-btns')
+btnReportShowBtns.addEventListener('click', ()=>{
+  if(btnReportDeleteStorage.style.display == 'none')
+  {
+    btnReportDeleteStorage.style.display = 'inline-block';
+    btnAddAllIngredients.style.display = 'inline-block';
+    btnAddNewIngredient.style.display = 'inline-block';
+  }else{
+    btnReportDeleteStorage.style.display = 'none';
+    btnAddAllIngredients.style.display = 'none';
+    btnAddNewIngredient.style.display = 'none';
+  }
+})
