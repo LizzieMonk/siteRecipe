@@ -687,13 +687,9 @@ window.addEventListener("load", () => {
   localStorageWindowLoad()
 });
 async function localStorageWindowLoad(){
-  // for (let i = 0; i < localStorage.length; i++) {
-  //     let key = localStorage.key(i);
-  //     let product = JSON.parse(localStorage.getItem(key));
-  //     console.log(product)
-  //   }
-  // await updatelLocalStorageBySupabaseSum()
+  await updatelLocalStorageBySupabaseSum();
   if (localStorage.length != 0) {
+    isOpenModalLoad(true)
     for (let j = 0; j < localStorage.length; j++) {
       let key = localStorage.key(j);
       let product = JSON.parse(localStorage.getItem(key));
@@ -713,6 +709,7 @@ async function localStorageWindowLoad(){
       }
     }
   }
+  isOpenModalLoad(false)
 }
 
 

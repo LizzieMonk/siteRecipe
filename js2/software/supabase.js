@@ -217,10 +217,10 @@ export async function updatelLocalStorageBySupabaseSum() {
     // console.log(dataReport)
     for (let i = 0; i < dataSum.length; i++) {
       //сохранение нового продукта в локальное хранилище
-      let keyNameProduct = dataSum[i].nameIngredient; //название ингредиента - ключ
+      let keyNameProduct = dataSum[i].nameProduct; //название ингредиента - ключ
       let obj = {
-        nameProduct: dataSum[i].nameIngredient,
-        outputValue: dataSum[i].amount,
+        nameProduct: dataSum[i].nameProduct,
+        outputValue: dataSum[i].outputValue,
       };
       addElemLocalStorage(obj, keyNameProduct);
     }
