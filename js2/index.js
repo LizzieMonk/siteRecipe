@@ -33,8 +33,8 @@ import {
 
 import {
   getDataProducts,
-  updateSupabaseByLocalStorageSum,
-  updatelLocalStorageBySupabaseSum
+  updateSupabaseByLocalStorageSumProducts,
+  updatelLocalStorageBySupabaseSumProducts
 }from "../js2/software/supabase.js"
 
 const selectItemsUl = document.getElementById("select-items-ul");
@@ -687,7 +687,7 @@ window.addEventListener("load", () => {
   localStorageWindowLoad()
 });
 async function localStorageWindowLoad(){
-  await updatelLocalStorageBySupabaseSum();
+  await updatelLocalStorageBySupabaseSumProducts();
   if (localStorage.length != 0) {
     isOpenModalLoad(true)
     for (let j = 0; j < localStorage.length; j++) {

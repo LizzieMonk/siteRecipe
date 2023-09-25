@@ -17,6 +17,7 @@ import {
 
   import {
     getDataProducts,
+    updateSupabaseByLocalStorageSumProducts,
     updateSupabaseByLocalStorageSum,
   }from "../js2/software/supabase.js"
 
@@ -290,5 +291,6 @@ function filterArrProduct(arrElem) {
   //сохранение
   const btnSaveAll = document.getElementById('btn-save-all')
   btnSaveAll.addEventListener('click', ()=>{
-    updateSupabaseByLocalStorageSum(allRecipesSum)
+    updateSupabaseByLocalStorageSumProducts(allRecipesSum);
+    updateSupabaseByLocalStorageSum(arrSumToXLSX);
   })

@@ -114,12 +114,18 @@
           await deleteDataReport(dataReport[i].id)
       }
   }
-  async function deleteAllDataSupabaseSum(){
-      let dataSum = await getDataSum();
+  async function deleteAllDataSupabaseSumProducts(){
+      let dataSum = await getDataSumProducts();
       for(let i=0; i < dataSum.length; i++){
-          await deleteDataSum(dataSum[i].id)
+          await deleteDataSumProducts(dataSum[i].id)
       }
   }
+  async function deleteAllDataSupabaseSum(){
+    let dataSum = await getDataSum();
+    for(let i=0; i < dataSum.length; i++){
+        await deleteDataSum(dataSum[i].id)
+    }
+}
   async function prob(){
       console.log('начало')
       isOpenModalLoad(true)
@@ -130,7 +136,7 @@
       console.log('конец')
       isOpenModalLoad(false)
   }
-
+//------------------------------------
   export async function updateSupabaseByLocalStorage(){
       // let dataReport = await getDataReport() //length =0
       isOpenModalLoad(true)
@@ -188,11 +194,11 @@
     }
     isOpenModalLoad(false)
   }
-
-  export async function updateSupabaseByLocalStorageSum(arr){
+//------------------------------------
+  export async function updateSupabaseByLocalStorageSumProducts(arr){
     isOpenModalLoad(true)
     // очистка базы
-    await deleteAllDataSupabaseSum()
+    await deleteAllDataSupabaseSumProducts()
 
     //заполнение базы хранилищем
     let id = 1; //значение id для создания следующего элемента
@@ -203,17 +209,17 @@
             nameProduct: arr[i][0].nameProduct,
             outputValue: arr[i][0].outputValue,
         };
-        await setDataSum(obj);
+        await setDataSumProducts(obj);
     }
     isOpenModalLoad(false)
 }
 
-export async function updatelLocalStorageBySupabaseSum() {
+export async function updatelLocalStorageBySupabaseSumProducts() {
     isOpenModalLoad(true)
     //очистка хранилища
     deleteLocalStorageSumProducts()
     //заполнение хранилища базой
-    let dataSum = await getDataSum();
+    let dataSum = await getDataSumProducts();
     // console.log(dataReport)
     for (let i = 0; i < dataSum.length; i++) {
       //сохранение нового продукта в локальное хранилище
@@ -232,6 +238,58 @@ export async function updatelLocalStorageBySupabaseSum() {
     // }
     isOpenModalLoad(false)
   }
+
+  //------------------------------------
+  export async function updateSupabaseByLocalStorageSum(arr){
+    // let dataReport = await getDataReport() //length =0
+    isOpenModalLoad(true)
+    // очистка базы
+    await deleteAllDataSupabaseSum()
+
+    //заполнение базы хранилищем
+    let id = 1; //значение id для создания следующего элемента
+    for (let i = 0; i < arr.length; i++) {
+        let idObj = id++;
+        let obj = {
+            id: idObj,
+            nameIngredient: arr[i].nameIngredient,
+            amount: arr[i].amount,
+            color: arr[i].color,
+        };
+        await setDataSum(obj);
+    }
+    isOpenModalLoad(false)
+}
+
+// export async function updatelLocalStorageBySupabaseSum() {
+//   isOpenModalLoad(true)
+//   //очистка хранилища
+//   // localStorage.clear();
+//   deleteLocalStorageReport()
+//   //заполнение хранилища базой
+//   let dataReport = await getDataReport();
+//   console.log(dataReport)
+//   for (let i = 0; i < dataReport.length; i++) {
+//     //сохранение нового продукта в локальное хранилище
+//     let keyNameProduct = dataReport[i].name; //название ингредиента - ключ
+//     let obj = {
+//       name: dataReport[i].name,
+//       remainder: dataReport[i].remainder,
+//       coming: dataReport[i].coming,
+//       amount: dataReport[i].amount,
+//       sum: dataReport[i].sum,
+//       color: dataReport[i].color,
+//     };
+//     addElemLocalStorage(obj, keyNameProduct);
+//   }
+
+//   for (let i = 0; i < localStorage.length; i++) {
+//     let key = localStorage.key(i);
+//     let product = JSON.parse(localStorage.getItem(key));
+//     console.log(product)
+//   }
+//   isOpenModalLoad(false)
+// }
 
 //---------------------report
 
@@ -339,7 +397,41 @@ export async function updatelLocalStorageBySupabaseSum() {
     .delete()
     .eq("id", id);
   }
-//---------------------sum
+//---------------------sumProducts
+
+  //получение данных
+ export async function getDataSumProducts() {
+    const { data, error } = await _supabase.from("sumProducts").select();
+    return data; //promise
+  }
+
+  //добавление новых данных
+ export async function setDataSumProducts(obj) {
+    const { error } = await _supabase.from("sumProducts").insert(
+      obj
+    );
+  }
+
+  //обновление данных по id
+  export async function updateDataSumProducts(obj, id) {
+    const { error } = await _supabase
+      .from("sumProducts")
+      .update(
+        obj
+      )
+      .eq("id", id);
+  }
+
+  //удаление данных по id
+  async function deleteDataSumProducts(id) {
+    const { error } = await _supabase
+    .from("sumProducts")
+    .delete()
+    .eq("id", id);
+  }
+
+
+  //---------------------sum
 
   //получение данных
  export async function getDataSum() {
@@ -371,6 +463,7 @@ export async function updatelLocalStorageBySupabaseSum() {
     .delete()
     .eq("id", id);
   }
+
 
 
 
