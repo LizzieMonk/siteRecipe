@@ -42,7 +42,19 @@
                 <!-- <button class="btn" id="update-color" type="button">обновить цвет</button> -->
             </div>
             <div class="report__table">
-                <input id="report-search" placeholder="Поиск..." type="text" class="report__search">
+                <div class="report__info">
+                    <input id="report-search" placeholder="Поиск..." type="text" class="report__search">
+                    <div class="list-products">
+                        <input id="search-ingredint" placeholder="Выберите ингредиент" type="text" class="list-products__input">
+                        <div class="list-products__ul-block">
+                            <ul id="select-ingredient" class="list-products__ul">
+                                <!-- <li>что-то</li> -->
+                            </ul>
+                        </div>
+                    </div>
+                    <button class="btn" id="btn-report-add-ingredient-in-list" type="button">добавить в список</button>
+                </div>
+                <!-- <input id="report-search" placeholder="Поиск..." type="text" class="report__search"> -->
                 <ul id="list-report" class="ul-report">
                     <li id="elem-list-report">
                         <span class="ul-report__name" name="name-product">название</span>
@@ -68,7 +80,7 @@
         </div>
     </div>
 
-    <div id="modal-save-ingredient" class="modal-save-ingredient">
+    <!-- <div id="modal-save-ingredient" class="modal-save-ingredient">
         <div class="modal-save-ingredient__content">
             <div class="modal-save-ingredient__cancel">
                 <div class="cancel">
@@ -113,6 +125,48 @@
                     </div>
                 </div>
                 <button class="btn btn_report adding__btn" id="btn-save-new-ingredient" type="button">сохранить</button>
+            </div>
+        </div>
+    </div> -->
+
+    <div id="modal-save-ingredient" class="modal-save-ingredient">
+        <div class="modal-save-ingredient__content">
+            <!-- <h3 class="modal-save-product__text">Грузит...<br>Подожди чуц-чуц</h3> -->
+            <div class="ul__adding-product adding-ingredient">
+                <div class="adding-product__ingredients">
+                    <div class="adding-product__ingredient">
+                        <div class="list-products">
+                            <input name="search-ingredient" placeholder="Введите название" type="text" class="list-products__input">
+                            <div class="list-products__ul-block">
+                                <ul name="select-ingredient" class="list-products__ul">
+                                    <!-- <li>что-то</li> -->
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="list-products">
+                                <input name="search-category" placeholder="Выбрать из списка" type="text" class="list-products__input">
+                                <div class="list-products__ul-block">
+                                    <ul name="select-category" class="list-products__ul">
+                                        <!-- <li>что-то</li> -->
+                                    </ul>
+                                </div>
+                        </div>
+                        <div class="list-products">
+                            <input name="search-subcategory" placeholder="Выбрать из списка" type="text" class="list-products__input">
+                            <div class="list-products__ul-block">
+                                <ul name="select-subcategory" class="list-products__ul">
+                                    <!-- <li>что-то</li> -->
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- <input step="0.1" type="number" class="adding-product__number" name="number-ingredient"> -->
+                        <!-- <div name="btn-delete-ingredient" class="delete"><div class="delete__cross"></div></div> -->
+                    </div>
+                </div>
+                <div class="adding-product__btns">
+                    <button name="btn-update-product" class="btn btn_report" type="button">Сохранить ингредиент</button>
+                    <button name="btn-delete-product" class="btn" type="button">Отменить</button>
+                </div>
             </div>
         </div>
     </div>

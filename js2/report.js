@@ -19,14 +19,19 @@ import {
   addElemLocalStorage,
   deleteElemLocalStorage,
   deleteLocalStorageSumProducts,
-  deleteLocalStorageReport
+  deleteLocalStorageReport,
 } from "../js2/software/storage.js";
 
 import {
   updateSupabaseByLocalStorage,
   updatelLocalStorageBySupabase,
   getDataSum,
+  getDataIngredients,
 }from "../js2/software/supabase.js"
+
+import {
+  saveNewIngredientInSupabase,
+} from "./modalIngrdient.js"
 
 
 let nav = document.querySelector(".nav");
@@ -266,14 +271,10 @@ btnAddAllIngredients.addEventListener("click", () => {
 
   //вывод хранилища в список
   createNewElemList();
-  //обработчик
-  // updateStorageInput();
 });
-//модалка для добавление нового ингредиента
-const modalSaveIngredient = document.getElementById('modal-save-ingredient');
-btnAddNewIngredient.addEventListener('click', ()=>{
-  modalSaveIngredient.style.display = "block";
-})
+
+
+
 // let categoryPrimary = document.getElementsByName("category-primary");
 // // динамика отображения подгрупп
 // for (let i = 0; i < categoryPrimary.length; i++) {
@@ -789,63 +790,120 @@ export function createNewElemList() {
       addInList(arrProductsClone[i]);
     }
   }
-  function addInList(product) {
-    let newElemListProduct = elemListReport.cloneNode(true);
-    newElemListProduct.querySelector('[name="name-product"]').textContent = product.name;
-    newElemListProduct.querySelector('[name="remainder"]').value = product.remainder;
-    newElemListProduct.querySelector('[name="coming"]').value = product.coming;
-    newElemListProduct.querySelector('[name="amount"]').value = product.amount;
-    newElemListProduct.querySelector('[name="remainder-sum"]').value = product.sum;
-    newElemListProduct.style.background = product.color;
-    listReport.appendChild(newElemListProduct);
+  // function addInList(product) {
+  //   let newElemListProduct = elemListReport.cloneNode(true);
+  //   newElemListProduct.querySelector('[name="name-product"]').textContent = product.name;
+  //   newElemListProduct.querySelector('[name="remainder"]').value = product.remainder;
+  //   newElemListProduct.querySelector('[name="coming"]').value = product.coming;
+  //   newElemListProduct.querySelector('[name="amount"]').value = product.amount;
+  //   newElemListProduct.querySelector('[name="remainder-sum"]').value = product.sum;
+  //   newElemListProduct.style.background = product.color;
+  //   listReport.appendChild(newElemListProduct);
+  //   checkSum(
+  //     newElemListProduct,
+  //     newElemListProduct.querySelector('[name="remainder-sum"]').value
+  //   );
+
+  //   newElemListProduct.querySelector(".sign").addEventListener("click", () => {
+  //     //обновление внешнее (только список)
+  //     let newSum = roundN(
+  //       Number(newElemListProduct.querySelector('[name="remainder"]').value) +
+  //         Number(newElemListProduct.querySelector('[name="coming"]').value) -
+  //         Number(newElemListProduct.querySelector('[name="amount"]').value),
+  //       3
+  //     );
+  //     newElemListProduct.querySelector('[name="remainder-sum"]').value = newSum;
+
+  //     //обновление элемента с экрана
+  //     let keyNameProduct = product.name; //название ингредиента - ключ
+  //     let obj = {
+  //       name: product.name,
+  //       remainder: Number(
+  //         newElemListProduct.querySelector('[name="remainder"]').value
+  //       ),
+  //       coming: Number(
+  //         newElemListProduct.querySelector('[name="coming"]').value
+  //       ),
+  //       amount: Number(
+  //         newElemListProduct.querySelector('[name="amount"]').value
+  //       ),
+  //       sum: newSum, //внутренне обновление суммы одного элемента
+  //       color: product.color,
+  //     };
+  //     addElemLocalStorage(obj, keyNameProduct);
+
+  //     checkSum(
+  //       newElemListProduct,
+  //       newElemListProduct.querySelector('[name="remainder-sum"]').value
+  //     );
+  //   });
+
+  //   newElemListProduct.querySelector(".delete").addEventListener("click", () => {
+  //       // newElemListProduct.remove(); //удаление с экрана
+  //       listReport.removeChild(newElemListProduct);  //удаление с экрана
+  //       let keyNameProduct = product.name; //название ингредиента - ключ
+  //       deleteElemLocalStorage(keyNameProduct); //удаление с хранилища
+  //   });
+
+  //   addEventInputElem(newElemListProduct);
+  // }
+}
+function addInList(product) {
+  let newElemListProduct = elemListReport.cloneNode(true);
+  newElemListProduct.querySelector('[name="name-product"]').textContent = product.name;
+  newElemListProduct.querySelector('[name="remainder"]').value = product.remainder;
+  newElemListProduct.querySelector('[name="coming"]').value = product.coming;
+  newElemListProduct.querySelector('[name="amount"]').value = product.amount;
+  newElemListProduct.querySelector('[name="remainder-sum"]').value = product.sum;
+  newElemListProduct.style.background = product.color;
+  listReport.appendChild(newElemListProduct);
+  checkSum(
+    newElemListProduct,
+    newElemListProduct.querySelector('[name="remainder-sum"]').value
+  );
+
+  newElemListProduct.querySelector(".sign").addEventListener("click", () => {
+    //обновление внешнее (только список)
+    let newSum = roundN(
+      Number(newElemListProduct.querySelector('[name="remainder"]').value) +
+        Number(newElemListProduct.querySelector('[name="coming"]').value) -
+        Number(newElemListProduct.querySelector('[name="amount"]').value),
+      3
+    );
+    newElemListProduct.querySelector('[name="remainder-sum"]').value = newSum;
+
+    //обновление элемента с экрана
+    let keyNameProduct = product.name; //название ингредиента - ключ
+    let obj = {
+      name: product.name,
+      remainder: Number(
+        newElemListProduct.querySelector('[name="remainder"]').value
+      ),
+      coming: Number(
+        newElemListProduct.querySelector('[name="coming"]').value
+      ),
+      amount: Number(
+        newElemListProduct.querySelector('[name="amount"]').value
+      ),
+      sum: newSum, //внутренне обновление суммы одного элемента
+      color: product.color,
+    };
+    addElemLocalStorage(obj, keyNameProduct);
+
     checkSum(
       newElemListProduct,
       newElemListProduct.querySelector('[name="remainder-sum"]').value
     );
+  });
 
-    newElemListProduct.querySelector(".sign").addEventListener("click", () => {
-      //обновление внешнее (только список)
-      let newSum = roundN(
-        Number(newElemListProduct.querySelector('[name="remainder"]').value) +
-          Number(newElemListProduct.querySelector('[name="coming"]').value) -
-          Number(newElemListProduct.querySelector('[name="amount"]').value),
-        3
-      );
-      newElemListProduct.querySelector('[name="remainder-sum"]').value = newSum;
-
-      //обновление элемента с экрана
+  newElemListProduct.querySelector(".delete").addEventListener("click", () => {
+      // newElemListProduct.remove(); //удаление с экрана
+      listReport.removeChild(newElemListProduct);  //удаление с экрана
       let keyNameProduct = product.name; //название ингредиента - ключ
-      let obj = {
-        name: product.name,
-        remainder: Number(
-          newElemListProduct.querySelector('[name="remainder"]').value
-        ),
-        coming: Number(
-          newElemListProduct.querySelector('[name="coming"]').value
-        ),
-        amount: Number(
-          newElemListProduct.querySelector('[name="amount"]').value
-        ),
-        sum: newSum, //внутренне обновление суммы одного элемента
-        color: product.color,
-      };
-      addElemLocalStorage(obj, keyNameProduct);
+      deleteElemLocalStorage(keyNameProduct); //удаление с хранилища
+  });
 
-      checkSum(
-        newElemListProduct,
-        newElemListProduct.querySelector('[name="remainder-sum"]').value
-      );
-    });
-
-    newElemListProduct.querySelector(".delete").addEventListener("click", () => {
-        // newElemListProduct.remove(); //удаление с экрана
-        listReport.removeChild(newElemListProduct);  //удаление с экрана
-        let keyNameProduct = product.name; //название ингредиента - ключ
-        deleteElemLocalStorage(keyNameProduct); //удаление с хранилища
-    });
-
-    addEventInputElem(newElemListProduct);
-  }
+  addEventInputElem(newElemListProduct);
 }
 
 window.addEventListener("load", () => {
@@ -891,11 +949,34 @@ async function importData(){
   createNewElemList();
 }
 
+
+
+//модалка для добавление нового ингредиента
+const modalSaveIngredient = document.getElementById('modal-save-ingredient');
+btnAddNewIngredient.addEventListener('click', ()=>{
+  modalSaveIngredient.style.display = "block";
+})
+const btnUpdateProduct = modalSaveIngredient.querySelector('[name="btn-update-product"]');
+
+btnUpdateProduct.addEventListener('click', async ()=>{
+  //сохранение в базу
+  await saveNewIngredientInSupabase ();
+  //обновление списка
+  await createListWithAllIngredients();
+})
+
+
+
+
 //скрытие доп кнопок
 window.addEventListener('load', ()=>{
   btnReportDeleteStorage.style.display = 'none';
   btnAddAllIngredients.style.display = 'none';
   btnAddNewIngredient.style.display = 'none';
+
+  createListWithAllIngredients();
+  btnReportAddIngredientInList.disabled = true;
+  btnReportAddIngredientInList.classList.add('btn_passive');
 })
 
 const btnReportShowBtns = document.getElementById('btn-report-show-btns')
@@ -911,3 +992,90 @@ btnReportShowBtns.addEventListener('click', ()=>{
     btnAddNewIngredient.style.display = 'none';
   }
 })
+
+
+//добавление ингредиента в список
+let searchIngredient = document.getElementById('search-ingredint');
+let selectIngredient = document.getElementById('select-ingredient');
+const btnReportAddIngredientInList = document.getElementById('btn-report-add-ingredient-in-list')
+
+async function createListWithAllIngredients(){
+  let dataIngredients = await getDataIngredients();
+  dataIngredients.forEach((elem)=>{
+    let newOption = document.createElement("li");
+    newOption.textContent = elem.name;
+    selectIngredient.appendChild(newOption);
+
+    newOption.addEventListener("mousedown", (e) => {
+      searchIngredient.value = e.target.textContent;
+
+      //перебор хранилища
+      let isOnTheList = false;
+      for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+        let product = JSON.parse(localStorage.getItem(key));
+        if(product.name == e.target.textContent){
+          isOnTheList = true;
+          break;
+        }
+      }
+      if(isOnTheList){
+        search.value = e.target.textContent;
+        liveSearch(listReport, search);
+      }
+      else{
+        btnReportAddIngredientInList.disabled = false;
+        btnReportAddIngredientInList.classList.remove('btn_passive')
+      }
+  });
+
+  //обработчик
+  searchIngredient.addEventListener("focus", () => {
+    searchIngredient.value = "";
+    btnReportAddIngredientInList.disabled = true;
+    btnReportAddIngredientInList.classList.add('btn_passive')
+    liveSearch(selectIngredient, searchIngredient);
+  });
+  searchIngredient.addEventListener("blur", () => {
+    let listOfElems = selectIngredient.children;
+    for (let i = 0; i < listOfElems.length; i++) {
+        listOfElems[i].style.display = "none";
+    }
+  });
+  searchIngredient.addEventListener("keyup", () => {
+    liveSearch(selectIngredient, searchIngredient);
+  });
+  })
+}
+
+btnReportAddIngredientInList.addEventListener('click', ()=>{
+  addIngredientInList();
+})
+async function addIngredientInList(){
+  console.log(searchIngredient.value);
+  //сохранение выбранного ингредиента в локальное хранилище
+  let dataIngredients = await getDataIngredients(); //{color, name}
+  let objIngredient = {};
+  for(let i=0; i<dataIngredients.length; i++){
+    if(searchIngredient.value == dataIngredients[i].name){
+      // console.log (dataIngredients[i]);
+      objIngredient = dataIngredients[i];
+      break;
+    }
+  }
+  console.log('найденный элемент:', objIngredient);
+
+  //сохранение нового продукта в локальное хранилище
+  let keyNameProduct = objIngredient.name; //название ингредиента - ключ
+    let obj = {
+      name: objIngredient.name,
+      remainder: 0,
+      coming: 0,
+      amount: 0,
+      sum: 0,
+      color: objIngredient.color,
+    };
+    addElemLocalStorage(obj, keyNameProduct);
+    //добавление в список
+    addInList(obj);
+}

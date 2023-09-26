@@ -190,13 +190,13 @@
     for (let i = 0; i < localStorage.length; i++) {
       let key = localStorage.key(i);
       let product = JSON.parse(localStorage.getItem(key));
-      console.log(product)
+    //   console.log(product)
     }
     isOpenModalLoad(false)
   }
 //------------------------------------
   export async function updateSupabaseByLocalStorageSumProducts(arr){
-    isOpenModalLoad(true)
+    // isOpenModalLoad(true)
     // очистка базы
     await deleteAllDataSupabaseSumProducts()
 
@@ -211,7 +211,7 @@
         };
         await setDataSumProducts(obj);
     }
-    isOpenModalLoad(false)
+    // isOpenModalLoad(false)
 }
 
 export async function updatelLocalStorageBySupabaseSumProducts() {
@@ -242,7 +242,7 @@ export async function updatelLocalStorageBySupabaseSumProducts() {
   //------------------------------------
   export async function updateSupabaseByLocalStorageSum(arr){
     // let dataReport = await getDataReport() //length =0
-    isOpenModalLoad(true)
+    // isOpenModalLoad(true)
     // очистка базы
     await deleteAllDataSupabaseSum()
 
@@ -258,7 +258,7 @@ export async function updatelLocalStorageBySupabaseSumProducts() {
         };
         await setDataSum(obj);
     }
-    isOpenModalLoad(false)
+    // isOpenModalLoad(false)
 }
 
 // export async function updatelLocalStorageBySupabaseSum() {

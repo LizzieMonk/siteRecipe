@@ -37,8 +37,11 @@ import {
     getDataReport,
     updateDataReport
   }from "../js2/software/supabase.js"
-  
-  
+
+  import {
+    saveNewIngredientInSupabase,
+  } from "./modalIngrdient.js"
+
   let nav = document.querySelector(".nav");
   navigationNav(nav);
 
@@ -54,9 +57,13 @@ const btnShowProducts = document.getElementById('btn-show-products');
 const btnShowIngredients = document.getElementById('btn-show-ingredients');
 const btnAddNewElem = document.getElementById('btn-add-new-elem');
 
+let saveProductBool = true;
+
 window.addEventListener('load', ()=>{
     cleanList(listData);
     createListWithAlIProducts()
+
+
     // createListWithAlIngredients()
     // updateSupabaseIngredients()
     // updateSupabaseProducts()
@@ -65,14 +72,18 @@ window.addEventListener('load', ()=>{
 btnShowProducts.addEventListener('click', ()=>{
     btnShowProducts.classList.add('btn_download');
     btnShowIngredients.classList.remove('btn_download')
+    saveProductBool = true;
     cleanList(listData);
     createListWithAlIProducts();
+    btnAddNewElem.innerHTML = '+ Добавить новый продукт'
 })
 btnShowIngredients.addEventListener('click', ()=>{
     btnShowIngredients.classList.add('btn_download');
     btnShowProducts.classList.remove('btn_download')
+    saveProductBool = false;
     cleanList(listData);
     createListWithAlIngredients()
+    btnAddNewElem.innerHTML = '+ Добавить новый ингредиент'
 })
 
 
@@ -650,7 +661,6 @@ search.addEventListener("keyup", () => {
 
   //модалка для загрузки
   const modalLoad = document.getElementById('modal-load');
-
   function isOpenModalLoad(option){
     if(option){
       modalLoad.style.display = "block";
@@ -659,3 +669,31 @@ search.addEventListener("keyup", () => {
       modalLoad.style.display = "none";
     }
   }
+
+  //модалка добавление продукта
+  const modalSaveProduct = document.getElementById('modal-save-product');
+  const modalSaveIngredient = document.getElementById('modal-save-ingredient');
+  let btnUpdateProduct = modalSaveIngredient.querySelector('[name="btn-update-product"]');
+
+  btnAddNewElem.addEventListener('click', ()=>{
+    if(saveProductBool){
+        modalSaveProduct.style.display = "block";
+        btnUpdateProduct = modalSaveProduct.querySelector('[name="btn-update-product"]');
+    }
+    else {
+        modalSaveIngredient.style.display = "block";
+        btnUpdateProduct = modalSaveIngredient.querySelector('[name="btn-update-product"]');
+    }
+  })
+
+
+//модалка для добавление нового ингредиента
+
+btnUpdateProduct.addEventListener('click', async ()=>{
+  //сохранение в базу
+  await saveNewIngredientInSupabase ();
+  //обновление списка
+  cleanList(listData);
+  createListWithAlIngredients();
+//   await createListWithAllIngredients();
+})

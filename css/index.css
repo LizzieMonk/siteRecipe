@@ -196,6 +196,16 @@ input {
 .btn_report {
   background: #A4EDE4;
 }
+.btn_passive {
+  background: transparent;
+  color: gainsboro;
+  border: 1px solid gainsboro;
+}
+.btn_passive:hover {
+  background: transparent;
+  border: 1px solid gainsboro;
+  box-shadow: none;
+}
 
 /*--------------------TABLES--------------------*/
 .tables {
@@ -308,8 +318,15 @@ input {
 .report__table {
   padding: 20px 0 0 0;
 }
+.report__info {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+}
 .report__search {
-  width: 600px;
+  flex-grow: 1;
 }
 
 .ul-report {
@@ -501,6 +518,7 @@ input {
   flex-wrap: wrap;
   gap: 10px;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
 .adding-product__subtitle h3 {
   margin-bottom: 5px;
@@ -509,7 +527,6 @@ input {
   width: 600px;
 }
 .adding-product__ingredients {
-  margin-top: 10px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -530,7 +547,7 @@ input {
   width: 150px;
 }
 .adding-product__btns {
-  margin-top: 5px;
+  margin-top: 15px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -586,6 +603,62 @@ input {
   color: #000;
 }
 
+.modal-save-product {
+  display: none;
+  position: fixed;
+  z-index: 11;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.modal-save-product__content {
+  background: gainsboro;
+  width: fit-content;
+  margin: 0 auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  padding: 20px 30px;
+}
+.modal-save-product .adding-product {
+  display: block;
+}
+.modal-save-product .adding-product .delete {
+  min-height: 100%;
+  width: 35px;
+  outline: none;
+  margin-left: 0;
+  position: relative;
+  cursor: pointer;
+  transition: all 400ms ease;
+}
+.modal-save-product .adding-product .delete:hover .delete__cross {
+  transform: scale(1.5);
+}
+.modal-save-product .adding-product .delete__cross {
+  transition: all 400ms ease;
+  position: absolute;
+  top: 16px;
+  right: 14.5px;
+}
+.modal-save-product .adding-product .delete__cross::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  background: red;
+  transform: rotate(45deg);
+}
+.modal-save-product .adding-product .delete__cross::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 2px;
+  background: red;
+  transform: rotate(-45deg);
+}
+
 .modal-save-ingredient {
   display: none;
   position: fixed;
@@ -604,52 +677,10 @@ input {
   margin: 0 auto;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   padding: 20px 30px;
-  position: relative;
 }
-.modal-save-ingredient__text {
-  font-size: 20px;
-  line-height: 24px;
-  text-align: center;
-  color: #000;
+.modal-save-ingredient .adding-ingredient {
+  display: block;
 }
-.modal-save-ingredient__cancel {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.modal-save-ingredient .cancel {
-  background: transparent;
-  min-height: 100%;
-  width: 30px;
-  position: relative;
-  cursor: pointer;
-}
-.modal-save-ingredient .cancel__cross {
-  transition: all 400ms ease;
-  position: absolute;
-  top: 18px;
-  right: 28px;
-}
-.modal-save-ingredient .cancel__cross::after {
-  content: "";
-  position: absolute;
-  width: 20px;
-  height: 3px;
-  background: red;
-  transform: rotate(45deg);
-}
-.modal-save-ingredient .cancel__cross::before {
-  content: "";
-  position: absolute;
-  width: 20px;
-  height: 3px;
-  background: red;
-  transform: rotate(-45deg);
-}
-.modal-save-ingredient .cancel:hover .cancel__cross {
-  transform: scale(1.5);
-}
-
 .adding {
   padding-top: 10px;
   display: flex;

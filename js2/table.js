@@ -291,6 +291,20 @@ function filterArrProduct(arrElem) {
   //сохранение
   const btnSaveAll = document.getElementById('btn-save-all')
   btnSaveAll.addEventListener('click', ()=>{
+    isOpenModalLoad(true)
     updateSupabaseByLocalStorageSumProducts(allRecipesSum);
     updateSupabaseByLocalStorageSum(arrSumToXLSX);
+    isOpenModalLoad(false)
   })
+
+    //модалка для загрузки
+    const modalLoad = document.getElementById('modal-load');
+
+    function isOpenModalLoad(option){
+      if(option){
+        modalLoad.style.display = "block";
+      }
+      else{
+        modalLoad.style.display = "none";
+      }
+    }

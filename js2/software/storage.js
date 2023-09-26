@@ -32,3 +32,10 @@ export function deleteLocalStorageReport(){
       }
     }
 }
+
+export function setSavedIngredient(option){
+    localStorage.setItem('isSavedIngredient', option);
+}
+export function getSavedIngredient(){
+    return localStorage.getItem('isSavedIngredient');
+}
