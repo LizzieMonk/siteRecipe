@@ -41,6 +41,9 @@ import {
   import {
     saveNewIngredientInSupabase,
   } from "./modalIngrdient.js"
+  import {
+    saveNewProductInSupabase,
+  } from "./modalProduct.js"
 
   let nav = document.querySelector(".nav");
   navigationNav(nav);
@@ -59,9 +62,12 @@ const btnAddNewElem = document.getElementById('btn-add-new-elem');
 
 let saveProductBool = true;
 
+//разделить фарш
+//влезть название при распечатке
+
 window.addEventListener('load', ()=>{
     cleanList(listData);
-    createListWithAlIProducts()
+    createListWithAlIProducts();
 
 
     // createListWithAlIngredients()
@@ -82,7 +88,7 @@ btnShowIngredients.addEventListener('click', ()=>{
     btnShowProducts.classList.remove('btn_download')
     saveProductBool = false;
     cleanList(listData);
-    createListWithAlIngredients()
+    createListWithAlIngredients();
     btnAddNewElem.innerHTML = '+ Добавить новый ингредиент'
 })
 
@@ -153,7 +159,7 @@ async function createNewElemListProducts(elem) {
     const btnAddRowIngredient = addingProduct.querySelector('[name="btn-add-row-ingredient"]')
     btnAddRowIngredient.addEventListener('click', ()=>{
         let ingredient = {
-            amount: '',
+            amount: 0,
             nameIngredient: ''
         }
         fillRowIngredientInProduct(oneIngredient, ingredient, allIngredients, ingredients)
@@ -628,24 +634,119 @@ function getColorBySubcategory(subcategory){  //string
 
 }
   export async function updateSupabaseIngredients(){
-    // isOpenModalLoad(true)
+    isOpenModalLoad(true)
 
-    //заполнение базы хранилищем
-    let id = 1; //значение id для создания следующего элемента
-    for (let i = 0; i < localStorage.length; i++) {
-        let key = localStorage.key(i);
-        let product = JSON.parse(localStorage.getItem(key));
-        if(!product.nameProduct){
-          let idObj = id++;
-          let obj = {
-            id: idObj,
-            name: product.name,
-            color: product.color,
-          };
-          await setDataIngredients(obj);
+    //массив всех ингредиентов
+    let arrForAddingInSupabse = []
+    let countArrForAdding =0;
+
+    let data = await getDataProducts();
+    //перебор массива продуктов
+    for(let i=0; i<data.length; i++){
+
+        //массив сырья продуктА
+        let ingredientsPrimryNotJSON = JSON.parse(data[i].ingredientsPrimary);
+        for(let j=0; j<ingredientsPrimryNotJSON.length; j++){
+            let repeat = false;
+           for(let k=0; k<arrForAddingInSupabse.length; k++){
+            if(ingredientsPrimryNotJSON[j].nameIngredient == arrForAddingInSupabse[k]){
+                repeat = true;
+                break;
+            }
+           }
+           if(!repeat){
+                arrForAddingInSupabse[countArrForAdding++] = ingredientsPrimryNotJSON[j].nameIngredient;
+           }
+        }
+
+        //массив специй продуктА
+        let ingredientsSecondaryNotJSON = JSON.parse(data[i].ingredientsSecondary);
+        for(let j=0; j<ingredientsSecondaryNotJSON.length; j++){
+            let repeat = false;
+            for(let k=0; k<arrForAddingInSupabse.length; k++){
+             if(ingredientsSecondaryNotJSON[j].nameIngredient == arrForAddingInSupabse[k]){
+                repeat = true;
+                break;
+             }
+            }
+            if(!repeat){
+                arrForAddingInSupabse[countArrForAdding++] = ingredientsSecondaryNotJSON[j].nameIngredient;
+            }
         }
     }
-    // isOpenModalLoad(false)
+
+    // //перебор массива хранилища
+    // for(let i=0; i<localStorage.length; i++){
+    //     let key = localStorage.key(i);
+    //     let product = JSON.parse(localStorage.getItem(key));
+    //     if(product.name){
+    //         let repeat = false;
+    //         for(let k=0; k<arrForAddingInSupabse.length; k++){
+    //          if(product.name == arrForAddingInSupabse[k]){
+    //             repeat = true;
+    //             break;
+    //          }
+    //         }
+    //         if(!repeat){
+    //             arrForAddingInSupabse[countArrForAdding++] = product.name;
+    //         }
+    //     }
+    // }
+
+    let report = await getDataReport();
+    //перебор отчета
+    for(let i=0; i<report.length; i++){
+        let repeat = false;
+        for(let k=0; k<arrForAddingInSupabse.length; k++){
+            if(report[i].name == arrForAddingInSupabse[k]){
+               repeat = true;
+               break;
+            }
+           }
+           if(!repeat){
+               arrForAddingInSupabse[countArrForAdding++] = report[i].name;
+           }
+    }
+
+    //все ингредиенты
+    console.log(arrForAddingInSupabse);
+    console.log('продукты+отчет: ',arrForAddingInSupabse.length);
+
+    //нахождение тех ингредиентов, которых нет в базе, но есть в расчетах
+    let allIngredients = await getDataIngredients();
+    for(let i=0; i<allIngredients.length; i++){
+        // console.log(allIngredients[i].name);
+        for(let j=0; j<arrForAddingInSupabse.length; j++){
+            if(allIngredients[i].name == arrForAddingInSupabse[j]){
+                arrForAddingInSupabse.splice(j,1)
+                // break;
+            }
+        }
+    }
+
+    console.log('ингредиенты в базе: ',allIngredients.length)
+
+     //все ингредиенты
+     console.log(arrForAddingInSupabse);
+     console.log(arrForAddingInSupabse.length);
+
+
+    // //заполнение базы хранилищем
+    // let id = 1; //значение id для создания следующего элемента
+    // for (let i = 0; i < localStorage.length; i++) {
+    //     let key = localStorage.key(i);
+    //     let product = JSON.parse(localStorage.getItem(key));
+    //     if(!product.nameProduct){
+    //       let idObj = id++;
+    //       let obj = {
+    //         id: idObj,
+    //         name: product.name,
+    //         color: product.color,
+    //       };
+    //       await setDataIngredients(obj);
+    //     }
+    // }
+    isOpenModalLoad(false)
 }
 
 //РЕАЛИЗАЦИЯ ПОИСКА
@@ -670,7 +771,7 @@ search.addEventListener("keyup", () => {
     }
   }
 
-  //модалка добавление продукта
+  //модалка для добавления нового ингредиента/продукта
   const modalSaveProduct = document.getElementById('modal-save-product');
   const modalSaveIngredient = document.getElementById('modal-save-ingredient');
   let btnUpdateProduct = modalSaveIngredient.querySelector('[name="btn-update-product"]');
@@ -686,14 +787,33 @@ search.addEventListener("keyup", () => {
     }
   })
 
+  btnUpdateProduct.addEventListener('click', async ()=>{
+    if(saveProductBool){
+        //продукт
+        //сохранение в базу
+        await saveNewProductInSupabase();
+        //обновление списка
+        cleanList(listData);
+        await createListWithAlIProducts();
+    }
+    else {
+        //ингредиент
+        //сохранение в базу
+        await saveNewIngredientInSupabase();
+        //обновление списка
+        cleanList(listData);
+        await createListWithAlIngredients();
+    }
+  })
+
 
 //модалка для добавление нового ингредиента
 
-btnUpdateProduct.addEventListener('click', async ()=>{
-  //сохранение в базу
-  await saveNewIngredientInSupabase ();
-  //обновление списка
-  cleanList(listData);
-  createListWithAlIngredients();
-//   await createListWithAllIngredients();
-})
+// btnUpdateProduct.addEventListener('click', async ()=>{
+//   //сохранение в базу
+//   await saveNewIngredientInSupabase ();
+//   //обновление списка
+//   cleanList(listData);
+//   createListWithAlIngredients();
+// //   await createListWithAllIngredients();
+// })

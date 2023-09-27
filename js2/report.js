@@ -133,7 +133,7 @@ btnReportDeleteStorage.addEventListener("click", () => {
   // localStorage.clear();
   deleteLocalStorageReport()
   cleanList(listReport);
-  createNewElemList();
+  // createNewElemList();
 });
 btnReportUpdateRemainder.addEventListener("click", () => {
   for (let j = 0; j < localStorage.length; j++) {
@@ -273,95 +273,6 @@ btnAddAllIngredients.addEventListener("click", () => {
   createNewElemList();
 });
 
-
-
-// let categoryPrimary = document.getElementsByName("category-primary");
-// // динамика отображения подгрупп
-// for (let i = 0; i < categoryPrimary.length; i++) {
-//   let second1 = document.querySelector(".second1");
-//   let second2 = document.querySelector(".second2");
-//   let second3 = document.querySelector(".second3");
-//   categoryPrimary[i].addEventListener("change", () => {
-//     if (categoryPrimary[i].checked) {
-//       if (
-//         categoryPrimary[i].closest(".adding__radioElem ").querySelector("h3")
-//           .textContent === "специи"
-//       ) {
-//         console.log("перебор подгруппы специй");
-//         second1.style.display = "flex";
-//         second2.style.display = "flex";
-//         second3.style.display = "flex";
-//       } else {
-//         console.log("перебор подгруппы сырья");
-//         second1.style.display = "none";
-//         second2.style.display = "none";
-//         second3.style.display = "none";
-//       }
-//       // console.log(categoryPrimary[i].closest('.adding__radioElem ').querySelector('h3').textContent)
-//     }
-//   });
-// }
-// btnAddNewIngredient.addEventListener("click", () => {
-//   if (addingBlock.style.display === "none") {
-//     listSumBlock.style.display = "none";
-//     addingBlock.style.display = "flex";
-//   } else {
-//     listSumBlock.style.display = "flex";
-//     addingBlock.style.display = "none";
-//   }
-// });
-// btnSaveNewElem.addEventListener("click", () => {
-//   //сохранение нового продукта в локальное хранилище
-//   let keyNameProduct = nameNewElem.value; //название ингредиента - ключ
-//   let obj = {
-//     name: nameNewElem.value,
-//     remainder: 0,
-//     coming: 0,
-//     amount: 0,
-//     sum: 0,
-//     color: getColorNewElem(),
-//   };
-//   addElemLocalStorage(obj, keyNameProduct);
-//   cleanList(listReport);
-//   createNewElemList();
-//   updateStorageInput();
-
-//   function getColorNewElem() {
-//     let categoryPrimary = document.getElementsByName("category-primary");
-//     for (let i = 0; i < categoryPrimary.length; i++) {
-//       if (categoryPrimary[i].checked) {
-//         if (
-//           categoryPrimary[i].closest(".adding__radioElem").querySelector("h3")
-//             .textContent === "специи"
-//         ) {
-//           // console.log('перебор подгруппы специй')
-//           let categorySecondary =
-//             document.getElementsByName("category-secondary");
-//           for (let j = 0; j < categorySecondary.length; j++) {
-//             if (categorySecondary[j].checked) {
-//               if (
-//                 categorySecondary[j]
-//                   .closest(".adding__radioElem")
-//                   .querySelector("h4").textContent === "природные"
-//               ) {
-//                 return colorSecondaryOne;
-//               } else if (
-//                 categorySecondary[j]
-//                   .closest(".adding__radioElem")
-//                   .querySelector("h4").textContent === "химозные"
-//               ) {
-//                 return colorSecondaryTwo;
-//               } else return colorSecondaryTree;
-//             }
-//           }
-//         } else {
-//           return colorPrimaryTwo;
-//         }
-//         // console.log(categoryPrimary[i].closest('.adding__radioElem ').querySelector('h3').textContent)
-//       }
-//     }
-//   }
-// });
 
 btnExportReport.addEventListener("click", () => {
   let arr = [];
@@ -962,6 +873,7 @@ btnUpdateProduct.addEventListener('click', async ()=>{
   //сохранение в базу
   await saveNewIngredientInSupabase ();
   //обновление списка
+  //очищение списка????
   await createListWithAllIngredients();
 })
 

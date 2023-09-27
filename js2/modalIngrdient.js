@@ -145,11 +145,12 @@ function createNewElemListIngredients() {
   // })
   const btnCancelModalSaveIngredient = modalSaveIngredient.querySelector('[name="btn-delete-product"]');
   btnCancelModalSaveIngredient.addEventListener('click', ()=>{
-    modalSaveIngredient.style.display = "none";
+    modalSaveIngredient.style.display = 'none';
   })
 }
 export async function saveNewIngredientInSupabase (){
-  let objIngredient = await getObjIngredient(oneIngredient);
+  let objIngredient = await getObjIngredient(modalSaveIngredient);
+  // let objIngredient = await getObjIngredient(oneIngredient);
   // console.log(objIngredient)
   isOpenModalLoad(true);
   //сохранение в базу ингредиентов
@@ -191,15 +192,15 @@ function cleanList(list) {
   }
 }
 
-async function getObjIngredient(oneIngredient){
-  // let addingIngredient = newElemListProduct.querySelector('.adding-ingredient')
-  // let oneIngredient = addingIngredient.querySelector('.adding-product__ingredient');
+async function getObjIngredient(newElemListProduct){
+  let addingIngredient = newElemListProduct.querySelector('.adding-ingredient')
+  let oneIngredient = addingIngredient.querySelector('.adding-product__ingredient');
   let name = oneIngredient.querySelector('[name="search-ingredient"]').value;
   let subcategory = oneIngredient.querySelector('[name="search-subcategory"]').value;
   let dataIngredients = await getDataIngredients();
 
   let obj = {
-      id:dataIngredients.length+1,
+      id: dataIngredients.length+1,
       name: name,
       color: getColorBySubcategory(subcategory)
   }
