@@ -420,9 +420,12 @@ function createNewElemListIngredients(elem) {
         isOpenModalLoad(true);
         await updateDataIngredients(objIngredient, elem.id);
         //обновление ингредиента во всех продуктах
-        await updateAllProductByIngredient(elem.name, objIngredient);
+        // await updateAllProductByIngredient(elem.name, objIngredient);
         //добавить обновление в отчете
         await updateReportByIngredient(elem.name, objIngredient);
+        //добавить обновление в сумме
+
+
 
         isOpenModalLoad(false);
         newElemListProduct.querySelector('[name="name-product"]').textContent = objIngredient.name;
@@ -445,6 +448,7 @@ async function updateAllProductByIngredient(oldNameIngredient, objNewIngredient)
         for(let j=0; j<ingredientsPrimarySupabase.length; j++){
             if(ingredientsPrimarySupabase[j].nameIngredient == oldNameIngredient){
                 // console.log(data[i])
+
                 ingredientsPrimarySupabase[j].nameIngredient = objNewIngredient.name;
 
                 let jsonPrimary = JSON.stringify(ingredientsPrimarySupabase)
