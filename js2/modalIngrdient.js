@@ -7,39 +7,26 @@ import {
   colorSecondaryTree,
   liveSearch,
   colorWhite,
+  CATEGORY,
+  SUBCATEGORY_PRIMARY,
+  SUBCATEGORY_SECONDARY,
+  getSubcategoryByCategory,
+  getCategoryByColor,
+  getSubcategoryByColor,
+  getColorBySubcategory,
+  cleanList,
+  isOpenModal,
+  getObjIngredient,
 } from "./commonFunc.js";
 
-// import {
-//   products,
-//   startValue
-// } from "../js/data.js";
-
-import {
-  addElemLocalStorage,
-  // deleteElemLocalStorage,
-  deleteLocalStorageSumProducts,
-} from "../js2/software/storage.js";
-
-  
 import {
   getDataIngredients,
   setDataIngredients,
 }from "../js2/software/supabase.js"
 
-// const btnSaveNewIngredient = document.getElementById("btn-save-new-ingredient");
-// let nameNewIngredient = document.getElementById("name-new-ingredient");
-  
-//   // export const listReport = document.getElementById("list-report");
-//   // const elemListReport = document.getElementById("elem-list-report");
 
-
-
-
-const CATEGORY = ['сырье', 'специи'];
-const SUBCATEGORY_PRIMARY = ['основные', 'непонятные'];
-const SUBCATEGORY_SECONDARY = ['природные', 'химозные', 'несъедобные'];
-
-
+//модалка для загрузки
+const modalLoad = document.getElementById('modal-load');
 //модалка для добавление нового ингредиента
 const modalSaveIngredient = document.getElementById('modal-save-ingredient');
 
@@ -51,7 +38,6 @@ let oneIngredient = modalSaveIngredient.querySelector('.adding-product__ingredie
 
 let searchIngredient = oneIngredient.querySelector('[name="search-ingredient"]');
 searchIngredient.value = '';
-let selectIngredient = oneIngredient.querySelector('[name="select-ingredient"]');
 
 let searchCategory = oneIngredient.querySelector('[name="search-category"]');
 searchCategory.value = getCategoryByColor('');
@@ -133,108 +119,27 @@ function createNewElemListIngredients() {
   });
 
   const btnUpdateProduct = modalSaveIngredient.querySelector('[name="btn-update-product"]');
-  // btnUpdateProduct.addEventListener('click', async ()=>{
-  //     console.log('в скрипте')
-  //     let objIngredient = await getObjIngredient(oneIngredient);
-  //     console.log(objIngredient)
-  //     isOpenModalLoad(true);
-  //     //сохранение в базу ингредиентов
-  //     // await setDataIngredients(objIngredient);
-  //     isOpenModalLoad(false);
-  //     modalSaveIngredient.style.display = "none";
-  // })
+
   const btnCancelModalSaveIngredient = modalSaveIngredient.querySelector('[name="btn-delete-product"]');
   btnCancelModalSaveIngredient.addEventListener('click', ()=>{
     modalSaveIngredient.style.display = 'none';
   })
 }
 export async function saveNewIngredientInSupabase (){
-  let objIngredient = await getObjIngredient(modalSaveIngredient);
-  // let objIngredient = await getObjIngredient(oneIngredient);
-  // console.log(objIngredient)
-  isOpenModalLoad(true);
+  let objIngredient = getObjIngredient(modalSaveIngredient);
+  //добавление айдишника
+  let dataIngredients = await getDataIngredients();
+  objIngredient.id = dataIngredients.length+1;
+  isOpenModal(modalLoad,true)
+  // isOpenModalLoad(true);
   //сохранение в базу ингредиентов
   await setDataIngredients(objIngredient);
-  isOpenModalLoad(false);
-  modalSaveIngredient.style.display = "none";
-}
-function getCategoryByColor(color){  //string
-  if(colorPrimaryOne == color || colorPrimaryTwo == color || colorPrimaryThree == color){
-      return 'сырье'
-  }
-  else{
-      return 'специи'
-  }
-}
-function getSubcategoryByColor(color){  //string
-  if(color == colorPrimaryTwo){
-      return 'основные'
-  }
-  else if(color == colorPrimaryThree){
-      return 'непонятные'
-  }
-  else if(color == colorSecondaryOne){
-      return 'природные'
-  }
-  else if(color == colorSecondaryTwo){
-      return 'химозные'
-  }
-  else return 'несъедобные'
-}
-function getSubcategoryByCategory(category){  //string
-  if(category == CATEGORY[0]){ //сырье
-      return SUBCATEGORY_PRIMARY
-  } else return SUBCATEGORY_SECONDARY
-}
-function cleanList(list) {
-  while (list.firstChild) {
-    list.removeChild(list.firstChild);
-  }
+  isOpenModal(modalLoad,false);
+  // isOpenModalLoad(false);
+  isOpenModal(modalSaveIngredient,false);
+  // modalSaveIngredient.style.display = "none";
 }
 
-async function getObjIngredient(newElemListProduct){
-  let addingIngredient = newElemListProduct.querySelector('.adding-ingredient')
-  let oneIngredient = addingIngredient.querySelector('.adding-product__ingredient');
-  let name = oneIngredient.querySelector('[name="search-ingredient"]').value;
-  let subcategory = oneIngredient.querySelector('[name="search-subcategory"]').value;
-  let dataIngredients = await getDataIngredients();
-
-  let obj = {
-      id: dataIngredients.length+1,
-      name: name,
-      color: getColorBySubcategory(subcategory)
-  }
-  return obj;
-}
-function getColorBySubcategory(subcategory){  //string
-  if(subcategory == 'основные'){
-      return colorPrimaryTwo
-  }
-  else if(subcategory == 'непонятные'){
-      return colorPrimaryThree
-  }
-  else if(subcategory == 'природные'){
-      return colorSecondaryOne
-  }
-  else if(subcategory == 'химозные'){
-      return colorSecondaryTwo;
-  }
-  else if(subcategory == 'несъедобные'){
-      return colorSecondaryTree
-  }
-  else colorPrimaryOne
-}
-
-  //модалка для загрузки
-  const modalLoad = document.getElementById('modal-load');
-  function isOpenModalLoad(option){
-    if(option){
-      modalLoad.style.display = "block";
-    }
-    else{
-      modalLoad.style.display = "none";
-    }
-  }
 
 
 

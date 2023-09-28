@@ -13,17 +13,25 @@ import {
     roundN,
     liveSearch,
     arrSumToXLSX,
+    CATEGORY,
+    SUBCATEGORY_PRIMARY,
+    SUBCATEGORY_SECONDARY,
+    getCategoryByColor,
+    getSubcategoryByColor,
+    getCategory,
+    getSubcategory,
+    getSubcategoryByCategory,
+    getColorBySubcategory,
+    getObjProduct,
+    getObjIngredient,
+    isOpenModal,
+    cleanList,
+    fillRowIngredientInProduct,
   } from "./commonFunc.js";
   
   import {
     products,
   } from "../js/data.js";
-//   import {
-//     addElemLocalStorage,
-//     deleteElemLocalStorage,
-//     deleteLocalStorageSumProducts,
-//     deleteLocalStorageReport
-//   } from "../js2/software/storage.js";
   
 import {
     updateSupabaseByLocalStorage,
@@ -35,7 +43,9 @@ import {
     updateDataProducts,
     updateDataIngredients,
     getDataReport,
-    updateDataReport
+    updateDataReport,
+    getDataSum,
+    updateDataSum
   }from "../js2/software/supabase.js"
 
   import {
@@ -48,10 +58,8 @@ import {
   let nav = document.querySelector(".nav");
   navigationNav(nav);
 
-const CATEGORY = ['сырье', 'специи'];
-const SUBCATEGORY_PRIMARY = ['основные', 'непонятные'];
-const SUBCATEGORY_SECONDARY = ['природные', 'химозные', 'несъедобные'];
-
+//модалка для загрузки
+const modalLoad = document.getElementById('modal-load');
 
 const listData = document.getElementById("list-data");
 const elemListData = document.getElementById("elem-list-data");
@@ -62,13 +70,10 @@ const btnAddNewElem = document.getElementById('btn-add-new-elem');
 
 let saveProductBool = true;
 
-//разделить фарш
-//влезть название при распечатке
 
 window.addEventListener('load', ()=>{
     cleanList(listData);
     createListWithAlIProducts();
-
 
     // createListWithAlIngredients()
     // updateSupabaseIngredients()
@@ -95,28 +100,27 @@ btnShowIngredients.addEventListener('click', ()=>{
 
 
  async function createListWithAlIProducts(){
-    isOpenModalLoad(true)
+    isOpenModal(modalLoad, true);
+    // isOpenModalLoad(true)
     let data = await getDataProducts();
     // cleanList(listData);
         for (let i = 0; i < data.length; i++) {
             await createNewElemListProducts(data[i]);
         }
-    isOpenModalLoad(false)
+    isOpenModal(modalLoad, false);
+    // isOpenModalLoad(false)
   }
  async function createListWithAlIngredients(){
-    isOpenModalLoad(true)
+    isOpenModal(modalLoad, true);
+    // isOpenModalLoad(true)
     let data = await getDataIngredients();
     // cleanList(listData);
         for (let i = 0; i < data.length; i++) {
             createNewElemListIngredients(data[i]);
         }
-    isOpenModalLoad(false)
+    isOpenModal(modalLoad,false);
+    // isOpenModalLoad(false)
   }
-function cleanList(list) {
-    while (list.firstChild) {
-      list.removeChild(list.firstChild);
-    }
-}
 
 //---------------------------------
 async function createNewElemListProducts(elem) {
@@ -168,10 +172,10 @@ async function createNewElemListProducts(elem) {
     const btnUpdateProduct = addingProduct.querySelector('[name="btn-update-product"]')
     btnUpdateProduct.addEventListener('click', async ()=>{
         let objProduct = getObjProduct(newElemListProduct);
-        isOpenModalLoad(true);
+        isOpenModal(modalLoad, true);
         //здесь добавить проверку на наличие в ингредиентах ингредиента
         await updateDataProducts(objProduct, elem.id);
-        isOpenModalLoad(false);
+        isOpenModal(modalLoad, false);
         newElemListProduct.querySelector('[name="name-product"]').textContent = objProduct.name;
         newElemListProduct.querySelector('[name="value-product"]').textContent = objProduct.outputValue;
         addingProduct.style.display = 'none';
@@ -181,138 +185,8 @@ async function createNewElemListProducts(elem) {
         addingProduct.style.display = 'none'
     })
 }
-function getObjProduct(newElemListProduct){
-    let addingProduct = newElemListProduct.querySelector('.adding-product');
-    let name = addingProduct.querySelector('[name="name-new-product"]').value;
-    let output = +addingProduct.querySelector('[name="output"]').value;
-    let ingredients = addingProduct.querySelector('.adding-product__ingredients');
-    ingredients = ingredients.children;
-    let primary=[];
-    let count = 0;
-    let secondary=[];
-    let count2=0;
-    for(let i=2; i<ingredients.length; i++){
-        let objArr  =  {
-            nameIngredient: ingredients[i].querySelector('[name="search-ingredient"]').value,
-            amount: +ingredients[i].querySelector('[name="number-ingredient"]').value
-        }
-       if(ingredients[i].querySelector('[name="search-category"]').value == 'сырье'){
-            primary[count++] = objArr
-       }
-       else{
-            secondary[count2++] = objArr
-       }
-    }
-    let jsonprimary = JSON.stringify(primary)
-    let jsonsecondary = JSON.stringify(secondary)
 
-    let obj = {
-        name: name,
-        outputValue: output,
-        ingredientsPrimary: jsonprimary,
-        ingredientsSecondary: jsonsecondary,
-    }
-    return obj;
-}
-function fillRowIngredientInProduct(oneIngredient, ingredient, allIngredients, ingredients){
-    let newIngredient = oneIngredient.cloneNode(true);
-    newIngredient.classList.remove('hidden')
-
-    let searchIngredient = newIngredient.querySelector('[name="search-ingredient"]');
-    searchIngredient.value = ingredient.nameIngredient;
-    let selectIngredient = newIngredient.querySelector('[name="select-ingredient"]');
-
-    let searchCategory = newIngredient.querySelector('[name="search-category"]');
-    searchCategory.value = getCategory(allIngredients, ingredient.nameIngredient);
-    searchCategory.disabled = true
-    let selectCategory = newIngredient.querySelector('[name="select-category"]');
-
-    let searchSubcategory = newIngredient.querySelector('[name="search-subcategory"]');
-    searchSubcategory.value = getSubcategory(allIngredients, ingredient.nameIngredient);
-    searchSubcategory.disabled = true
-    let selectSubcategory = newIngredient.querySelector('[name="select-subcategory"]');
-
-    //вывод всех ингредиентов
-    // cleanList(listData);
-    allIngredients.forEach((elem) => {
-        let newOption = document.createElement("li");
-        newOption.textContent = elem.name;
-        selectIngredient.appendChild(newOption);
-
-        newOption.addEventListener("mousedown", (e) => {
-            searchIngredient.value = e.target.textContent;
-            //при смене ингредиента меняем категорию
-            searchCategory.value = getCategory(allIngredients, e.target.textContent);
-            searchSubcategory.value = getSubcategory(allIngredients, e.target.textContent);
-    });
-    });
-    //обработчик
-    searchIngredient.addEventListener("focus", () => {
-        // searchIngredient.value = "";
-        liveSearch(selectIngredient, searchIngredient);
-        selectIngredient.parentNode.classList.add('select-main')
-    });
-    searchIngredient.addEventListener("blur", () => {
-        let listOfElems = selectIngredient.children;
-        for (let i = 0; i < listOfElems.length; i++) {
-            listOfElems[i].style.display = "none";
-        }
-        selectIngredient.parentNode.classList.remove('select-main')
-    });
-    searchIngredient.addEventListener("keyup", () => {
-        liveSearch(selectIngredient, searchIngredient);
-    });
-
-    newIngredient.querySelector('[name="number-ingredient"]').value = ingredient.amount
-    ingredients.appendChild(newIngredient);
-
-    let deleteIngredient = newIngredient.querySelector('[name="btn-delete-ingredient"]')
-    deleteIngredient.addEventListener('click', ()=>{
-        ingredients.removeChild(newIngredient);
-    })
-
-}
-function getCategory(allIngredients, nameIngredient){  //string
-    for (let i=0; i<allIngredients.length; i++){
-        if(allIngredients[i].name == nameIngredient){
-            let color = allIngredients[i].color
-            if(colorPrimaryOne == color || colorPrimaryTwo == color || colorPrimaryThree == color){
-                return 'сырье'
-            }
-            else{
-                return 'специи'
-            }
-        }
-    }
-    return ''
-}
-function getSubcategory(allIngredients, nameIngredient){  //string
-    for (let i=0; i<allIngredients.length; i++){
-        if(allIngredients[i].name == nameIngredient){
-            let color = allIngredients[i].color
-            if(color == colorPrimaryTwo){
-                return 'основные'
-            }
-            else if(color == colorPrimaryThree){
-                return 'непонятные'
-            }
-            else if(color == colorSecondaryOne){
-                return 'природные'
-            }
-            else if(color == colorSecondaryTwo){
-                return 'химозные'
-            }
-            else return 'несъедобные'
-        }
-    }
-    return ''
-}
 //----------------------------------
-function getSubcategoryByCategory(category){  //string
-    if(category == CATEGORY[0]){ //сырье
-        return SUBCATEGORY_PRIMARY
-    } else return SUBCATEGORY_SECONDARY
-}
 function createNewElemListIngredients(elem) {
     let newElemListProduct = elemListData .cloneNode(true);
     newElemListProduct.querySelector('[name="name-product"]').textContent = elem.name;
@@ -417,17 +291,18 @@ function createNewElemListIngredients(elem) {
     const btnUpdateProduct = addingIngredient.querySelector('[name="btn-update-product"]')
     btnUpdateProduct.addEventListener('click', async ()=>{
         let objIngredient = getObjIngredient(newElemListProduct);
-        isOpenModalLoad(true);
+        isOpenModal(modalLoad, true);
+        //обновление ингредиента в базе
         await updateDataIngredients(objIngredient, elem.id);
         //обновление ингредиента во всех продуктах
-        // await updateAllProductByIngredient(elem.name, objIngredient);
-        //добавить обновление в отчете
-        await updateReportByIngredient(elem.name, objIngredient);
-        //добавить обновление в сумме
+        await updateAllProductByIngredient(elem.name, objIngredient);
+        //обновление в отчете
+        await updateReportByIngredient(elem.name, objIngredient);  //async
+        //обновление в сумме
+        await updateSumByIngredient(elem.name, objIngredient);  //async
 
 
-
-        isOpenModalLoad(false);
+        isOpenModal(modalLoad, false);
         newElemListProduct.querySelector('[name="name-product"]').textContent = objIngredient.name;
         newElemListProduct.querySelector('[name="value-product"]').textContent = getCategoryByColor(objIngredient.color)
         addingIngredient.style.display = 'none';
@@ -438,51 +313,104 @@ function createNewElemListIngredients(elem) {
     })
 }
 async function updateAllProductByIngredient(oldNameIngredient, objNewIngredient){
-    console.log(oldNameIngredient)
-    console.log(objNewIngredient.name)
-    let data = await getDataProducts();
-    for (let i = 0; i < data.length; i++) {
-        let ingredientsPrimarySupabase = JSON.parse(data[i].ingredientsPrimary);
-        let ingredientsSecondarySupabase = JSON.parse(data[i].ingredientsSecondary);
+    // console.log(oldNameIngredient);
+    // console.log(objNewIngredient.name);
+    let dataProducts = await getDataProducts();
+    let dataIngredients = await getDataIngredients();
+    //перебираем объекты-продукты
+    for (let i = 0; i < dataProducts.length; i++) {
+        let ingredientsPrimarySupabase = JSON.parse(dataProducts[i].ingredientsPrimary);
+        let ingredientsSecondarySupabase = JSON.parse(dataProducts[i].ingredientsSecondary);
+        let allIngredients = [...ingredientsPrimarySupabase, ...ingredientsSecondarySupabase];
+        let primary=[];
+        let count = 0;
+        let secondary=[];
+        let count2=0;
 
-        for(let j=0; j<ingredientsPrimarySupabase.length; j++){
-            if(ingredientsPrimarySupabase[j].nameIngredient == oldNameIngredient){
-                // console.log(data[i])
-
-                ingredientsPrimarySupabase[j].nameIngredient = objNewIngredient.name;
-
-                let jsonPrimary = JSON.stringify(ingredientsPrimarySupabase)
-                let jsonSecondary = JSON.stringify(ingredientsSecondarySupabase)
-
-                let obj = {
-                    name: data[i].name,
-                    outputValue: data[i].outputValue,
-                    ingredientsPrimary: jsonPrimary,
-                    ingredientsSecondary: jsonSecondary,
-                };
-                // console.log(obj)
-                await updateDataProducts(obj, data[i].id);
-                break;
+        for(let j=0; j<allIngredients.length; j++){
+            if(allIngredients[j].nameIngredient == oldNameIngredient){
+                allIngredients[j].nameIngredient = objNewIngredient.name;
+            }
+            // else break;
+            let objArr  =  {
+                nameIngredient: allIngredients[j].nameIngredient,
+                amount: allIngredients[j].amount,
+            }
+            if(getCategory(dataIngredients,allIngredients[j].nameIngredient) == CATEGORY[0]){ //сырье
+                primary[count++] = objArr
+            }
+            else{
+                secondary[count2++] = objArr
             }
         }
-        for(let j=0; j<ingredientsSecondarySupabase.length; j++){
-            if(ingredientsSecondarySupabase[j].nameIngredient == oldNameIngredient){
-                // console.log(data[i])
-                ingredientsSecondarySupabase[j].nameIngredient = objNewIngredient.name;
+        let jsonprimary = JSON.stringify(primary);
+        let jsonsecondary = JSON.stringify(secondary);
 
-                let jsonPrimary = JSON.stringify(ingredientsPrimarySupabase)
-                let jsonSecondary = JSON.stringify(ingredientsSecondarySupabase)
+        let obj = {
+            name: dataProducts[i].name,
+            outputValue: dataProducts[i].outputValue,
+            ingredientsPrimary: jsonprimary,
+            ingredientsSecondary: jsonsecondary,
+        }
 
-                let obj = {
-                    name: data[i].name,
-                    outputValue: data[i].outputValue,
-                    ingredientsPrimary: jsonPrimary,
-                    ingredientsSecondary: jsonSecondary,
-                };
-                // console.log(obj)
-                await updateDataProducts(obj, data[i].id);
-                break;
-            }
+        //здесь добавить проверку на наличие в ингредиентах ингредиента
+        await updateDataProducts(obj, dataProducts[i].id);
+
+
+        // for(let j=0; j<ingredientsPrimarySupabase.length; j++){
+        //     if(ingredientsPrimarySupabase[j].nameIngredient == oldNameIngredient){
+
+        //         ingredientsPrimarySupabase[j].nameIngredient = objNewIngredient.name;
+
+        //         let jsonPrimary = JSON.stringify(ingredientsPrimarySupabase)
+        //         let jsonSecondary = JSON.stringify(ingredientsSecondarySupabase)
+
+        //         let obj = {
+        //             name: data[i].name,
+        //             outputValue: data[i].outputValue,
+        //             ingredientsPrimary: jsonPrimary,
+        //             ingredientsSecondary: jsonSecondary,
+        //         };
+        //         // console.log(obj)
+        //         await updateDataProducts(obj, data[i].id);
+        //         break;
+        //     }
+        // }
+        // for(let j=0; j<ingredientsSecondarySupabase.length; j++){
+        //     if(ingredientsSecondarySupabase[j].nameIngredient == oldNameIngredient){
+        //         // console.log(data[i])
+        //         ingredientsSecondarySupabase[j].nameIngredient = objNewIngredient.name;
+
+        //         let jsonPrimary = JSON.stringify(ingredientsPrimarySupabase)
+        //         let jsonSecondary = JSON.stringify(ingredientsSecondarySupabase)
+
+        //         let obj = {
+        //             name: data[i].name,
+        //             outputValue: data[i].outputValue,
+        //             ingredientsPrimary: jsonPrimary,
+        //             ingredientsSecondary: jsonSecondary,
+        //         };
+        //         // console.log(obj)
+        //         await updateDataProducts(obj, data[i].id);
+        //         break;
+        //     }
+        // }
+    }
+}
+async function updateSumByIngredient(oldNameIngredient, objNewIngredient){
+    let data = await getDataSum();
+    for (let j = 0; j < data.length; j++) {
+        if(data[j].nameIngredient == oldNameIngredient){
+            data[j].nameIngredient = objNewIngredient.name;
+            data[j].color = objNewIngredient.color;
+
+            let obj = {
+                nameIngredient: data[j].nameIngredient,
+                amount: data[j].amount,
+                color: data[j].color,
+            };
+            await updateDataSum(obj, data[j].id);
+            break;
         }
     }
 }
@@ -507,61 +435,6 @@ async function updateReportByIngredient(oldNameIngredient, objNewIngredient){
         }
     }
 }
-function getCategoryByColor(color){  //string
-    if(colorPrimaryOne == color || colorPrimaryTwo == color || colorPrimaryThree == color){
-        return 'сырье'
-    }
-    else{
-        return 'специи'
-    }
-}
-function getSubcategoryByColor(color){  //string
-    if(color == colorPrimaryTwo){
-        return 'основные'
-    }
-    else if(color == colorPrimaryThree){
-        return 'непонятные'
-    }
-    else if(color == colorSecondaryOne){
-        return 'природные'
-    }
-    else if(color == colorSecondaryTwo){
-        return 'химозные'
-    }
-    else return 'несъедобные'
-}
-function getObjIngredient(newElemListProduct){
-    let addingIngredient = newElemListProduct.querySelector('.adding-ingredient')
-    let oneIngredient = addingIngredient.querySelector('.adding-product__ingredient');
-    let name = oneIngredient.querySelector('[name="search-ingredient"]').value;
-    let subcategory = oneIngredient.querySelector('[name="search-subcategory"]').value
-
-    let obj = {
-        name: name,
-        color: getColorBySubcategory(subcategory)
-    }
-    return obj;
-}
-function getColorBySubcategory(subcategory){  //string
-    if(subcategory == 'основные'){
-        return colorPrimaryTwo
-    }
-    else if(subcategory == 'непонятные'){
-        return colorPrimaryThree
-    }
-    else if(subcategory == 'природные'){
-        return colorSecondaryOne
-    }
-    else if(subcategory == 'химозные'){
-        return colorSecondaryTwo;
-    }
-    else if(subcategory == 'несъедобные'){
-        return colorSecondaryTree
-    }
-    else colorPrimaryOne
-}
-
-
 
 
 //----------------------------------
@@ -638,7 +511,8 @@ function getColorBySubcategory(subcategory){  //string
 
 }
   export async function updateSupabaseIngredients(){
-    isOpenModalLoad(true)
+    isOpenModal(modalLoad, true);
+    // isOpenModalLoad(true)
 
     //массив всех ингредиентов
     let arrForAddingInSupabse = []
@@ -750,7 +624,8 @@ function getColorBySubcategory(subcategory){  //string
     //       await setDataIngredients(obj);
     //     }
     // }
-    isOpenModalLoad(false)
+    isOpenModal(modalLoad, false);
+    // isOpenModalLoad(false)
 }
 
 //РЕАЛИЗАЦИЯ ПОИСКА
@@ -764,17 +639,6 @@ search.addEventListener("keyup", () => {
   liveSearch(listData, search);
 });
 
-  //модалка для загрузки
-  const modalLoad = document.getElementById('modal-load');
-  function isOpenModalLoad(option){
-    if(option){
-      modalLoad.style.display = "block";
-    }
-    else{
-      modalLoad.style.display = "none";
-    }
-  }
-
   //модалка для добавления нового ингредиента/продукта
   const modalSaveProduct = document.getElementById('modal-save-product');
   const modalSaveIngredient = document.getElementById('modal-save-ingredient');
@@ -782,11 +646,13 @@ search.addEventListener("keyup", () => {
 
   btnAddNewElem.addEventListener('click', ()=>{
     if(saveProductBool){
-        modalSaveProduct.style.display = "block";
+        isOpenModal(modalSaveProduct,true);
+        // modalSaveProduct.style.display = "block";
         btnUpdateProduct = modalSaveProduct.querySelector('[name="btn-update-product"]');
     }
     else {
-        modalSaveIngredient.style.display = "block";
+        isOpenModal(modalSaveIngredient, true);
+        // modalSaveIngredient.style.display = "block";
         btnUpdateProduct = modalSaveIngredient.querySelector('[name="btn-update-product"]');
     }
   })
@@ -809,15 +675,3 @@ search.addEventListener("keyup", () => {
         await createListWithAlIngredients();
     }
   })
-
-
-//модалка для добавление нового ингредиента
-
-// btnUpdateProduct.addEventListener('click', async ()=>{
-//   //сохранение в базу
-//   await saveNewIngredientInSupabase ();
-//   //обновление списка
-//   cleanList(listData);
-//   createListWithAlIngredients();
-// //   await createListWithAllIngredients();
-// })
