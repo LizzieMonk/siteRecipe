@@ -150,6 +150,7 @@ input {
     min-width: 60px;
     font-size: 16px;
     transition: $transition;
+    // position: relative;
     &:hover{
         background: transparent;
         border: 1px solid transparent;
@@ -180,6 +181,21 @@ input {
             box-shadow: none;
         }
     }
+    // &__plus-func{
+    //     background: $color-primary-two;
+    //     // height: 24px;
+    //     // width: 24px;
+    //     position: absolute;
+    //     top: -12px;
+    //     right: -12px;
+    //     border-radius: 50%;
+    //     // text-align: center;
+    //     span{
+    //         background: red;
+    //         height: 24px;
+    //         min-width: 24px;
+    //     }
+    // }
 }
 
 /*--------------------TABLES--------------------*/

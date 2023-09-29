@@ -64,25 +64,27 @@ btnReportUpdateAmount.addEventListener("click", () => {
   updateAmount();
 });
 async function updateAmount(){
-//обнуление всех расходов
-for (let j = 0; j < localStorage.length; j++) {
-  let key = localStorage.key(j);
-  //получение значений продукта
-  let product = JSON.parse(localStorage.getItem(key));
-  if(!product.nameProduct){
-    //сохранение продукта в локальное хранилище
-    let keyNameProduct = product.name; //название ингредиента - ключ
-    let obj = {
-      name: product.name,
-      remainder: product.remainder,
-      coming: product.coming,
-      amount: 0,
-      sum: product.sum,
-      color: product.color,
-    };
-    addElemLocalStorage(obj, keyNameProduct);
-  }
-}
+// //обнуление всех расходов
+// for (let j = 0; j < localStorage.length; j++) {
+//   let key = localStorage.key(j);
+//   //получение значений продукта
+//   let product = JSON.parse(localStorage.getItem(key));
+//   if(!product.nameProduct){
+//     //сохранение продукта в локальное хранилище
+//     let keyNameProduct = product.name; //название ингредиента - ключ
+//     let obj = {
+//       name: product.name,
+//       remainder: product.remainder,
+//       coming: product.coming,
+//       amount: 0,
+//       sum: product.sum,
+//       color: product.color,
+//     };
+//     addElemLocalStorage(obj, keyNameProduct);
+//   }
+// }
+
+
 //обновление имеющихся расходов
 //глубокое копирование списка с суммой
 // let arrSumToXLSXClone = structuredClone(arrSumToXLSX);
