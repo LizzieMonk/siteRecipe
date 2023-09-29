@@ -45,7 +45,9 @@ import {
     getDataReport,
     updateDataReport,
     getDataSum,
-    updateDataSum
+    updateDataSum,
+    getDataSumProducts,
+    updateDataSumProducts
   }from "../js2/software/supabase.js"
 
   import {
@@ -176,7 +178,9 @@ async function createNewElemListProducts(elem) {
         //здесь добавить проверку на наличие в ингредиентах ингредиента
         //обновление продукта в базе
         await updateDataProducts(objProduct, elem.id);
-        //добавить обновление в сумме продуктов
+        //обновление продукта в сумме продуктов
+        await updateSumProductsByProduct(elem.name, objProduct);
+
         isOpenModal(modalLoad, false);
         newElemListProduct.querySelector('[name="name-product"]').textContent = objProduct.name;
         newElemListProduct.querySelector('[name="value-product"]').textContent = objProduct.outputValue;
@@ -186,6 +190,22 @@ async function createNewElemListProducts(elem) {
     btnDeleteProduct.addEventListener('click', ()=>{
         addingProduct.style.display = 'none'
     })
+}
+async function updateSumProductsByProduct(oldNameIngredient, objNewIngredient){
+    let data = await getDataSumProducts();
+    for (let j = 0; j < data.length; j++) {
+        if(data[j].nameProduct == oldNameIngredient){
+            data[j].nameProduct = objNewIngredient.name;
+
+            let obj = {
+                nameProduct: data[j].nameProduct,
+                outputValue: data[j].outputValue,
+            };
+
+            await updateDataSumProducts(obj, data[j].id);
+            break;
+        }
+    }
 }
 
 //----------------------------------
