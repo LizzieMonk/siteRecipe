@@ -340,8 +340,12 @@ input {
             // box-shadow: 0 0 10px $color-grey;
             span, input{
                 // padding: 10px;
+                background: transparent;
+            }
+            .ul-report__remainder.hide{
                 background: $color-white;
             }
+
         }
     }
     // .ul-report__name

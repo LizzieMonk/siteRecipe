@@ -338,6 +338,9 @@ input {
   transition: all 400ms ease;
 }
 .ul-report li:hover span, .ul-report li:hover input {
+  background: transparent;
+}
+.ul-report li:hover .ul-report__remainder.hide {
   background: #fff;
 }
 .ul-report__name {

@@ -975,9 +975,12 @@ async function createListWithAllIngredients(){
   //обработчик
   searchIngredient.addEventListener("focus", () => {
     searchIngredient.value = "";
+    liveSearch(selectIngredient, searchIngredient);
+
+    search.value = "";
+    liveSearch(listReport, search);
     btnReportAddIngredientInList.disabled = true;
     btnReportAddIngredientInList.classList.add('btn_passive')
-    liveSearch(selectIngredient, searchIngredient);
   });
   searchIngredient.addEventListener("blur", () => {
     let listOfElems = selectIngredient.children;
@@ -995,6 +998,10 @@ btnReportAddIngredientInList.addEventListener('click', ()=>{
   addIngredientInList();
 })
 async function addIngredientInList(){
+  //блокировка кнопки
+  btnReportAddIngredientInList.disabled = true;
+  btnReportAddIngredientInList.classList.add('btn_passive');
+
   console.log(searchIngredient.value);
   //сохранение выбранного ингредиента в локальное хранилище
   let dataIngredients = await getDataIngredients(); //{color, name}
