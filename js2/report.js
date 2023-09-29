@@ -13,6 +13,7 @@ import {
   roundN,
   liveSearch,
   arrSumToXLSX,
+  cleanList,
 } from "./commonFunc.js";
 
 import {
@@ -855,11 +856,6 @@ window.addEventListener("load", () => {
 
   importData(); //async
 });
-export function cleanList(list) {
-  while (list.firstChild) {
-    list.removeChild(list.firstChild);
-  }
-}
 
 
 //РЕАЛИЗАЦИЯ ПОИСКА
@@ -890,24 +886,6 @@ async function importData(){
   cleanList(listReport);
   createNewElemList();
 }
-
-
-
-//модалка для добавление нового ингредиента
-const modalSaveIngredient = document.getElementById('modal-save-ingredient');
-btnAddNewIngredient.addEventListener('click', ()=>{
-  modalSaveIngredient.style.display = "block";
-})
-const btnUpdateProduct = modalSaveIngredient.querySelector('[name="btn-update-product"]');
-
-btnUpdateProduct.addEventListener('click', async ()=>{
-  //сохранение в базу
-  await saveNewIngredientInSupabase ();
-  //обновление списка
-  //очищение списка????
-  await createListWithAllIngredients();
-})
-
 
 
 
@@ -1029,3 +1007,20 @@ async function addIngredientInList(){
     //добавление в список
     addInList(obj);
 }
+
+
+//модалка для добавление нового ингредиента
+const modalSaveIngredient = document.getElementById('modal-save-ingredient');
+btnAddNewIngredient.addEventListener('click', ()=>{
+  modalSaveIngredient.style.display = "block";
+})
+const btnUpdateProduct = modalSaveIngredient.querySelector('[name="btn-update-product"]');
+
+btnUpdateProduct.addEventListener('click', async ()=>{
+  //сохранение в базу
+  await saveNewIngredientInSupabase ();
+  //обновление списка
+  //очищение списка
+  cleanList(selectIngredient);
+  await createListWithAllIngredients();
+})

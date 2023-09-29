@@ -42,7 +42,7 @@ export function cleanList(list) {
     while (list.firstChild) {
       list.removeChild(list.firstChild);
     }
-  }
+}
 
 //---------------------------------пересмотреть логику
 export let arrProductToXLSX =[];
