@@ -182,95 +182,95 @@ btnReportCalcSum.addEventListener("click", () => {
   // updateStorageInput();
 });
 btnAddAllIngredients.addEventListener("click", () => {
-  //очистка хранилища и списка
-  // localStorage.clear();
-  deleteLocalStorageReport()
-  cleanList(listReport);
-  //заполнение хранилища
-  for (let i = 0; i < products.length; i++) {
-    products[i].ingredientsPrimary.forEach((ingredient) => {
-      let keyNameProduct = ingredient.nameIngredient; //название ингредиента - ключ
-      let obj = {
-        name: ingredient.nameIngredient,
-        remainder: 0,
-        coming: 0,
-        amount: 0,
-        sum: 0,
-        color: setColorPrimary(ingredient),
-      };
-      addElemLocalStorage(obj, keyNameProduct);
-      // console.log(ingredient.nameIngredient)
-    });
-    products[i].ingredientsSecondary.forEach((ingredient) => {
-      let keyNameProduct = ingredient.nameIngredient; //название ингредиента - ключ
-      let obj = {
-        name: ingredient.nameIngredient,
-        remainder: 0,
-        coming: 0,
-        amount: 0,
-        sum: 0,
-        color: setColorSecondary(ingredient),
-      };
-      addElemLocalStorage(obj, keyNameProduct);
-      // console.log(ingredient.nameIngredient)
-    });
-  }
-  function setColorPrimary(ingredient) {
-    if (
-      ingredient.nameIngredient.includes("орех") ||
-      ingredient.nameIngredient.includes("изолят") ||
-      ingredient.nameIngredient.includes("клетчатка") ||
-      ingredient.nameIngredient.includes("крахмал") ||
-      ingredient.nameIngredient.includes("крупа") ||
-      ingredient.nameIngredient.includes("лук") ||
-      ingredient.nameIngredient.includes("меланж") ||
-      ingredient.nameIngredient.includes("мука") ||
-      ingredient.nameIngredient.includes("молоко")
-    ) return colorPrimaryThree;
-    else return colorPrimaryTwo;
-  }
-  function setColorSecondary(ingredient) {
-    if (
-      ingredient.nameIngredient.includes("черева") ||
-      ingredient.nameIngredient.includes("шпагат") ||
-      ingredient.nameIngredient.includes("фиброуз") ||
-      ingredient.nameIngredient.includes("пакет") ||
-      ingredient.nameIngredient.includes("скрепки") ||
-      ingredient.nameIngredient.includes("скрепки") ||
-      ingredient.nameIngredient.includes("петли") ||
-      ingredient.nameIngredient.includes("петли") ||
-      ingredient.nameIngredient.includes("коллаген") ||
-      ingredient.nameIngredient.includes("контейнер") ||
-      ingredient.nameIngredient.includes("тарелка")
-    )
-      return colorSecondaryTree;
-    else if (
-      ingredient.nameIngredient.includes("соль") ||
-      ingredient.nameIngredient.includes("пнс") ||
-      ingredient.nameIngredient.includes("крахмал") ||
-      ingredient.nameIngredient.includes("молоко") ||
-      ingredient.nameIngredient.includes("порошок") ||
-      ingredient.nameIngredient.includes("манная") ||
-      ingredient.nameIngredient.includes("лук") ||
-      ingredient.nameIngredient.includes("перец") ||
-      ingredient.nameIngredient.includes("кориандр") ||
-      ingredient.nameIngredient.includes("масло") ||
-      ingredient.nameIngredient.includes("семена") ||
-      ingredient.nameIngredient.includes("гречневая") ||
-      ingredient.nameIngredient.includes("орех") ||
-      ingredient.nameIngredient.includes("мука") ||
-      ingredient.nameIngredient.includes("чеснок") ||
-      ingredient.nameIngredient.includes("тмин") ||
-      ingredient.nameIngredient.includes("изолят") ||
-      ingredient.nameIngredient.includes("лист") ||
-      ingredient.nameIngredient.includes("клетчатка")
-    )
-      return colorSecondaryOne;
-    else return colorSecondaryTwo;
-  }
+  // //очистка хранилища и списка
+  // // localStorage.clear();
+  // deleteLocalStorageReport()
+  // cleanList(listReport);
+  // //заполнение хранилища
+  // for (let i = 0; i < products.length; i++) {
+  //   products[i].ingredientsPrimary.forEach((ingredient) => {
+  //     let keyNameProduct = ingredient.nameIngredient; //название ингредиента - ключ
+  //     let obj = {
+  //       name: ingredient.nameIngredient,
+  //       remainder: 0,
+  //       coming: 0,
+  //       amount: 0,
+  //       sum: 0,
+  //       color: setColorPrimary(ingredient),
+  //     };
+  //     addElemLocalStorage(obj, keyNameProduct);
+  //     // console.log(ingredient.nameIngredient)
+  //   });
+  //   products[i].ingredientsSecondary.forEach((ingredient) => {
+  //     let keyNameProduct = ingredient.nameIngredient; //название ингредиента - ключ
+  //     let obj = {
+  //       name: ingredient.nameIngredient,
+  //       remainder: 0,
+  //       coming: 0,
+  //       amount: 0,
+  //       sum: 0,
+  //       color: setColorSecondary(ingredient),
+  //     };
+  //     addElemLocalStorage(obj, keyNameProduct);
+  //     // console.log(ingredient.nameIngredient)
+  //   });
+  // }
+  // function setColorPrimary(ingredient) {
+  //   if (
+  //     ingredient.nameIngredient.includes("орех") ||
+  //     ingredient.nameIngredient.includes("изолят") ||
+  //     ingredient.nameIngredient.includes("клетчатка") ||
+  //     ingredient.nameIngredient.includes("крахмал") ||
+  //     ingredient.nameIngredient.includes("крупа") ||
+  //     ingredient.nameIngredient.includes("лук") ||
+  //     ingredient.nameIngredient.includes("меланж") ||
+  //     ingredient.nameIngredient.includes("мука") ||
+  //     ingredient.nameIngredient.includes("молоко")
+  //   ) return colorPrimaryThree;
+  //   else return colorPrimaryTwo;
+  // }
+  // function setColorSecondary(ingredient) {
+  //   if (
+  //     ingredient.nameIngredient.includes("черева") ||
+  //     ingredient.nameIngredient.includes("шпагат") ||
+  //     ingredient.nameIngredient.includes("фиброуз") ||
+  //     ingredient.nameIngredient.includes("пакет") ||
+  //     ingredient.nameIngredient.includes("скрепки") ||
+  //     ingredient.nameIngredient.includes("скрепки") ||
+  //     ingredient.nameIngredient.includes("петли") ||
+  //     ingredient.nameIngredient.includes("петли") ||
+  //     ingredient.nameIngredient.includes("коллаген") ||
+  //     ingredient.nameIngredient.includes("контейнер") ||
+  //     ingredient.nameIngredient.includes("тарелка")
+  //   )
+  //     return colorSecondaryTree;
+  //   else if (
+  //     ingredient.nameIngredient.includes("соль") ||
+  //     ingredient.nameIngredient.includes("пнс") ||
+  //     ingredient.nameIngredient.includes("крахмал") ||
+  //     ingredient.nameIngredient.includes("молоко") ||
+  //     ingredient.nameIngredient.includes("порошок") ||
+  //     ingredient.nameIngredient.includes("манная") ||
+  //     ingredient.nameIngredient.includes("лук") ||
+  //     ingredient.nameIngredient.includes("перец") ||
+  //     ingredient.nameIngredient.includes("кориандр") ||
+  //     ingredient.nameIngredient.includes("масло") ||
+  //     ingredient.nameIngredient.includes("семена") ||
+  //     ingredient.nameIngredient.includes("гречневая") ||
+  //     ingredient.nameIngredient.includes("орех") ||
+  //     ingredient.nameIngredient.includes("мука") ||
+  //     ingredient.nameIngredient.includes("чеснок") ||
+  //     ingredient.nameIngredient.includes("тмин") ||
+  //     ingredient.nameIngredient.includes("изолят") ||
+  //     ingredient.nameIngredient.includes("лист") ||
+  //     ingredient.nameIngredient.includes("клетчатка")
+  //   )
+  //     return colorSecondaryOne;
+  //   else return colorSecondaryTwo;
+  // }
 
-  //вывод хранилища в список
-  createNewElemList();
+  // //вывод хранилища в список
+  // createNewElemList();
 });
 
 

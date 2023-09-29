@@ -488,6 +488,21 @@ function createNewElemList(arrElems, list, child, firstPosition) {
   }
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorSecondaryTwo) {
+      //добавление пустых объектов(муляж) для нормальной печати
+      while (addEmptyObj != 0) {
+        // arrProductToXLSX[countArrProductToXLSX++] = {
+        //   nameIngredient: "",
+        //   amount: "",
+        //   color: "",
+        // };
+        setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, {
+          nameIngredient: "",
+          amount: "",
+          color: "",
+        })
+        addEmptyObj--;
+      }
+
       let newElemListProduct = child.cloneNode(true);
       newElemListProduct.querySelector('[name="name-product"]').textContent =
         arrElems[i].nameIngredient;

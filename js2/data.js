@@ -174,7 +174,9 @@ async function createNewElemListProducts(elem) {
         let objProduct = getObjProduct(newElemListProduct);
         isOpenModal(modalLoad, true);
         //здесь добавить проверку на наличие в ингредиентах ингредиента
+        //обновление продукта в базе
         await updateDataProducts(objProduct, elem.id);
+        //добавить обновление в сумме продуктов
         isOpenModal(modalLoad, false);
         newElemListProduct.querySelector('[name="name-product"]').textContent = objProduct.name;
         newElemListProduct.querySelector('[name="value-product"]').textContent = objProduct.outputValue;

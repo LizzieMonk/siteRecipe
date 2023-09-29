@@ -74,6 +74,13 @@ btnExportProduct.addEventListener('click', ()=>{
                             {hpx: 20},
                             {hpx: 30}]
 
+    // worksheet["!merges"].push(XLSX.utils.decode_range("A1:B1"));
+    worksheet["!merges"] = [{
+                                //r-строка c-колонка
+                                s: { r: 1, c: 0 }, // s ("start"): c = 1 r = 2 -> "B3"
+                                e: { r: 1, c: 2 }  // e ("end"):   c = 4 r = 3 -> "E4"
+                            }];
+
     // создаем xlsx файл и пробуем сохранить его локально
     // XLSX.writeFile(workbook, "Product.xlsx", { compression: true });
     XLSX.writeFile(workbook, "Product.xlsx");
@@ -224,6 +231,11 @@ btnExportAll.addEventListener('click', ()=>{
                             {hpx: 40},
                             {hpx: 20},
                             {hpx: 30}]
+        worksheet["!merges"] = [{
+                                //r-строка c-колонка
+                                s: { r: 1, c: 0 }, // s ("start"): c = 1 r = 2 -> "B3"
+                                e: { r: 1, c: 2 }  // e ("end"):   c = 4 r = 3 -> "E4"
+                            }];
     }
 
     // создаем xlsx файл и пробуем сохранить его локально
@@ -277,6 +289,17 @@ function filterArrProduct(arrElem) {
     }
     for (let i = 1; i < arrElem.length; i++) {
       if (arrElem[i].color == colorSecondaryTwo) {
+
+        //добавление пустых объектов(муляж) для нормальной печати
+        while(addEmptyObj!=0){
+            newElemArr[countNewElemArr++] = {
+            nameIngredient:'',
+            amount:'',
+            color:''
+        }
+        addEmptyObj--;
+        }
+
         newElemArr[countNewElemArr++] = arrElem[i]
         }
     }
