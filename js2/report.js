@@ -90,7 +90,7 @@ for (let i = 0; i < arrSumToXLSXClone.length; i++) {
   let repeat = false;
   for (let j = 0; j < localStorage.length; j++) {
     let key = localStorage.key(j);
-    //если в хранилище уже есть этот продукт, обновляем только расход
+    //если в хранилище уже есть этот продукт, обновляем только расход/цвет
     if (key === arrSumToXLSXClone[i].nameIngredient) {
       repeat = true;
       //получение значений продукта
@@ -136,27 +136,34 @@ btnReportDeleteStorage.addEventListener("click", () => {
   // createNewElemList();
 });
 btnReportUpdateRemainder.addEventListener("click", () => {
-  for (let j = 0; j < localStorage.length; j++) {
-    let key = localStorage.key(j);
-    //получение значений продукта
-    let product = JSON.parse(localStorage.getItem(key));
-    if(!product.nameProduct){
-      //сохранение продукта в локальное хранилище
-      let keyNameProduct = product.name; //название ингредиента - ключ
-      let obj = {
-        name: product.name,
-        remainder: product.sum,
-        coming: 0,
-        amount: 0,
-        sum: 0,
-        color: product.color,
-      };
-      addElemLocalStorage(obj, keyNameProduct);
+  if(accessToUpdateRemainder()){
+    for (let j = 0; j < localStorage.length; j++) {
+      let key = localStorage.key(j);
+      //получение значений продукта
+      let product = JSON.parse(localStorage.getItem(key));
+      if(!product.nameProduct){
+        //сохранение продукта в локальное хранилище
+        let keyNameProduct = product.name; //название ингредиента - ключ
+        let obj = {
+          name: product.name,
+          remainder: product.sum,
+          coming: 0,
+          amount: 0,
+          sum: 0,
+          color: product.color,
+        };
+        addElemLocalStorage(obj, keyNameProduct);
+
+        //если остаток(сумма)=0 удаляем его со списка
+        if(obj.remainder == 0){
+          deleteElemLocalStorage(keyNameProduct);
+          j--;
+        }
+      }
     }
+    cleanList(listReport);
+    createNewElemList();
   }
-  cleanList(listReport);
-  createNewElemList();
-  // updateStorageInput();
 });
 btnReportCalcSum.addEventListener("click", () => {
   for (let j = 0; j < localStorage.length; j++) {
@@ -273,6 +280,30 @@ btnAddAllIngredients.addEventListener("click", () => {
   // createNewElemList();
 });
 
+function accessToUpdateRemainder(){
+  let disabledBtn = true;
+  let countNullSum = 0;
+  let countLenghtReportStorage = 0;
+  for (let j = 0; j < localStorage.length; j++) {
+    let key = localStorage.key(j);
+    //получение значений продукта
+    let product = JSON.parse(localStorage.getItem(key));
+    if(!product.nameProduct){
+      countLenghtReportStorage++;
+      //если приход(сумма)=0 удаляем его со списка
+      if(product.sum == 0){
+        countNullSum++;
+      }
+    }
+  }
+  if(countLenghtReportStorage == countNullSum){
+    disabledBtn = false;
+  }
+  // console.log('длина хранилища: ',countLenghtReportStorage);
+  // console.log('кол-во нулей:         ',countNullSum);
+  // console.log(disabledBtn);
+  return disabledBtn;
+}
 
 btnExportReport.addEventListener("click", () => {
   let arr = [];
@@ -822,7 +853,7 @@ window.addEventListener("load", () => {
   // cleanList(listReport);
   // createNewElemList();
 
-  importData();
+  importData(); //async
 });
 export function cleanList(list) {
   while (list.firstChild) {

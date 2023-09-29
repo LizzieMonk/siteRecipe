@@ -212,17 +212,13 @@ input {
         flex-direction: row;
         justify-content: space-between;
         transition: $transition;
-        &:hover{
-            box-shadow: 0 0 10px $color-grey;
-            z-index: 10;
-            span{
-                padding: 10px;
-            }
-            // .ul__name, .ul__amount{
-            //     border-left: 0.5px solid transparent;
-            //     border-right: 0.5px solid transparent;
-            // }
-        }
+        // &:hover{
+        //     box-shadow: 0 0 10px $color-grey;
+        //     z-index: 10;
+        //     span{
+        //         padding: 10px;
+        //     }
+        // }
     }
     // .ul__name
     &__name {
@@ -240,6 +236,16 @@ input {
     &_last{
         .ul__amount {
             border-right: 1px solid $color-black;
+        }
+        li{
+            &:hover{
+                // box-shadow: 0 0 10px $color-grey;
+                // z-index: 10;
+                span{
+                    // padding: 10px;
+                    background: $color-primary-two;
+                }
+            }
         }
     }
     .delete{
@@ -330,10 +336,11 @@ input {
         justify-content: space-between;
         transition: $transition;
         &:hover{
-            z-index: 10;
-            box-shadow: 0 0 10px $color-grey;
+            // z-index: 10;
+            // box-shadow: 0 0 10px $color-grey;
             span, input{
-                padding: 10px;
+                // padding: 10px;
+                background: $color-white;
             }
         }
     }
@@ -487,15 +494,12 @@ input {
             justify-content: space-between;
             transition: $transition;
             &:hover{
-                box-shadow: 0 0 10px $color-grey;
-                z-index: 10;
+                // box-shadow: 0 0 10px $color-grey;
+                // z-index: 10;
                 span{
-                    padding: 10px;
+                    // padding: 10px;
+                    background: $color-primary-two;
                 }
-                // .ul__name, .ul__amount{
-                //     border-left: 0.5px solid transparent;
-                //     border-right: 0.5px solid transparent;
-                // }
             }
         }
         // .ul__name
