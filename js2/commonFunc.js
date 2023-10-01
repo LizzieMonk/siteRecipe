@@ -178,6 +178,15 @@ export function getColorBySubcategory(subcategory){  //string
 }
 
 
+export function getColorByIngredient(allIngredients, nameIngredient){
+    for(let i=0; i<allIngredients.length;i++){
+      if(allIngredients[i].name == nameIngredient){
+        return allIngredients[i].color; //colorPrimaryOne, colorSecondaryOne...
+      }
+    }
+}
+
+
 export function getObjProduct(newElemListProduct){
     let addingProduct = newElemListProduct.querySelector('.adding-product');
     let name = addingProduct.querySelector('[name="name-new-product"]').value;
@@ -295,3 +304,90 @@ export function fillRowIngredientInProduct(oneIngredient, ingredient, allIngredi
     })
 
 }
+
+
+export function createWorkSheet(arr){
+    //создаем рабочий лист
+    const worksheet = XLSX.utils.json_to_sheet(arr);
+    //исправить заголовки начиная с а1
+    XLSX.utils.sheet_add_aoa(worksheet, [["", "", ""]], { origin: "A1" });
+    //рассчитать ширину столбца на 100 символов
+    // const max_width = 300;
+    worksheet["!cols"] = [ { wpx: 197 }, //a
+                            { wpx: 50}, //b
+                            { wpx: 200} ];//c
+    // const max_height = 20
+    worksheet["!rows"] = [{ hpx: 40},
+                            {hpx: 40},
+                            {hpx: 40},
+                            {hpx: 20},
+                            {hpx: 30}]
+
+    // worksheet["!merges"].push(XLSX.utils.decode_range("A1:B1"));
+    worksheet["!merges"] = [{
+                                //r-строка c-колонка
+                                s: { r: 1, c: 0 }, // s ("start"): c = 1 r = 2 -> "B3"
+                                e: { r: 1, c: 2 }  // e ("end"):   c = 4 r = 3 -> "E4"
+                            }];
+
+}
+
+
+
+// function setColorPrimary(ingredient) {
+//     if (
+//       ingredient.nameIngredient.includes("орех") ||
+//       ingredient.nameIngredient.includes("изолят") ||
+//       ingredient.nameIngredient.includes("клетчатка") ||
+//       ingredient.nameIngredient.includes("крахмал") ||
+//       ingredient.nameIngredient.includes("крупа") ||
+//       ingredient.nameIngredient.includes("лук") ||
+//       ingredient.nameIngredient.includes("меланж") ||
+//       ingredient.nameIngredient.includes("мука") ||
+//       ingredient.nameIngredient.includes("молоко")
+//     )
+//       return colorPrimaryThree;
+//     else return colorPrimaryTwo;
+//   }
+//   function setColorSecondary(ingredient) {
+//     if (
+//       ingredient.nameIngredient.includes("черева") ||
+//       ingredient.nameIngredient.includes("шпагат") ||
+//       ingredient.nameIngredient.includes("фиброуз") ||
+//       ingredient.nameIngredient.includes("пакет") ||
+//       ingredient.nameIngredient.includes("скрепки") ||
+//       ingredient.nameIngredient.includes("скрепки") ||
+//       ingredient.nameIngredient.includes("петли") ||
+//       ingredient.nameIngredient.includes("петли") ||
+//       ingredient.nameIngredient.includes("коллаген") ||
+//       ingredient.nameIngredient.includes("контейнер") ||
+//       ingredient.nameIngredient.includes("амипак") ||
+//       ingredient.nameIngredient.includes("бига") ||
+//       ingredient.nameIngredient.includes("синюги") ||
+//       ingredient.nameIngredient.includes("тарелка")
+//     )
+//       return colorSecondaryTree;
+//     else if (
+//       ingredient.nameIngredient.includes("соль") ||
+//       ingredient.nameIngredient.includes("пнс") ||
+//       ingredient.nameIngredient.includes("крахмал") ||
+//       ingredient.nameIngredient.includes("молоко") ||
+//       ingredient.nameIngredient.includes("порошок") ||
+//       ingredient.nameIngredient.includes("манная") ||
+//       ingredient.nameIngredient.includes("лук") ||
+//       ingredient.nameIngredient.includes("перец") ||
+//       ingredient.nameIngredient.includes("кориандр") ||
+//       ingredient.nameIngredient.includes("масло") ||
+//       ingredient.nameIngredient.includes("семена") ||
+//       ingredient.nameIngredient.includes("гречневая") ||
+//       ingredient.nameIngredient.includes("орех") ||
+//       ingredient.nameIngredient.includes("мука") ||
+//       ingredient.nameIngredient.includes("чеснок") ||
+//       ingredient.nameIngredient.includes("тмин") ||
+//       ingredient.nameIngredient.includes("изолят") ||
+//       ingredient.nameIngredient.includes("лист") ||
+//       ingredient.nameIngredient.includes("клетчатка")
+//     )
+//       return colorSecondaryOne;
+//     else return colorSecondaryTwo;
+//   }

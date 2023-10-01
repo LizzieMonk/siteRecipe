@@ -13,6 +13,7 @@ import {
     arrProductToXLSX,
     arrSumToXLSX,
     arrSumProductToXLSX,
+    isOpenModal,
   } from "./commonFunc.js";
 
   import {
@@ -20,6 +21,9 @@ import {
     updateSupabaseByLocalStorageSumProducts,
     updateSupabaseByLocalStorageSum,
   }from "../js2/software/supabase.js"
+
+//модалка для загрузки
+const modalLoad = document.getElementById('modal-load');
 
 
 const btnExportProduct = document.getElementById('btn-export-product');
@@ -311,23 +315,11 @@ function filterArrProduct(arrElem) {
     return newElemArr;
 }
 
-  //сохранение
-  const btnSaveAll = document.getElementById('btn-save-all')
-  btnSaveAll.addEventListener('click', ()=>{
-    isOpenModalLoad(true)
-    updateSupabaseByLocalStorageSumProducts(allRecipesSum);
-    updateSupabaseByLocalStorageSum(arrSumToXLSX);
-    isOpenModalLoad(false)
-  })
-
-    //модалка для загрузки
-    const modalLoad = document.getElementById('modal-load');
-
-    function isOpenModalLoad(option){
-      if(option){
-        modalLoad.style.display = "block";
-      }
-      else{
-        modalLoad.style.display = "none";
-      }
-    }
+//сохранение
+const btnSaveAll = document.getElementById('btn-save-all')
+btnSaveAll.addEventListener('click', async ()=>{
+    isOpenModal(modalLoad, true);
+    await updateSupabaseByLocalStorageSumProducts(allRecipesSum);  //async
+    await updateSupabaseByLocalStorageSum(arrSumToXLSX);  //async
+    isOpenModal(modalLoad,false);
+})

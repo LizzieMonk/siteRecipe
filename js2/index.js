@@ -15,15 +15,13 @@ import {
   setValueArrToXLSX,
   cleanArrToXLSX,
   deleteValueArrToXLSX,
+  isOpenModal,
+  getColorByIngredient,
   // arrProductToXLSX,
   // arrSumToXLSX,
   // arrSumProductToXLSX,
 } from "./commonFunc.js";
 
-import {
-  products,
-  startValue
-} from "../js/data.js";
 
 import {
   addElemLocalStorage,
@@ -32,6 +30,7 @@ import {
 } from "../js2/software/storage.js";
 
 import {
+  getDataIngredients,
   getDataProducts,
   updateSupabaseByLocalStorageSumProducts,
   updatelLocalStorageBySupabaseSumProducts
@@ -48,40 +47,18 @@ const btnExportSum = document.getElementById("btn-export-sum");
 const btnExportSumProduct = document.getElementById("btn-export-sum-products");
 const btnExportAll = document.getElementById("btn-export-all");
 
-let nav = document.querySelector(".nav");
-navigationNav(nav);
+//модалка для загрузки
+const modalLoad = document.getElementById('modal-load');
+let allIngredients; //все ингредиенты
+let products;  //все продукты
 
-window.addEventListener("load", () => {
-  createListWithAllProducts()
-
-  cleanList(listProduct);
-  cleanList(listSum);
-  cleanList(listSumProducts);
-
-  btnExportProduct.style.display = "none";
-  btnExportSum.style.display = "none";
-  btnExportSumProduct.style.display = "none";
-  btnExportAll.style.display = "none";
-});
-
-async function createListWithAllProducts(){
-  isOpenModalLoad(true)
-  let products = await getDataProducts();
-  products.forEach((elem) => {
-    let newOption = document.createElement("li");
-    newOption.textContent = elem.name;
-    selectItemsUl.appendChild(newOption);
-
-    newOption.addEventListener("mousedown", (e) => {
-      search.value = e.target.textContent;
-    });
-  });
-  isOpenModalLoad(false)
-}
 
 const listProduct = document.getElementById("list-product");
 const elemListProduct = document.getElementById("elem-list-product");
-
+const listSum = document.getElementById("list-sum");
+const elemListSum = document.getElementById("elem-list-sum");
+const listSumProducts = document.getElementById("list-sum-products");
+const elemListSumProducts = document.getElementById("elem-list-sum-products");
 let arrProductToXLSX = 'arrProductToXLSX'
 let countArrProductToXLSX =0;
 
@@ -91,38 +68,85 @@ let countArrSumToXLSX =0;
 let arrSumProductToXLSX = 'arrSumProductToXLSX'
 let countArrSumProductToXLSX =0;
 
-btnCalc.addEventListener("click", () => {
-  calc()
+// export let startArrSum = [
+//   {
+//     nameIngredient: "всего сырья",
+//     amount: 0,
+//     color: colorPrimaryOne,
+//   },
+// ];
+export let startArrSum = [];
+export let allRecipesSum = [];
+let countAllRecipesSum = 0;
+
+let nav = document.querySelector(".nav");
+navigationNav(nav);
+
+window.addEventListener("load", async () => {
+  //очистка всех списков
+  cleanList(listProduct);
+  cleanList(listSum);
+  cleanList(listSumProducts);
+
+  //блокировка кнопок печати
+  btnExportProduct.style.display = "none";
+  btnExportSum.style.display = "none";
+  btnExportSumProduct.style.display = "none";
+  btnExportAll.style.display = "none";
+
+  //получение всех продуктов и ингредиентов
+  allIngredients = await getDataIngredients();
+  products = await getDataProducts();
+
+  //создание выпадающего списка с продуктами
+  createListWithAllProducts();
+
+  //заполнение хранилища базой
+  await fillLocalStorageBySupabase();
 });
-async function calc(){
+
+function createListWithAllProducts(){
+  isOpenModal(modalLoad,true);
+  // let products = await getDataProducts();
+  products.forEach((elem) => {
+    let newOption = document.createElement("li");
+    newOption.textContent = elem.name;
+    selectItemsUl.appendChild(newOption);
+
+    newOption.addEventListener("mousedown", (e) => {
+      search.value = e.target.textContent;
+    });
+  });
+  isOpenModal(modalLoad,false);
+}
+
+btnCalc.addEventListener("click", () => {
   if (search.value) {
-    isOpenModalLoad(true)
+    isOpenModal(modalLoad,true);
     cleanList(listProduct);
     createNewElemList(
-    await getStartValuetMaterial(
-      await getIdSelectedValue(search.value),inputOutputValue.value),
+    getStartValuetMaterial(
+      getIdSelectedValue(search.value),inputOutputValue.value),
       listProduct,
       elemListProduct,
       1
     ); //1, '200'
     btnExportProduct.style.display = "inline-block";
-    isOpenModalLoad(false)
+    isOpenModal(modalLoad, false);
   }
-}
-btnSum.addEventListener("click", () => {
-  sum()
 });
-async function sum(){
+
+btnSum.addEventListener("click", () => {
   if (search.value) {
-    isOpenModalLoad(true)
+    isOpenModal(modalLoad, true);
     btnExportProduct.style.display = "inline-block";
     btnExportSum.style.display = "inline-block";
     btnExportSumProduct.style.display = "inline-block";
     btnExportAll.style.display = "inline-block";
     cleanList(listProduct);
     createNewElemList(
-      await getStartValuetMaterial(
-        await getIdSelectedValue(search.value),
+      getStartValuetMaterial(
+        getIdSelectedValue(search.value),
         inputOutputValue.value
       ),
       listProduct,
@@ -131,39 +155,33 @@ async function sum(){
     );
     cleanList(listSum);
     sumStartValueMaterial(
-      await getStartValuetMaterial(
-        await getIdSelectedValue(search.value),
+      getStartValuetMaterial(
+        getIdSelectedValue(search.value),
         inputOutputValue.value
       )
     ); //arr
 
     fillLocalStorage();
-    isOpenModalLoad(false)
+    isOpenModal(modalLoad, false);
   }
-}
-export let startArrSum = [
-  {
-    nameIngredient: "всего сырья",
-    amount: 0,
-    color: colorPrimaryOne,
-  },
-];
-export let allRecipesSum = [];
-let countAllRecipesSum = 0;
+});
 
 btnClean.addEventListener("click", () => {
   cleanList(listProduct);
   cleanList(listSum);
   cleanList(listSumProducts);
-  startArrSum = [
-    {
-      nameIngredient: "всего сырья",
-      amount: 0,
-      color: colorPrimaryOne,
-    },
-  ];
+  startArrSum = [];
+  // startArrSum = [
+  //   {
+  //     nameIngredient: "всего сырья",
+  //     amount: 0,
+  //     color: colorPrimaryOne,
+  //   },
+  // ];
   allRecipesSum = [];
   countAllRecipesSum = 0;
+
+  //блокировка кнопок печати
   btnExportProduct.style.display = "none";
   btnExportSum.style.display = "none";
   btnExportSumProduct.style.display = "none";
@@ -173,54 +191,45 @@ btnClean.addEventListener("click", () => {
   deleteLocalStorageSumProducts();
 });
 
-async function getStartValuetMaterial(idProduct, endValueMaterial) {
-  //string, string
-  // idProduct = Number(idProduct); //number-1
+function getStartValuetMaterial(idProduct, endValueMaterial) {
+  //number, string
   endValueMaterial = Number(endValueMaterial); //number-200
   let arrAllValues = [];
   let arrAllValuesCount = 0;
-  let products = await getDataProducts();
+  // let products = await getDataProducts();
   for (let i = 0; i < products.length; i++) {
     if (products[i].id == idProduct) {
-      let allMaterials = (endValueMaterial * startValue) / products[i].outputValue; // 14.285714285714286-число
+      let allMaterials = (endValueMaterial * 100) / products[i].outputValue; // 14.285714285714286-число
       allMaterials = roundN(allMaterials, roundPrimary); //14.3-число
 
-      arrAllValues[arrAllValuesCount] = {
+      arrAllValues[arrAllValuesCount++] = {
         nameProduct: products[i].name,
         outputValue: endValueMaterial,
         color: colorWhite,
         outputValueStart: products[i].outputValue,
       }; //0 элемент
-      arrAllValuesCount++;
-      arrAllValues[arrAllValuesCount] = {
+
+      arrAllValues[arrAllValuesCount++] = {
         nameIngredient: "всего сырья",
         amount: allMaterials,
         color: colorPrimaryOne,
       }; //1 элемент
-      arrAllValuesCount++;
 
       let ingredientsPrimarySupabase = JSON.parse(products[i].ingredientsPrimary)
       ingredientsPrimarySupabase.forEach((ingredient) => {
         let valuePrimaryIngredient = (allMaterials * ingredient.amount) / 100; //number
-        if (
-          idProduct == 47 &&
-          (ingredient.nameIngredient == "вода" ||
-            ingredient.nameIngredient == "меланж яичный сухой")
-        ) {
-          valuePrimaryIngredient = roundN(
-            valuePrimaryIngredient,
-            roundSecondary
-          ); //number
-        } else
-          valuePrimaryIngredient = roundN(valuePrimaryIngredient, roundPrimary); //number
+        if (idProduct == 47 &&
+            (ingredient.nameIngredient == "вода" ||
+            ingredient.nameIngredient == "меланж яичный сухой")) {
+          valuePrimaryIngredient = roundN(valuePrimaryIngredient,roundSecondary); //number
+        } else valuePrimaryIngredient = roundN(valuePrimaryIngredient, roundPrimary); //number
 
-        arrAllValues[arrAllValuesCount] = {
+        arrAllValues[arrAllValuesCount++] = {
           nameIngredient: ingredient.nameIngredient,
           amount: valuePrimaryIngredient,
-          // color: colorPrimaryTwo,
-          color: setColorPrimary(ingredient),
+          color: getColorByIngredient(allIngredients, ingredient.nameIngredient),
+          // color: setColorPrimary(ingredient),
         };
-        arrAllValuesCount++;
       });
 
       let sum = 0;
@@ -258,7 +267,7 @@ async function getStartValuetMaterial(idProduct, endValueMaterial) {
       let ingredientsSecondarySupabase = JSON.parse(products[i].ingredientsSecondary)
       ingredientsSecondarySupabase.forEach((ingredient) => {
         let valueSecondaryIngredient =
-          (allMaterials * ingredient.amount) / startValue; //number
+          (allMaterials * ingredient.amount) / 100; //number
         if (
           ingredient.nameIngredient.includes("пакет") ||
           ingredient.nameIngredient.includes("скрепки") ||
@@ -289,77 +298,17 @@ async function getStartValuetMaterial(idProduct, endValueMaterial) {
 
         // console.log(valueSecondaryIngredient);
 
-        arrAllValues[arrAllValuesCount] = {
+        arrAllValues[arrAllValuesCount++] = {
           nameIngredient: ingredient.nameIngredient,
           amount: valueSecondaryIngredient,
-          color: setColorSecondary(ingredient),
+          color: getColorByIngredient(allIngredients, ingredient.nameIngredient),
+          // color: setColorSecondary(ingredient),
         };
-        arrAllValuesCount++;
       });
-      // return arrAllValues;
       break;
     }
   }
-  
   return arrAllValues;
-}
-
-function setColorPrimary(ingredient) {
-  if (
-    ingredient.nameIngredient.includes("орех") ||
-    ingredient.nameIngredient.includes("изолят") ||
-    ingredient.nameIngredient.includes("клетчатка") ||
-    ingredient.nameIngredient.includes("крахмал") ||
-    ingredient.nameIngredient.includes("крупа") ||
-    ingredient.nameIngredient.includes("лук") ||
-    ingredient.nameIngredient.includes("меланж") ||
-    ingredient.nameIngredient.includes("мука") ||
-    ingredient.nameIngredient.includes("молоко")
-  )
-    return colorPrimaryThree;
-  else return colorPrimaryTwo;
-}
-function setColorSecondary(ingredient) {
-  if (
-    ingredient.nameIngredient.includes("черева") ||
-    ingredient.nameIngredient.includes("шпагат") ||
-    ingredient.nameIngredient.includes("фиброуз") ||
-    ingredient.nameIngredient.includes("пакет") ||
-    ingredient.nameIngredient.includes("скрепки") ||
-    ingredient.nameIngredient.includes("скрепки") ||
-    ingredient.nameIngredient.includes("петли") ||
-    ingredient.nameIngredient.includes("петли") ||
-    ingredient.nameIngredient.includes("коллаген") ||
-    ingredient.nameIngredient.includes("контейнер") ||
-    ingredient.nameIngredient.includes("амипак") ||
-    ingredient.nameIngredient.includes("бига") ||
-    ingredient.nameIngredient.includes("синюги") ||
-    ingredient.nameIngredient.includes("тарелка")
-  )
-    return colorSecondaryTree;
-  else if (
-    ingredient.nameIngredient.includes("соль") ||
-    ingredient.nameIngredient.includes("пнс") ||
-    ingredient.nameIngredient.includes("крахмал") ||
-    ingredient.nameIngredient.includes("молоко") ||
-    ingredient.nameIngredient.includes("порошок") ||
-    ingredient.nameIngredient.includes("манная") ||
-    ingredient.nameIngredient.includes("лук") ||
-    ingredient.nameIngredient.includes("перец") ||
-    ingredient.nameIngredient.includes("кориандр") ||
-    ingredient.nameIngredient.includes("масло") ||
-    ingredient.nameIngredient.includes("семена") ||
-    ingredient.nameIngredient.includes("гречневая") ||
-    ingredient.nameIngredient.includes("орех") ||
-    ingredient.nameIngredient.includes("мука") ||
-    ingredient.nameIngredient.includes("чеснок") ||
-    ingredient.nameIngredient.includes("тмин") ||
-    ingredient.nameIngredient.includes("изолят") ||
-    ingredient.nameIngredient.includes("лист") ||
-    ingredient.nameIngredient.includes("клетчатка")
-  )
-    return colorSecondaryOne;
-  else return colorSecondaryTwo;
 }
 
 function createNewElemList(arrElems, list, child, firstPosition) {
@@ -400,13 +349,7 @@ function createNewElemList(arrElems, list, child, firstPosition) {
   }
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorPrimaryOne) {
-      let newElemListProduct = child.cloneNode(true);
-      newElemListProduct.querySelector('[name="name-product"]').textContent =
-        arrElems[i].nameIngredient;
-      newElemListProduct.querySelector('[name="value-product"]').textContent =
-        arrElems[i].amount;
-      newElemListProduct.style.background = arrElems[i].color;
-      list.appendChild(newElemListProduct);
+      addInList(arrElems[i]);
 
       if (list === listProduct)
         // arrProductToXLSX[countArrProductToXLSX++] = arrElems[i];
@@ -418,13 +361,7 @@ function createNewElemList(arrElems, list, child, firstPosition) {
   }
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorPrimaryTwo) {
-      let newElemListProduct = child.cloneNode(true);
-      newElemListProduct.querySelector('[name="name-product"]').textContent =
-        arrElems[i].nameIngredient;
-      newElemListProduct.querySelector('[name="value-product"]').textContent =
-        arrElems[i].amount;
-      newElemListProduct.style.background = arrElems[i].color;
-      list.appendChild(newElemListProduct);
+      addInList(arrElems[i]);
 
       if (list === listProduct)
         setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, arrElems[i])
@@ -436,13 +373,7 @@ function createNewElemList(arrElems, list, child, firstPosition) {
   }
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorPrimaryThree) {
-      let newElemListProduct = child.cloneNode(true);
-      newElemListProduct.querySelector('[name="name-product"]').textContent =
-        arrElems[i].nameIngredient;
-      newElemListProduct.querySelector('[name="value-product"]').textContent =
-        arrElems[i].amount;
-      newElemListProduct.style.background = arrElems[i].color;
-      list.appendChild(newElemListProduct);
+      addInList(arrElems[i]);
 
       if (list === listProduct)
         setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++,arrElems[i])
@@ -470,13 +401,7 @@ function createNewElemList(arrElems, list, child, firstPosition) {
         addEmptyObj--;
       }
 
-      let newElemListProduct = child.cloneNode(true);
-      newElemListProduct.querySelector('[name="name-product"]').textContent =
-        arrElems[i].nameIngredient;
-      newElemListProduct.querySelector('[name="value-product"]').textContent =
-        arrElems[i].amount;
-      newElemListProduct.style.background = arrElems[i].color;
-      list.appendChild(newElemListProduct);
+      addInList(arrElems[i]);
 
       if (list === listProduct)
         setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, arrElems[i])
@@ -503,13 +428,7 @@ function createNewElemList(arrElems, list, child, firstPosition) {
         addEmptyObj--;
       }
 
-      let newElemListProduct = child.cloneNode(true);
-      newElemListProduct.querySelector('[name="name-product"]').textContent =
-        arrElems[i].nameIngredient;
-      newElemListProduct.querySelector('[name="value-product"]').textContent =
-        arrElems[i].amount;
-      newElemListProduct.style.background = arrElems[i].color;
-      list.appendChild(newElemListProduct);
+      addInList(arrElems[i]);
 
       if (list === listProduct)
         setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, arrElems[i])
@@ -521,13 +440,7 @@ function createNewElemList(arrElems, list, child, firstPosition) {
   }
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorSecondaryTree) {
-      let newElemListProduct = child.cloneNode(true);
-      newElemListProduct.querySelector('[name="name-product"]').textContent =
-        arrElems[i].nameIngredient;
-      newElemListProduct.querySelector('[name="value-product"]').textContent =
-        arrElems[i].amount;
-      newElemListProduct.style.background = arrElems[i].color;
-      list.appendChild(newElemListProduct);
+      addInList(arrElems[i]);
 
       if (list === listProduct)
         setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, arrElems[i])
@@ -537,16 +450,20 @@ function createNewElemList(arrElems, list, child, firstPosition) {
         // arrSumToXLSX[countArrSumToXLSX++] = arrElems[i];
     }
   }
+
+  function addInList(product){
+    let newElemListProduct = child.cloneNode(true);
+    newElemListProduct.querySelector('[name="name-product"]').textContent = product.nameIngredient;
+    newElemListProduct.querySelector('[name="value-product"]').textContent = product.amount;
+    newElemListProduct.style.background = product.color;
+    list.appendChild(newElemListProduct);
+  }
+  function addInListSumProducts(){
+  }
 }
-const listSum = document.getElementById("list-sum");
-const elemListSum = document.getElementById("elem-list-sum");
-const listSumProducts = document.getElementById("list-sum-products");
-const elemListSumProducts = document.getElementById("elem-list-sum-products");
 
 function sumStartValueMaterial(arrProduct) {
-  allRecipesSum[countAllRecipesSum] = structuredClone(arrProduct); //глубокое копирование
-  countAllRecipesSum++;
-  // console.log(allRecipesSum)
+  allRecipesSum[countAllRecipesSum++] = structuredClone(arrProduct); //глубокое копирование
 
   for (let i = 0; i < startArrSum.length; i++) {
     for (let j = 1; j < arrProduct.length; j++) {
@@ -582,14 +499,12 @@ function deleteProductFromSum(product) {
   //получение массива данных удаляемого элемента
   for (let i = 0; i < allRecipesSum.length; i++) {
     // console.log(allRecipesSum[i][0].nameProduct)
-    if (
-      allRecipesSum[i][0].nameProduct === product.nameIngredient &&
-      allRecipesSum[i][0].outputValue === product.amount
-    ) {
+    if (allRecipesSum[i][0].nameProduct === product.nameIngredient &&
+      allRecipesSum[i][0].outputValue === product.amount) {
       // console.log(productName, '[fp[fpg[fpg[')
       // console.log(allRecipesSum[i]) //массив удаляемых ингредиентов
       deletedArrProduct = structuredClone(allRecipesSum[i]);
-      console.log(allRecipesSum);
+      // console.log(allRecipesSum);
       allRecipesSum.splice(i, 1);
       --countAllRecipesSum;
       deleteValueArrToXLSX(arrSumProductToXLSX,i)
@@ -598,14 +513,12 @@ function deleteProductFromSum(product) {
       break;
     }
   }
-  console.log(deletedArrProduct);
+  // console.log(deletedArrProduct);
 
   //удаление данных из суммы
   for (let i = 0; i < startArrSum.length; i++) {
     for (let j = 1; j < deletedArrProduct.length; j++) {
-      if (
-        startArrSum[i].nameIngredient == deletedArrProduct[j].nameIngredient
-      ) {
+      if (startArrSum[i].nameIngredient == deletedArrProduct[j].nameIngredient) {
         let sumAmount = startArrSum[i].amount - deletedArrProduct[j].amount;
         sumAmount = roundN(sumAmount, roundSecondary);
         startArrSum[i].amount = sumAmount;
@@ -642,12 +555,10 @@ function cleanList(list) {
   }
 }
 
-//ПЕРЕДЕЛАТЬ ОБРАБОТЧИК
 let search = document.getElementById("search");
 search.addEventListener("focus", () => {
   search.value = "";
   liveSearch(selectItemsUl, search);
-  // setSelectedValue(selectItemsUl, search);
 });
 search.addEventListener("blur", () => {
   let listOfElems = selectItemsUl.children;
@@ -659,19 +570,9 @@ search.addEventListener("keyup", () => {
   liveSearch(selectItemsUl, search);
 });
 
-
-// function setSelectedValue(parent, search) {
-//   let listOfElems = parent.children;
-//   for (let i = 0; i < listOfElems.length; i++) {
-//     listOfElems[i].addEventListener("mousedown", (e) => {
-//       search.value = e.target.textContent;
-//     });
-//   }
-// }
-
-async function getIdSelectedValue(nameProduct) {
+function getIdSelectedValue(nameProduct) {
   let idSelectedValue = 0;
-  let products = await getDataProducts();
+  // let products = await getDataProducts();
   for (let i = 0; i < products.length; i++) {
     if (products[i].name === nameProduct) {
       idSelectedValue = products[i].id;
@@ -698,22 +599,18 @@ function fillLocalStorage() {
   }
 }
 
-window.addEventListener("load", () => {
-  localStorageWindowLoad()
-});
-async function localStorageWindowLoad(){
+async function fillLocalStorageBySupabase(){
   await updatelLocalStorageBySupabaseSumProducts();
   if (localStorage.length != 0) {
-    isOpenModalLoad(true)
+    // isOpenModal(modalLoad, true);
     for (let j = 0; j < localStorage.length; j++) {
       let key = localStorage.key(j);
       let product = JSON.parse(localStorage.getItem(key));
-      // console.log(product)
       if (product.nameProduct) {
         cleanList(listSum);
         sumStartValueMaterial(
-          await getStartValuetMaterial(
-            await getIdSelectedValue(product.nameProduct),
+          getStartValuetMaterial(
+            getIdSelectedValue(product.nameProduct),
             product.outputValue
           )
         ); //arr
@@ -724,18 +621,5 @@ async function localStorageWindowLoad(){
       }
     }
   }
-  isOpenModalLoad(false)
+  // isOpenModal(modalLoad, false);
 }
-
-
-  //модалка для загрузки
-  const modalLoad = document.getElementById('modal-load');
-
-  function isOpenModalLoad(option){
-    if(option){
-      modalLoad.style.display = "block";
-    }
-    else{
-      modalLoad.style.display = "none";
-    }
-  }
