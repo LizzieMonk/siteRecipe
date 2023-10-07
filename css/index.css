@@ -436,7 +436,7 @@ input {
   padding: 20px 0 0 0;
 }
 .data__search {
-  width: 600px;
+  width: 100%;
 }
 .data .ul {
   margin: 15px 0 0 0;
@@ -457,6 +457,25 @@ input {
 }
 .data .ul__info:hover span {
   background: #A4EDE4;
+}
+.data .ul__info-ingredients {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.data .ul__info-ingredients_content {
+  padding: 0 20px;
+  position: relative;
+  width: 100%;
+  display: none;
+  flex-direction: row;
+  justify-content: space-between;
+  transition: all 400ms ease;
+}
+.data .ul__info-ingredients_content .ul__name, .data .ul__info-ingredients_content .ul__amount {
+  border: none;
+  color: grey;
 }
 .data .ul__name {
   border: 0.5px solid #000;

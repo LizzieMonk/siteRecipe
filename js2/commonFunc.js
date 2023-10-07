@@ -33,11 +33,47 @@ export function navigationNav(nav){
 }
 
 export function liveSearch(parent, search) {
+    // console.log(typeof parent.constructor.name) //HTMLUListElement || NodeList
+    //для поиска в нод коллекции (queryALL) в базе
+    if(parent.constructor.name == 'NodeList'){
+        // console.log(parent)
+        for(let i=0; i<parent.length; i++){
+            let nameProduct = parent[i].querySelector('[name="name-product"]');
+            if(nameProduct.textContent.toLowerCase().includes(search.value.toLowerCase())) {
+                parent[i].style.display = "flex";
+            } else parent[i].style.display = "none";
+        }
+    }
+    //для поиска в списках (byID)
+    else{
+        let listOfElems = parent.children;
+        for (let i = 0; i < listOfElems.length; i++) {
+          if (listOfElems[i].textContent.toLowerCase().includes(search.value.toLowerCase())) {
+            listOfElems[i].style.display = "flex";
+          } else listOfElems[i].style.display = "none";
+        }
+    }
+}
+export function liveSearchIngrdientInAllProducts(parent, search) {
     let listOfElems = parent.children;
     for (let i = 0; i < listOfElems.length; i++) {
-      if (listOfElems[i].textContent.toLowerCase().includes(search.value.toLowerCase())) {
-        listOfElems[i].style.display = "flex";
-      } else listOfElems[i].style.display = "none";
+        let infoProduct = listOfElems[i].querySelector('.ul__info');
+        let infoIngredients = listOfElems[i].querySelector('.ul__info-ingredients');
+        let allIngredientsInProduct = infoIngredients.children
+        let hiddenBorder = true
+        for(let j=1; j<allIngredientsInProduct.length; j++){
+            if(!search.value){
+                allIngredientsInProduct[j].style.display = "none";
+            }
+            else if(allIngredientsInProduct[j].textContent.toLowerCase().includes(search.value.toLowerCase())) {
+                allIngredientsInProduct[j].style.display = "flex";
+                infoProduct.style.display = 'flex';
+                hiddenBorder = false
+            }
+            else allIngredientsInProduct[j].style.display = "none";
+        }
+        if(hiddenBorder) infoIngredients.style.border = 'none'
+        else infoIngredients.style.border = '0.5px solid black'
     }
 }
 

@@ -478,7 +478,8 @@ input {
     }
     // .data__search
     &__search {
-        width: 600px;
+        // width: 600px;
+        width: 100%;
     }
     .ul {
         margin: 15px 0 0 0;
@@ -503,6 +504,33 @@ input {
                     // padding: 10px;
                     background: $color-primary-two;
                 }
+            }
+        }
+        // .ul__info-ingredients
+        &__info-ingredients {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            // border: 0.5px solid $color-black;
+            &_content{
+                padding: 0 20px;
+                position: relative;
+                width: 100%;
+                // display: flex;
+                display: none;
+                flex-direction: row;
+                justify-content: space-between;
+                transition: $transition;
+                .ul__name, .ul__amount{
+                    border: none;
+                    color: grey;
+                }
+                // &:hover{
+            //     span{
+            //         background: $color-primary-two;
+            //     }
+            // }
             }
         }
         // .ul__name

@@ -28,6 +28,7 @@ import {
     cleanList,
     fillRowIngredientInProduct,
     getColorByIngredient,
+    liveSearchIngrdientInAllProducts,
   } from "./commonFunc.js";
 
   import {
@@ -191,6 +192,24 @@ async function createNewElemListProducts(elem) {
     btnDeleteProduct.addEventListener('click', ()=>{
         addingProduct.style.display = 'none'
     })
+
+
+    //-------------------------------------------------------
+    //показ ингредиентов при поиске
+    let infoIngredients = newElemListProduct.querySelector('.ul__info-ingredients')
+    ingredientsPrimarySupabase.forEach((ingredient) => {
+        let newIngredient = infoIngredients.querySelector('.ul__info-ingredients_content').cloneNode(true);
+        // newIngredient.style.display = 'none';
+        let nameIngredient =  newIngredient.querySelector('[name="name-ingredient"]');
+        nameIngredient.textContent = ingredient.nameIngredient;
+        infoIngredients.appendChild(newIngredient);
+    });
+    ingredientsSecondarySupabase.forEach((ingredient) => {
+        let newIngredient = infoIngredients.querySelector('.ul__info-ingredients_content').cloneNode(true);
+        let nameIngredient =  newIngredient.querySelector('[name="name-ingredient"]');
+        nameIngredient.textContent = ingredient.nameIngredient;
+        infoIngredients.appendChild(newIngredient);
+    });
 }
 async function updateSumProductsByProduct(oldNameIngredient, objNewIngredient){
     let data = await getDataSumProducts();
@@ -656,10 +675,12 @@ let search = document.getElementById("data-search");
 
 search.addEventListener("focus", () => {
   search.value = "";
-  liveSearch(listData, search);
+    liveSearch(listData.querySelectorAll('.ul__info'), search);
+    liveSearchIngrdientInAllProducts(listData, search);
 });
 search.addEventListener("keyup", () => {
-  liveSearch(listData, search);
+    liveSearch(listData.querySelectorAll('.ul__info'), search);
+    liveSearchIngrdientInAllProducts(listData, search);
 });
 
   //модалка для добавления нового ингредиента/продукта
