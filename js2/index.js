@@ -125,12 +125,8 @@ btnCalc.addEventListener("click", () => {
     isOpenModal(modalLoad,true);
     cleanList(listProduct);
     createNewElemList(
-    getStartValuetMaterial(
-      getIdSelectedValue(search.value),inputOutputValue.value),
-      listProduct,
-      elemListProduct,
-      1
-    ); //1, '200'
+    getStartValuetMaterial(getIdSelectedValue(search.value),inputOutputValue.value),
+      listProduct,elemListProduct,1); //1, '200'
     btnExportProduct.style.display = "inline-block";
     isOpenModal(modalLoad, false);
   }
@@ -145,20 +141,11 @@ btnSum.addEventListener("click", () => {
     btnExportAll.style.display = "inline-block";
     cleanList(listProduct);
     createNewElemList(
-      getStartValuetMaterial(
-        getIdSelectedValue(search.value),
-        inputOutputValue.value
-      ),
-      listProduct,
-      elemListProduct,
-      1
-    );
+      getStartValuetMaterial(getIdSelectedValue(search.value),inputOutputValue.value),
+      listProduct,elemListProduct,1);
     cleanList(listSum);
     sumStartValueMaterial(
-      getStartValuetMaterial(
-        getIdSelectedValue(search.value),
-        inputOutputValue.value
-      )
+      getStartValuetMaterial(getIdSelectedValue(search.value),inputOutputValue.value)
     ); //arr
 
     fillLocalStorage();
@@ -227,8 +214,8 @@ function getStartValuetMaterial(idProduct, endValueMaterial) {
         arrAllValues[arrAllValuesCount++] = {
           nameIngredient: ingredient.nameIngredient,
           amount: valuePrimaryIngredient,
-          color: getColorByIngredient(allIngredients, ingredient.nameIngredient),
-          // color: setColorPrimary(ingredient),
+          color: ingredient.color,
+          // color: getColorByIngredient(allIngredients, ingredient.nameIngredient),
         };
       });
 
@@ -301,8 +288,8 @@ function getStartValuetMaterial(idProduct, endValueMaterial) {
         arrAllValues[arrAllValuesCount++] = {
           nameIngredient: ingredient.nameIngredient,
           amount: valueSecondaryIngredient,
-          color: getColorByIngredient(allIngredients, ingredient.nameIngredient),
-          // color: setColorSecondary(ingredient),
+          color: ingredient.color,
+          // color: getColorByIngredient(allIngredients, ingredient.nameIngredient),
         };
       });
       break;
@@ -484,11 +471,14 @@ function sumStartValueMaterial(arrProduct) {
         color: colorWhite,
       },
     ],
-    listSumProducts,
-    elemListSumProducts,
-    0
-  );
+    listSumProducts,elemListSumProducts,0);
   arrProduct.splice(0, 1);
+
+  //смена цветов
+  arrProduct.forEach(product =>{
+    product.color = getColorByIngredient(allIngredients, product.nameIngredient);
+    // console.log(product);
+  })
   startArrSum = startArrSum.concat(arrProduct);
   createNewElemList(startArrSum, listSum, elemListSum, 0);
 }

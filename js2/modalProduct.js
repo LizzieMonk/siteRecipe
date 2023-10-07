@@ -43,6 +43,7 @@ async function createNewElemListProducts() {
     let ingredient = {
         amount: 0,
         nameIngredient: '',
+        color: '',
     }
     fillRowIngredientInProduct(oneIngredient, ingredient, allIngredients, ingredients);
 

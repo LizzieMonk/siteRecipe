@@ -27,6 +27,7 @@ import {
     isOpenModal,
     cleanList,
     fillRowIngredientInProduct,
+    getColorByIngredient,
   } from "./commonFunc.js";
 
   import {
@@ -164,7 +165,8 @@ async function createNewElemListProducts(elem) {
     btnAddRowIngredient.addEventListener('click', ()=>{
         let ingredient = {
             amount: 0,
-            nameIngredient: ''
+            nameIngredient: '',
+            color:'',
         }
         fillRowIngredientInProduct(oneIngredient, ingredient, allIngredients, ingredients)
     })
@@ -172,6 +174,7 @@ async function createNewElemListProducts(elem) {
     const btnUpdateProduct = addingProduct.querySelector('[name="btn-update-product"]')
     btnUpdateProduct.addEventListener('click', async ()=>{
         let objProduct = getObjProduct(newElemListProduct);
+        // console.log(objProduct);
         isOpenModal(modalLoad, true);
         //здесь добавить проверку на наличие в ингредиентах ингредиента
         //обновление продукта в базе
@@ -314,8 +317,8 @@ function createNewElemListIngredients(elem) {
         isOpenModal(modalLoad, true);
         //обновление ингредиента в базе
         await updateDataIngredients(objIngredient, elem.id);
-        //обновление ингредиента во всех продуктах
-        await updateAllProductByIngredient(elem.name, objIngredient);
+        // //обновление ингредиента во всех продуктах
+        // await updateAllProductByIngredient(elem.name, objIngredient);
         //обновление в отчете
         await updateReportByIngredient(elem.name, objIngredient);  //async
         //обновление в сумме
@@ -692,4 +695,83 @@ search.addEventListener("keyup", () => {
     //обновление списка
     cleanList(listData);
     await createListWithAlIngredients();
+  })
+
+
+//---------------------------------------------
+  //обновление продуктов по двойным категориям
+
+  //все продукты обновятся по сырью и специям
+  async function updateCategoryAllProduct (){
+    isOpenModal(modalLoad, true);
+
+    let allIngredients = await getDataIngredients();
+    let data = await getDataProducts();
+        //перебор всех продуктов
+        for (let i = 0; i < data.length; i++) {
+            // console.log(data[i])
+            let primary=[];
+            let count = 0;
+            let secondary=[];
+            let count2=0;
+
+            //массив сырья продуктА
+            let ingredientsPrimryNotJSON = JSON.parse(data[i].ingredientsPrimary);
+            for(let j=0; j<ingredientsPrimryNotJSON.length; j++){
+                let objArr  =  {
+                    nameIngredient: ingredientsPrimryNotJSON[j].nameIngredient,
+                    amount: ingredientsPrimryNotJSON[j].amount,
+                    color: getColorByIngredient(allIngredients, ingredientsPrimryNotJSON[j].nameIngredient), //здесь добавление цвета категории
+                }
+                //здесь сортировка в какую группу
+                if(getCategoryByColor(objArr.color) == CATEGORY[0]){ //сырье
+                    primary[count++] = objArr
+                }
+                else{
+                    secondary[count2++] = objArr
+                }
+            }
+
+            //массив специй продуктА
+            let ingredientsSecondaryNotJSON = JSON.parse(data[i].ingredientsSecondary);
+            for(let j=0; j<ingredientsSecondaryNotJSON.length; j++){
+                let objArr  =  {
+                    nameIngredient: ingredientsSecondaryNotJSON[j].nameIngredient,
+                    amount: ingredientsSecondaryNotJSON[j].amount,
+                    //получение цвета ингредиента из базы ингредиентов
+                    color: getColorByIngredient(allIngredients, ingredientsSecondaryNotJSON[j].nameIngredient),
+                }
+                //здесь сортировка в какую группу
+                if(getCategoryByColor(objArr.color) == CATEGORY[0]){ //сырье
+                    primary[count++] = objArr
+                }
+                else{
+                    secondary[count2++] = objArr
+                }
+            }
+
+            let jsonprimary = JSON.stringify(primary)
+            let jsonsecondary = JSON.stringify(secondary)
+
+            let obj = {
+                name: data[i].name,
+                outputValue: data[i].outputValue,
+                ingredientsPrimary: jsonprimary,
+                ingredientsSecondary: jsonsecondary,
+            }
+            //обновление продукта в базе
+            // await updateDataProducts(obj, data[i].id);
+
+            console.log(primary)
+            console.log(secondary)
+            console.log(i,data[i].id);
+            console.log(i,data[i].name);
+            console.log(i,data[i].outputValue);
+
+        }
+    isOpenModal(modalLoad, false);
+  }
+
+  window.addEventListener('load', ()=>{
+    // updateCategoryAllProduct ();
   })

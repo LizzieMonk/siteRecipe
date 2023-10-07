@@ -158,11 +158,11 @@ btnReportUpdateRemainder.addEventListener("click", () => {
         };
         addElemLocalStorage(obj, keyNameProduct);
 
-        //если остаток(сумма)=0 удаляем его со списка
-        if(obj.remainder == 0){
-          deleteElemLocalStorage(keyNameProduct);
-          j--;
-        }
+        // //если остаток(сумма)=0 удаляем его со списка
+        // if(obj.remainder == 0){
+        //   deleteElemLocalStorage(keyNameProduct);
+        //   j--;
+        // }
       }
     }
     cleanList(listReport);

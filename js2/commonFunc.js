@@ -201,11 +201,20 @@ export function getObjProduct(newElemListProduct){
     let secondary=[];
     let count2=0;
     for(let i=2; i<ingredients.length; i++){
+        let oneIngredient = ingredients[i];
+        let nameIngredient = oneIngredient.querySelector('[name="search-ingredient"]').value;
+        let subcategoryIngredient = oneIngredient.querySelector('[name="search-subcategory"]').value;
+        let amountIngredient = oneIngredient.querySelector('[name="number-ingredient"]').value;
+
         let objArr  =  {
-            nameIngredient: ingredients[i].querySelector('[name="search-ingredient"]').value,
-            amount: +ingredients[i].querySelector('[name="number-ingredient"]').value
+            // nameIngredient: ingredients[i].querySelector('[name="search-ingredient"]').value,
+            // amount: +ingredients[i].querySelector('[name="number-ingredient"]').value,
+            nameIngredient: nameIngredient,
+            amount: +amountIngredient,
+            color: getColorBySubcategory(subcategoryIngredient),
         }
-       if(ingredients[i].querySelector('[name="search-category"]').value == CATEGORY[0]){ //сырье
+    //    if(ingredients[i].querySelector('[name="search-category"]').value == CATEGORY[0]){ //сырье
+       if(oneIngredient.querySelector('[name="search-category"]').value == CATEGORY[0]){ //сырье
             primary[count++] = objArr
        }
        else{
@@ -258,13 +267,15 @@ export function fillRowIngredientInProduct(oneIngredient, ingredient, allIngredi
     let selectIngredient = newIngredient.querySelector('[name="select-ingredient"]');
 
     let searchCategory = newIngredient.querySelector('[name="search-category"]');
-    searchCategory.value = getCategory(allIngredients, ingredient.nameIngredient);
-    searchCategory.disabled = true
+    // searchCategory.value = getCategory(allIngredients, ingredient.nameIngredient);
+    // searchCategory.disabled = true
+    searchCategory.value = getCategoryByColor(ingredient.color); //это доделать
     let selectCategory = newIngredient.querySelector('[name="select-category"]');
 
     let searchSubcategory = newIngredient.querySelector('[name="search-subcategory"]');
-    searchSubcategory.value = getSubcategory(allIngredients, ingredient.nameIngredient);
-    searchSubcategory.disabled = true
+    // searchSubcategory.value = getSubcategory(allIngredients, ingredient.nameIngredient);
+    // searchSubcategory.disabled = true
+    searchSubcategory.value = getSubcategoryByColor(ingredient.color);  //это доделать
     let selectSubcategory = newIngredient.querySelector('[name="select-subcategory"]');
 
     //вывод всех ингредиентов
@@ -285,7 +296,7 @@ export function fillRowIngredientInProduct(oneIngredient, ingredient, allIngredi
     searchIngredient.addEventListener("focus", () => {
         // searchIngredient.value = "";
         liveSearch(selectIngredient, searchIngredient);
-        selectIngredient.parentNode.classList.add('select-main')
+        selectIngredient.parentNode.classList.add('select-main');
     });
     searchIngredient.addEventListener("blur", () => {
         let listOfElems = selectIngredient.children;
@@ -297,6 +308,81 @@ export function fillRowIngredientInProduct(oneIngredient, ingredient, allIngredi
     searchIngredient.addEventListener("keyup", () => {
         liveSearch(selectIngredient, searchIngredient);
     });
+
+
+    CATEGORY.forEach((elem)=>{
+        let newOption = document.createElement("li");
+        newOption.textContent = elem;
+        selectCategory.appendChild(newOption);
+
+        newOption.addEventListener("mousedown", (e) => {
+            searchCategory.value = e.target.textContent;
+            cleanList(selectSubcategory);
+            let arrSubcategory = getSubcategoryByCategory(e.target.textContent)
+            searchSubcategory.value = arrSubcategory[0]
+
+            arrSubcategory.forEach((elemSec)=>{
+                let newOptionSec = document.createElement("li");
+                newOptionSec.textContent = elemSec;
+                selectSubcategory.appendChild(newOptionSec);
+
+                newOptionSec.addEventListener("mousedown", (eSec) => {
+                    searchSubcategory.value = eSec.target.textContent;
+            });
+            })
+        });
+    })
+    getSubcategoryByCategory(searchCategory.value).forEach((elem)=>{
+        let newOption = document.createElement("li");
+        newOption.textContent = elem;
+        selectSubcategory.appendChild(newOption);
+
+        newOption.addEventListener("mousedown", (e) => {
+            searchSubcategory.value = e.target.textContent;
+        });
+    })
+
+    //обработчик
+    searchCategory.addEventListener("focus", () => {
+        searchCategory.value = "";
+        liveSearch(selectCategory, searchCategory);
+        selectCategory.parentNode.classList.add('select-main');
+    });
+    searchCategory.addEventListener("blur", () => {
+        let listOfElems = selectCategory.children;
+        for (let i = 0; i < listOfElems.length; i++) {
+            listOfElems[i].style.display = "none";
+        }
+        if(searchCategory.value == ""){
+            searchCategory.value = getCategoryByColor(ingredient.color);
+            searchSubcategory.value = getSubcategoryByColor(ingredient.color);
+        }
+        selectCategory.parentNode.classList.remove('select-main');
+    });
+    searchCategory.addEventListener("keyup", () => {
+        liveSearch(selectCategory, searchCategory);
+    });
+
+    //обработчик
+    searchSubcategory.addEventListener("focus", () => {
+        searchSubcategory.value = "";
+        liveSearch(selectSubcategory, searchSubcategory);
+        selectSubcategory.parentNode.classList.add('select-main');
+    });
+    searchSubcategory.addEventListener("blur", () => {
+        let listOfElems = selectSubcategory.children;
+        for (let i = 0; i < listOfElems.length; i++) {
+            listOfElems[i].style.display = "none";
+        }
+        if(searchSubcategory.value == ""){
+            searchSubcategory.value = getSubcategoryByColor(ingredient.color);
+        }
+        selectSubcategory.parentNode.classList.remove('select-main');
+    });
+    searchSubcategory.addEventListener("keyup", () => {
+        liveSearch(selectSubcategory, searchSubcategory);
+    });
+
 
     newIngredient.querySelector('[name="number-ingredient"]').value = ingredient.amount
     ingredients.appendChild(newIngredient);
