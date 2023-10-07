@@ -14,6 +14,7 @@ import {
   liveSearch,
   arrSumToXLSX,
   cleanList,
+  isOpenModal,
 } from "./commonFunc.js";
 
 import {
@@ -1013,10 +1014,12 @@ async function addIngredientInList(){
 
 //модалка для добавление нового ингредиента
 const modalSaveIngredient = document.getElementById('modal-save-ingredient');
-btnAddNewIngredient.addEventListener('click', ()=>{
-  modalSaveIngredient.style.display = "block";
-})
 const btnUpdateProduct = modalSaveIngredient.querySelector('[name="btn-update-product"]');
+
+btnAddNewIngredient.addEventListener('click', ()=>{
+  isOpenModal(modalSaveIngredient,true);
+  // modalSaveIngredient.style.display = "block";
+})
 
 btnUpdateProduct.addEventListener('click', async ()=>{
   //сохранение в базу

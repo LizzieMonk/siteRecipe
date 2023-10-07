@@ -26,6 +26,9 @@ export function navigationNav(nav){
         else if(event.target.classList.contains('btn_a-report')){
             document.location.href = './report.html'
         }
+        else if(event.target.classList.contains('btn_a-statement')){
+            document.location.href = './statement.html'
+        }
     })
 }
 
@@ -306,31 +309,31 @@ export function fillRowIngredientInProduct(oneIngredient, ingredient, allIngredi
 }
 
 
-export function createWorkSheet(arr){
-    //создаем рабочий лист
-    const worksheet = XLSX.utils.json_to_sheet(arr);
-    //исправить заголовки начиная с а1
-    XLSX.utils.sheet_add_aoa(worksheet, [["", "", ""]], { origin: "A1" });
-    //рассчитать ширину столбца на 100 символов
-    // const max_width = 300;
-    worksheet["!cols"] = [ { wpx: 197 }, //a
-                            { wpx: 50}, //b
-                            { wpx: 200} ];//c
-    // const max_height = 20
-    worksheet["!rows"] = [{ hpx: 40},
-                            {hpx: 40},
-                            {hpx: 40},
-                            {hpx: 20},
-                            {hpx: 30}]
+// export function createWorkSheet(arr){
+//     //создаем рабочий лист
+//     const worksheet = XLSX.utils.json_to_sheet(arr);
+//     //исправить заголовки начиная с а1
+//     XLSX.utils.sheet_add_aoa(worksheet, [["", "", ""]], { origin: "A1" });
+//     //рассчитать ширину столбца на 100 символов
+//     // const max_width = 300;
+//     worksheet["!cols"] = [ { wpx: 197 }, //a
+//                             { wpx: 50}, //b
+//                             { wpx: 200} ];//c
+//     // const max_height = 20
+//     worksheet["!rows"] = [{ hpx: 40},
+//                             {hpx: 40},
+//                             {hpx: 40},
+//                             {hpx: 20},
+//                             {hpx: 30}]
 
-    // worksheet["!merges"].push(XLSX.utils.decode_range("A1:B1"));
-    worksheet["!merges"] = [{
-                                //r-строка c-колонка
-                                s: { r: 1, c: 0 }, // s ("start"): c = 1 r = 2 -> "B3"
-                                e: { r: 1, c: 2 }  // e ("end"):   c = 4 r = 3 -> "E4"
-                            }];
+//     // worksheet["!merges"].push(XLSX.utils.decode_range("A1:B1"));
+//     worksheet["!merges"] = [{
+//                                 //r-строка c-колонка
+//                                 s: { r: 1, c: 0 }, // s ("start"): c = 1 r = 2 -> "B3"
+//                                 e: { r: 1, c: 2 }  // e ("end"):   c = 4 r = 3 -> "E4"
+//                             }];
 
-}
+// }
 
 
 

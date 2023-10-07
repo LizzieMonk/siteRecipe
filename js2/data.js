@@ -28,11 +28,11 @@ import {
     cleanList,
     fillRowIngredientInProduct,
   } from "./commonFunc.js";
-  
+
   import {
     products,
   } from "../js/data.js";
-  
+
 import {
     updateSupabaseByLocalStorage,
     updatelLocalStorageBySupabase,
@@ -103,14 +103,12 @@ btnShowIngredients.addEventListener('click', ()=>{
 
  async function createListWithAlIProducts(){
     isOpenModal(modalLoad, true);
-    // isOpenModalLoad(true)
     let data = await getDataProducts();
     // cleanList(listData);
         for (let i = 0; i < data.length; i++) {
             await createNewElemListProducts(data[i]);
         }
     isOpenModal(modalLoad, false);
-    // isOpenModalLoad(false)
   }
  async function createListWithAlIngredients(){
     isOpenModal(modalLoad, true);
@@ -664,36 +662,34 @@ search.addEventListener("keyup", () => {
   //модалка для добавления нового ингредиента/продукта
   const modalSaveProduct = document.getElementById('modal-save-product');
   const modalSaveIngredient = document.getElementById('modal-save-ingredient');
-  let btnUpdateProduct = modalSaveIngredient.querySelector('[name="btn-update-product"]');
+  let btnUpdateProductProduct = modalSaveProduct.querySelector('[name="btn-update-product"]');
+  let btnUpdateProductIngredient = modalSaveIngredient.querySelector('[name="btn-update-product"]');
 
   btnAddNewElem.addEventListener('click', ()=>{
     if(saveProductBool){
         isOpenModal(modalSaveProduct,true);
         // modalSaveProduct.style.display = "block";
-        btnUpdateProduct = modalSaveProduct.querySelector('[name="btn-update-product"]');
     }
     else {
         isOpenModal(modalSaveIngredient, true);
         // modalSaveIngredient.style.display = "block";
-        btnUpdateProduct = modalSaveIngredient.querySelector('[name="btn-update-product"]');
     }
   })
 
-  btnUpdateProduct.addEventListener('click', async ()=>{
-    if(saveProductBool){
-        //продукт
-        //сохранение в базу
-        await saveNewProductInSupabase();
-        //обновление списка
-        cleanList(listData);
-        await createListWithAlIProducts();
-    }
-    else {
-        //ингредиент
-        //сохранение в базу
-        await saveNewIngredientInSupabase();
-        //обновление списка
-        cleanList(listData);
-        await createListWithAlIngredients();
-    }
+  btnUpdateProductProduct.addEventListener('click', async ()=>{
+    //продукт
+    //сохранение в базу
+    await saveNewProductInSupabase();
+    //обновление списка
+    cleanList(listData);
+    await createListWithAlIProducts();
+  })
+
+  btnUpdateProductIngredient.addEventListener('click', async ()=>{
+    //ингредиент
+    //сохранение в базу
+    await saveNewIngredientInSupabase();
+    //обновление списка
+    cleanList(listData);
+    await createListWithAlIngredients();
   })
