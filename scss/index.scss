@@ -217,7 +217,13 @@ input {
     button{
         align-self: flex-end;
     }
+    .data__search{
+        min-width: 300px;
+    }
 }
+
+
+
 .ul {
     max-width: 400px;
     border: 0.5px solid $color-black;
@@ -257,7 +263,7 @@ input {
             &:hover{
                 // box-shadow: 0 0 10px $color-grey;
                 // z-index: 10;
-                span{
+                span, input{
                     // padding: 10px;
                     background: $color-primary-two;
                 }
@@ -302,7 +308,7 @@ input {
             }
         }
     }
-    span{
+    span, input{
         transition: $transition;
     }
 }
@@ -672,53 +678,174 @@ input {
 
 /*--------------------STATEMENT--------------------*/
 
-// .ul-statement {
-//     border: 0.5px solid $color-black;
-//     margin: 15px 0 0 0;
-//     // min-width: 100%;
-//     li{
-//         width: 100%;
-//         display: flex;
-//         flex-direction: column;
-//     }
-//     // .ul__info
-//     &__info {
-//         position: relative;
-//         width: 100%;
-//         display: flex;
-//         flex-direction: row;
-//         justify-content: space-between;
-//         transition: $transition;
-//         &:hover{
-//             // box-shadow: 0 0 10px $color-grey;
-//             // z-index: 10;
-//             span{
-//                 // padding: 10px;
-//                 background: $color-primary-two;
-//             }
-//         }
-//     }
-//     // .ul__name
-//     &__name {
-//         border: 0.5px solid $color-black;
-//         border-right: none;
-//     }
-//     // .ul__amount
-//     &__amount {
-//         width: 150px;
-//         border: 0.5px solid $color-black;
-//         border-left: none;
-//     }
-//     // .ul__adding-product
-//     &__adding-product {
-//         // height: 200px;
-//         width: 100%;
-//         background: gainsboro;
-//         border: 0.5px solid $color-black;
-//         border-top: none;
-//         padding: 10px 10px;
-//     }
-// }
+.statement{
+    padding: 86px 0 0 0;  //56nav+30px
+    &__container {
+        display: flex;
+        flex-direction: column;
+    }
+    &__table {
+        padding: 20px 0 0 0;
+    }
+    //это от базы
+    .ul{
+        margin: 15px 0 0 0;
+        min-width: 100%;
+        // background: red;
+        li{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            // border: 0.5px solid $color-black;
+            // margin-top: 20px;
+        }
+        // .ul__info
+        &__info {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            transition: $transition;
+            // padding: 0 20px;
+            .ul__name{
+                // border: none;
+                // padding-right: 20px;
+                // padding-left: 20px;
+                color: $color-black;
+                background: $color-primary-two;
+            }
+            .ul__amount{
+                // border: none;
+                color: red;
+                background: $color-primary-two;
+                width: fit-content;
+                text-decoration: underline;
+                transition: $transition;
+                &:hover{
+                    color: $color-black;
+                    cursor: pointer;
+                    text-decoration: none;
+                }
+            }
+            &:hover{
+                span{
+                    background: $color-secondary-two;
+                }
+            }
+        }
+        // .ul__name
+        &__name {
+            border: 0.5px solid $color-black;
+            border-right: none;
+        }
+        // .ul__amount
+        &__amount {
+            width: 150px;
+            border: 0.5px solid $color-black;
+            border-left: none;
+        }
+    }
+    //это от отчета
+    .ul-statement{
+        // border: none;
+        border: 0.5px solid $color-black;
+        // display: flex;
+        // flex-direction: column;
+        // gap: 20px;
+        &__info-primary{
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            transition: $transition;
+            &:hover{
+                span, input{
+                    background: transparent;
+                }
+            }
+            input{
+                &:nth-child(7){
+                    background: gainsboro;
+                }
+            }
+        }
+        &__info-secondary{
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            transition: $transition;
+            &:hover{
+                span, input{
+                    background: transparent;
+                }
+            }
+            input{
+                &:nth-child(2){
+                    background: gainsboro;
+                }
+            }
+        }
+        &__name {
+            transition: $transition;
+            padding: 5px 10px;
+            border: 0.5px solid $color-black;
+            font-size: 16px;
+            width: 100%;
+        }
+        input{
+            transition: $transition;
+            padding: 5px 10px;
+            border: 0.5px solid $color-black;
+            width: 150px;
+            text-align: center;
+            // &:nth-child(6){
+            //     border-right: 1px solid black;
+            // }
+        }
+        .sign {
+            width: 100px;
+            text-align: center;
+            padding-top: 5px;
+            background: $color-white;
+            margin: 0 0.5px;
+            color: $color-black;
+            outline: 0.5px solid $color-white;
+            transition: $transition;
+            &:hover{
+                transform: scale(1.2);
+                cursor: pointer;
+                // color: $color-secondary-two;
+            }
+        }
+        .hide {
+            border: 0.5px solid $color-white; //
+            outline: 0.5px solid $color-white;
+            margin-left: 0.5px;
+            // background: red;
+        }
+        button{
+            padding: 5px 10px;
+            border: 0.5px solid $color-black;
+            width: 898px;
+            &:hover{
+                background: transparent;
+                // border: 1px solid transparent;
+                border: 0.5px solid $color-black;
+                // box-shadow: none;
+                box-shadow: inset 0 0 10px $color-grey;
+            }
+        }
+    }
+    .hidden, li.hidden{
+        display: none;
+    }
+}
+
+
 /*--------------------MODAL--------------------*/
 .modal-load {
     display: none;

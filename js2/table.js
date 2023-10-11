@@ -70,11 +70,11 @@ btnExportProduct.addEventListener('click', ()=>{
     // const max_width = 300;
     worksheet["!cols"] = [ { wpx: 197 }, //a
                             { wpx: 50}, //b
-                            { wpx: 200} ];//c
+                            { wpx: 205} ];//c
     // const max_height = 20
     worksheet["!rows"] = [{ hpx: 40},
                             {hpx: 40},
-                            {hpx: 40},
+                            {hpx: 45},
                             {hpx: 20},
                             {hpx: 30}]
 
@@ -228,13 +228,13 @@ btnExportAll.addEventListener('click', ()=>{
         //исправить заголовки начиная с а1
         XLSX.utils.sheet_add_aoa(worksheet, [["", "", ""]], { origin: "A1" });
         worksheet["!cols"] = [{wpx: 197},  //a
-                            {wpx: 50},  //b
-                            {wpx: 200}];  //c
+                                {wpx: 50},  //b
+                                {wpx: 205}];  //c
         worksheet["!rows"] = [{ hpx: 40},
-                            {hpx: 40},
-                            {hpx: 40},
-                            {hpx: 20},
-                            {hpx: 30}]
+                                {hpx: 40},
+                                {hpx: 45},
+                                {hpx: 20},
+                                {hpx: 30}]
         worksheet["!merges"] = [{
                                 //r-строка c-колонка
                                 s: { r: 1, c: 0 }, // s ("start"): c = 1 r = 2 -> "B3"
@@ -274,7 +274,7 @@ function filterArrProduct(arrElem) {
         newElemArr[countNewElemArr++] = arrElem[i]
        }
     }
-    let addEmptyObj = 7
+    let addEmptyObj = 9;
     for (let i = 1; i < arrElem.length; i++) {
       if (arrElem[i].color == colorSecondaryOne) {
 

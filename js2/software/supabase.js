@@ -261,6 +261,64 @@ export async function updatelLocalStorageBySupabaseSumProducts() {
     // isOpenModalLoad(false)
 }
 
+
+//------------------------------------
+//   export async function updateSupabaseByLocalStorageStatement(){
+//       isOpenModalLoad(true)
+//       //очистка базы
+//       await deleteAllDataSupabase()
+  
+//       //заполнение базы хранилищем
+//       let id = 1; //значение id для создания следующего элемента
+//       for (let i = 0; i < localStorage.length; i++) {
+//           let key = localStorage.key(i);
+//           let product = JSON.parse(localStorage.getItem(key));
+//           if(!product.nameProduct){
+//             let idObj = id++;
+//             let obj = {
+//               id: idObj,
+//               name: product.name,
+//               remainder: Number(product.remainder),
+//               coming: Number(product.coming),
+//               amount: Number(product.amount),
+//               sum: Number(product.sum),
+//               color: product.color,
+//             };
+//             await setDataReport(obj);
+//           }
+//       }
+//       isOpenModalLoad(false)
+//   }
+
+  export async function updatelLocalStorageBySupabaseStatement() {
+    isOpenModalLoad(true)
+    //очистка хранилища
+    localStorage.clear();
+    // deleteLocalStorageReport()
+    //заполнение хранилища базой
+    let dataStatement = await getDataStatement();
+    console.log(dataStatement)
+    for (let i = 0; i < dataStatement.length; i++) {
+      //сохранение нового продукта в локальное хранилище
+      let keyNameProduct = dataStatement[i].name; //название продукта - ключ
+      let obj = {
+        nameProductStatement: dataStatement[i].name,
+        ingredientsPrimary: dataStatement[i].ingredientsPrimary,
+        ingredientsSecondary: dataStatement[i].ingredientsSecondary,
+      };
+      addElemLocalStorage(obj, keyNameProduct);
+    }
+  
+    for (let i = 0; i < localStorage.length; i++) {
+      let key = localStorage.key(i);
+      let product = JSON.parse(localStorage.getItem(key));
+      console.log(product)
+    }
+    isOpenModalLoad(false)
+  }
+
+
+
 // export async function updatelLocalStorageBySupabaseSum() {
 //   isOpenModalLoad(true)
 //   //очистка хранилища
@@ -464,14 +522,45 @@ export async function updatelLocalStorageBySupabaseSumProducts() {
     .eq("id", id);
   }
 
+  //---------------------statement
+
+  //получение данных
+  export async function getDataStatement() {
+    const { data, error } = await _supabase.from("statement").select();
+    return data; //promise
+  }
+
+  //добавление новых данных
+ export async function setDataStatement(obj) {
+    const { error } = await _supabase.from("statement").insert(
+      obj
+    );
+  }
+
+  //обновление данных по id
+  export async function updateDataStatement(obj, id) {
+    const { error } = await _supabase
+      .from("statement")
+      .update(
+        obj
+      )
+      .eq("id", id);
+  }
+
+  //удаление данных по id
+  async function deleteDataStatement(id) {
+    const { error } = await _supabase
+    .from("statement")
+    .delete()
+    .eq("id", id);
+  }
 
 
 
 
 
-//   window.addEventListener("load", () => {
-//     console.log(getDataReport());
-//   });
+
+
 
   //модалка для загрузки
   const modalLoad = document.getElementById('modal-load');

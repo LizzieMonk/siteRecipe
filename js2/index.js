@@ -315,7 +315,8 @@ function createNewElemList(arrElems, list, child, firstPosition) {
     if (arrElems[i].color == colorWhite) {
       let newElemListProduct = child.cloneNode(true);
       newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
-      newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
+      // newElemListProduct.querySelector('[name="value-product"]').textContent = arrElems[i].amount;
+      newElemListProduct.querySelector('[name="value-product"]').value = arrElems[i].amount;
       newElemListProduct.style.background = arrElems[i].color;
       list.appendChild(newElemListProduct);
 
@@ -328,6 +329,110 @@ function createNewElemList(arrElems, list, child, firstPosition) {
 
           fillLocalStorage();
       });
+
+      // newElemListProduct.querySelector('[name="value-product"]').disabled = true
+      newElemListProduct.querySelector('[name="value-product"]').addEventListener('blur', ()=>{
+        let valueAmount = newElemListProduct.querySelector('[name="value-product"]').value
+        console.log(valueAmount);
+
+        //2+2
+        if(valueAmount.includes('+')){
+          if(correctNumbers(valueAmount,'+')!=null){
+            let numbers = correctNumbers(valueAmount,'+');
+            let res = +numbers[0];
+            for(let i = 1; i<numbers.length; i++){
+              res += +numbers[i];
+            }
+            // console.log(numbers)
+            res = roundN(res, roundSecondary);
+            newElemListProduct.querySelector('[name="value-product"]').value = res;
+
+            //удаление
+            cleanList(listSum);
+            deleteProductFromSum(arrElems[i]);
+            list.removeChild(newElemListProduct);
+            fillLocalStorage();
+
+            //сложение
+            cleanList(listSum);
+            sumStartValueMaterial(
+              getStartValuetMaterial(getIdSelectedValue(arrElems[i].nameIngredient),res)
+            ); //arr
+            fillLocalStorage();
+          }
+          else{
+            newElemListProduct.querySelector('[name="value-product"]').value = arrElems[i].amount;
+          }
+        }
+        //2-2
+        else if(valueAmount.includes('-')){
+          if(correctNumbers(valueAmount,'-')!=null){
+            let numbers = correctNumbers(valueAmount,'-');
+            let res = +numbers[0];
+            for(let i = 1; i<numbers.length; i++){
+            res -= +numbers[i];
+            }
+            // console.log(numbers)
+            res = roundN(res, roundSecondary);
+            newElemListProduct.querySelector('[name="value-product"]').value = res;
+
+            //удаление
+            cleanList(listSum);
+            deleteProductFromSum(arrElems[i]);
+            list.removeChild(newElemListProduct);
+            fillLocalStorage();
+
+            //сложение
+            cleanList(listSum);
+            sumStartValueMaterial(
+            getStartValuetMaterial(getIdSelectedValue(arrElems[i].nameIngredient),res)
+            ); //arr
+
+            fillLocalStorage();
+          }
+          else{
+            newElemListProduct.querySelector('[name="value-product"]').value = arrElems[i].amount;
+          }
+        }
+        //2lfk
+        else if(isNaN(valueAmount)){
+          newElemListProduct.querySelector('[name="value-product"]').value = arrElems[i].amount;
+        }
+        //200
+        else{
+          // let valueAmount = newElemListProduct.querySelector('[name="value-product"]').value
+
+          //удаление
+          cleanList(listSum);
+          deleteProductFromSum(arrElems[i]);
+          list.removeChild(newElemListProduct);
+          fillLocalStorage();
+
+          //сложение
+          cleanList(listSum);
+          sumStartValueMaterial(
+            getStartValuetMaterial(getIdSelectedValue(arrElems[i].nameIngredient),valueAmount)
+          ); //arr
+          fillLocalStorage();
+        }
+
+        function correctNumbers (valueAmount, sign){  //string, sign +/-
+          let numbers;
+          //убираем все пробелы
+          numbers = valueAmount.replaceAll(' ', '')
+          //получаем массив строк (операндов) по знаку + или -
+          numbers = numbers.split(sign);
+          for(let i=0; i<numbers.length; i++){
+            if(isNaN(numbers[i])){
+              console.log(numbers[i]);
+              return null;
+            }
+          }
+          return numbers
+        }
+      })
+
+
 
       if (list === listSumProducts)
       setValueArrToXLSX(arrSumProductToXLSX,countArrSumProductToXLSX++,arrElems[i])
@@ -370,7 +475,7 @@ function createNewElemList(arrElems, list, child, firstPosition) {
         // arrSumToXLSX[countArrSumToXLSX++] = arrElems[i];
     }
   }
-  let addEmptyObj = 7;
+  let addEmptyObj = 9;
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorSecondaryOne) {
       //добавление пустых объектов(муляж) для нормальной печати
@@ -476,8 +581,7 @@ function sumStartValueMaterial(arrProduct) {
 
   //смена цветов
   arrProduct.forEach(product =>{
-    product.color = getColorByIngredient(allIngredients, product.nameIngredient);
-    // console.log(product);
+    if(product.nameIngredient!= 'всего сырья') product.color = getColorByIngredient(allIngredients, product.nameIngredient);
   })
   startArrSum = startArrSum.concat(arrProduct);
   createNewElemList(startArrSum, listSum, elemListSum, 0);
@@ -613,3 +717,15 @@ async function fillLocalStorageBySupabase(){
   }
   // isOpenModal(modalLoad, false);
 }
+
+//поиск в списке продуктов суммы
+let searchProductSum = document.getElementById('search-product-sum');
+
+searchProductSum.addEventListener("focus", () => {
+  searchProductSum.value = "";
+  liveSearch(listSumProducts, searchProductSum);
+});
+
+searchProductSum.addEventListener("keyup", () => {
+  liveSearch(listSumProducts, searchProductSum);
+});

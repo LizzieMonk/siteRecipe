@@ -227,6 +227,9 @@ input {
 .ul-block button {
   align-self: flex-end;
 }
+.ul-block .data__search {
+  min-width: 300px;
+}
 
 .ul {
   max-width: 400px;
@@ -254,7 +257,7 @@ input {
 .ul_last .ul__amount {
   border-right: 1px solid #000;
 }
-.ul_last li:hover span {
+.ul_last li:hover span, .ul_last li:hover input {
   background: #A4EDE4;
 }
 .ul .delete {
@@ -292,7 +295,7 @@ input {
   background: red;
   transform: rotate(-45deg);
 }
-.ul span {
+.ul span, .ul input {
   transition: all 400ms ease;
 }
 
@@ -587,6 +590,139 @@ input {
 }
 
 /*--------------------STATEMENT--------------------*/
+.statement {
+  padding: 86px 0 0 0;
+}
+.statement__container {
+  display: flex;
+  flex-direction: column;
+}
+.statement__table {
+  padding: 20px 0 0 0;
+}
+.statement .ul {
+  margin: 15px 0 0 0;
+  min-width: 100%;
+}
+.statement .ul li {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.statement .ul__info {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  transition: all 400ms ease;
+}
+.statement .ul__info .ul__name {
+  color: #000;
+  background: #A4EDE4;
+}
+.statement .ul__info .ul__amount {
+  color: red;
+  background: #A4EDE4;
+  width: fit-content;
+  text-decoration: underline;
+  transition: all 400ms ease;
+}
+.statement .ul__info .ul__amount:hover {
+  color: #000;
+  cursor: pointer;
+  text-decoration: none;
+}
+.statement .ul__info:hover span {
+  background: #D3BAFF;
+}
+.statement .ul__name {
+  border: 0.5px solid #000;
+  border-right: none;
+}
+.statement .ul__amount {
+  width: 150px;
+  border: 0.5px solid #000;
+  border-left: none;
+}
+.statement .ul-statement {
+  border: 0.5px solid #000;
+}
+.statement .ul-statement__info-primary {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  transition: all 400ms ease;
+}
+.statement .ul-statement__info-primary:hover span, .statement .ul-statement__info-primary:hover input {
+  background: transparent;
+}
+.statement .ul-statement__info-primary input:nth-child(7) {
+  background: gainsboro;
+}
+.statement .ul-statement__info-secondary {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  transition: all 400ms ease;
+}
+.statement .ul-statement__info-secondary:hover span, .statement .ul-statement__info-secondary:hover input {
+  background: transparent;
+}
+.statement .ul-statement__info-secondary input:nth-child(2) {
+  background: gainsboro;
+}
+.statement .ul-statement__name {
+  transition: all 400ms ease;
+  padding: 5px 10px;
+  border: 0.5px solid #000;
+  font-size: 16px;
+  width: 100%;
+}
+.statement .ul-statement input {
+  transition: all 400ms ease;
+  padding: 5px 10px;
+  border: 0.5px solid #000;
+  width: 150px;
+  text-align: center;
+}
+.statement .ul-statement .sign {
+  width: 100px;
+  text-align: center;
+  padding-top: 5px;
+  background: #fff;
+  margin: 0 0.5px;
+  color: #000;
+  outline: 0.5px solid #fff;
+  transition: all 400ms ease;
+}
+.statement .ul-statement .sign:hover {
+  transform: scale(1.2);
+  cursor: pointer;
+}
+.statement .ul-statement .hide {
+  border: 0.5px solid #fff;
+  outline: 0.5px solid #fff;
+  margin-left: 0.5px;
+}
+.statement .ul-statement button {
+  padding: 5px 10px;
+  border: 0.5px solid #000;
+  width: 898px;
+}
+.statement .ul-statement button:hover {
+  background: transparent;
+  border: 0.5px solid #000;
+  box-shadow: inset 0 0 10px grey;
+}
+.statement .hidden, .statement li.hidden {
+  display: none;
+}
+
 /*--------------------MODAL--------------------*/
 .modal-load {
   display: none;

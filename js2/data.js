@@ -676,11 +676,11 @@ let search = document.getElementById("data-search");
 search.addEventListener("focus", () => {
   search.value = "";
     liveSearch(listData.querySelectorAll('.ul__info'), search);
-    liveSearchIngrdientInAllProducts(listData, search);
+    if(saveProductBool) liveSearchIngrdientInAllProducts(listData, search);
 });
 search.addEventListener("keyup", () => {
     liveSearch(listData.querySelectorAll('.ul__info'), search);
-    liveSearchIngrdientInAllProducts(listData, search);
+    if(saveProductBool) liveSearchIngrdientInAllProducts(listData, search);
 });
 
   //модалка для добавления нового ингредиента/продукта

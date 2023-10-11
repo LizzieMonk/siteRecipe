@@ -22,389 +22,68 @@
         </div>
     </nav>
 
-        <!-- ------------------REPORT------------------ -->
-        <section class="data">
-            <div class="data__container container">
-                <!-- report__btns заменил data__btns -->
-                <div class="report__btns">
-                    <button class="btn" id="btn-report-show-btns" type="button">...</button>
-                    <button class="btn" id="btn-report-delete-storage" type="button">очистить список</button>
-                    <button class="btn" id="btn-add-all-ingredients" type="button">вывести все ингредиенты</button>
-                    <button class="btn" id="btn-add-new-ingredient" type="button">добавить новый ингредиент</button>
-                    <button class="btn" id="btn-report-update-remainder" type="button">обновить остаток</button>
-                    <button class="btn" id="btn-report-update-amount" type="button">обновить расход
-                        <!-- <div class="btn__plus-func"><span>0</span></div> -->
-                    </button>
-                    <button class="btn" id="btn-report-calc-sum" type="button">посчитать сумму</button>
-                    <button class="btn btn_report" id="btn-export-supabase" type="button">сохранить</button>
-                    <!-- <button class="btn" id="btn-import-supabase" type="button">импорт базы</button> -->
-                    <button class="btn btn_download" id="btn-export-report" type="button">
+    <!-- ------------------DATA+REPORT------------------ -->
+    <section class="statement">
+        <div class="statement__container container">
+            <!-- report__btns заменил data__btns -->
+            <div class="report__btns">
+                <!-- <button class="btn" id="btn-report-show-btns" type="button">...</button> -->
+                <button class="btn" id="btn-statement-clean-list" type="button">очистить список</button>
+                <!-- <button class="btn" id="btn-add-all-ingredients" type="button">вывести все ингредиенты</button> -->
+                <!-- <button class="btn" id="btn-add-new-ingredient" type="button">добавить новый ингредиент</button> -->
+                <button class="btn" id="btn-statement-update-report" type="button">закинуть в отчет</button>
+                <button class="btn" id="btn-statement-divide-sec-two" type="button">делить специи на 2</button>
+                <button class="btn btn_download" id="btn-statement-divide-sec-three" type="button">делить специи на 3</button>
+                <button class="btn btn_report" id="btn-export-supabase" type="button">сохранить</button>
+                <button class="btn btn_download" id="btn-export-statement" type="button">
                         <img src="./img/export.png">
-                    </button>
-                    <!-- <button class="btn" id="update-color" type="button">обновить цвет</button> -->
-                </div>
-                <div class="data__table">
-                    <!--вместо input в data добавили блок с report  -->
-                    <!-- <input id="data-search" placeholder="Поиск..." type="text" class="data__search"> -->
-                    <div class="report__info">
+                </button>
+            </div>
+            <div class="statement__table">
+                <!--вместо input в data добавили блок с report  -->
+                <!-- <input id="data-search" placeholder="Поиск..." type="text" class="data__search"> -->
+                <!-- <div class="report__info">
                         <input id="report-search" placeholder="Поиск..." type="text" class="report__search">
                         <div class="list-products">
                             <input id="search-ingredint" placeholder="Выберите ингредиент" type="text" class="list-products__input">
                             <div class="list-products__ul-block">
                                 <ul id="select-ingredient" class="list-products__ul">
-                                    <!-- <li>что-то</li> -->
                                 </ul>
                             </div>
                         </div>
                         <button class="btn" id="btn-report-add-ingredient-in-list" type="button">добавить в список</button>
-                    </div>
-                    <ul id="list-data" class="ul">
-                        <li id="elem-list-data">
-                            <div class="ul__info">
-                                <span class="ul__name" name="name-product">название продукта</span>
-                                <span class="ul__amount" name="value-product">цвет</span>
-                            </div>
-                            <div class="ul__adding-product adding-product">
-                                <div class="adding-product__title">
-                                    <div class="adding-product__subtitle">
-                                        <h3>Название продукта</h3>
-                                        <input name="name-new-product" type="text" placeholder="говядина в соусе бэшамель">
-                                    </div>
-                                    <div class="adding-product__subtitle">
-                                        <h3>Выход</h3>
-                                        <input type="number" class="adding-product__number" name="output">
-                                    </div>
-                                </div>
-                                <div class="adding-product__ingredients">
-                                    <h3>Ингредиенты</h3>
-                                    <div class="adding-product__ingredient hidden">
-                                        <div class="list-products">
-                                            <input name="search-ingredient" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                            <div class="list-products__ul-block">
-                                                <ul name="select-ingredient" class="list-products__ul">
-                                                    <!-- <li>что-то</li> -->
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="list-products">
-                                                <input name="search-category" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                                <div class="list-products__ul-block">
-                                                    <ul name="select-category" class="list-products__ul">
-                                                        <!-- <li>что-то</li> -->
-                                                    </ul>
-                                                </div>
-                                        </div>
-                                        <div class="list-products">
-                                            <input name="search-subcategory" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                            <div class="list-products__ul-block">
-                                                <ul name="select-subcategory" class="list-products__ul">
-                                                    <!-- <li>что-то</li> -->
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <input step="0.1" type="number" class="adding-product__number" name="number-ingredient">
-                                        <div name="btn-delete-ingredient" class="delete"><div class="delete__cross"></div></div>
-                                    </div>
-                                </div>
-                                <div class="adding-product__add-row">
-                                    <button name="btn-add-row-ingredient" class="btn btn_a" type="button">+ Добавить новый</button>
-                                </div>
-                                <div class="adding-product__btns">
-                                    <button name="btn-update-product" class="btn btn_report" type="button">Сохранить продукт</button>
-                                    <button name="btn-delete-product" class="btn" type="button">Удалить продукт</button>
-                                </div>
-                            </div>
-                            <div class="ul__adding-product adding-ingredient">
-                                <div class="adding-product__ingredients">
-                                    <!-- <h3>Ингредиенты</h3> -->
-                                    <div class="adding-product__ingredient">
-                                        <div class="list-products">
-                                            <input name="search-ingredient" placeholder="Введите название" type="text" class="list-products__input">
-                                            <div class="list-products__ul-block">
-                                                <ul name="select-ingredient" class="list-products__ul">
-                                                    <!-- <li>что-то</li> -->
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="list-products">
-                                                <input name="search-category" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                                <div class="list-products__ul-block">
-                                                    <ul name="select-category" class="list-products__ul">
-                                                        <!-- <li>что-то</li> -->
-                                                    </ul>
-                                                </div>
-                                        </div>
-                                        <div class="list-products">
-                                            <input name="search-subcategory" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                            <div class="list-products__ul-block">
-                                                <ul name="select-subcategory" class="list-products__ul">
-                                                    <!-- <li>что-то</li> -->
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <!-- <input step="0.1" type="number" class="adding-product__number" name="number-ingredient"> -->
-                                        <!-- <div name="btn-delete-ingredient" class="delete"><div class="delete__cross"></div></div> -->
-                                    </div>
-                                </div>
-                                <div class="adding-product__btns">
-                                    <button name="btn-update-product" class="btn btn_report" type="button">Сохранить ингредиент</button>
-                                    <button name="btn-delete-product" class="btn" type="button">Удалить ингредиент</button>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-    <!-- ------------------REPORT------------------ -->
-    <!-- все от отчета кроме ul (ul от базы) -->
-    <section class="report">
-        <div class="report__container container">
-            <div class="report__btns">
-                <!-- <div class="input-data__list-products list-products">
-                    <input id="search" placeholder="Введите название..." type="text" class="list-products__input">
-                    <div class="list-products__ul-block">
-                        <ul id="select-items-ul" class="list-products__ul">
-                           
-                        </ul>
-                    </div>
-                </div>
-                <button id="btn-calc" class="btn" type="button">добавить в список</button> -->
-                <button id="btn-sum" class="btn" type="button">посчитать сумму</button>
-                <button id="btn-clean" class="btn" type="button">очистить список</button>
-                <button id="btn-save-all" class="btn btn_report" type="button">сохранить</button>
-                <button class="btn btn_download" id="btn-export-all" type="button">
-                    <img src="./img/export.png"> все
-                </button>
-
-                <!-- <button class="btn btn_report" id="btn-export-supabase" type="button">сохранить</button>
-                <button class="btn btn_download" id="btn-export-report" type="button">
-                    <img src="./img/export.png">
-                </button> -->
-            </div>
-            <div class="report__table">
-                <div class="report__info">
-                    <input id="report-search" placeholder="Поиск..." type="text" class="report__search">
-                    <div class="list-products">
-                        <input id="search-ingredint" placeholder="Выберите ингредиент" type="text" class="list-products__input">
-                        <div class="list-products__ul-block">
-                            <ul id="select-ingredient" class="list-products__ul">
-                                <!-- <li>что-то</li> -->
-                            </ul>
-                        </div>
-                    </div>
-                    <button class="btn" id="btn-report-add-ingredient-in-list" type="button">добавить в список</button>
-                </div>
-
-                <ul id="list-report" class="ul-report">
-                    <li id="elem-list-report">
-                        <span class="ul-report__name" name="name-product">название</span>
-                        <input class="ul-report__remainder" name="remainder" type="number" value="0">
-                        <input class="ul-report__coming" name="coming" type="number" value="0">
-                        <input class="ul-report__consumption" name="amount" type="number" value="0">
-                        <div class="sign">=</div>
-                        <!-- <input class="remainder hide_sign" name="sign" type="text" value="="> -->
-                        <input class="ul-report__remainder" name="remainder-sum" type="number" value="0">
-                        <input class="ul-report__remainder hide" name="hint" type="text" value="-2.93">
-                        <!-- <span class="amount" name="value-product">90</span> -->
-                        <div class="delete"><div class="delete__cross"></div></div>
-                    </li>
-                </ul>
-
-                <ul id="list-data" class="ul">
-                    <li id="elem-list-data">
+                </div> -->
+                 <!-- переделала весь ул -->
+                <ul id="list-statement" class="ul ul-statement">
+                    <li id="elem-list-statement" class="hidden">
                         <div class="ul__info">
                             <span class="ul__name" name="name-product">название</span>
-                            <span class="ul__amount" name="value-product">цвет</span>
+                            <span class="ul__amount" name="delete">удалить</span>
                         </div>
-                        <div class="ul__adding-product adding-product">
-                            <div class="adding-product__title">
-                                <div class="adding-product__subtitle">
-                                    <h3>Название продукта</h3>
-                                    <input name="name-new-product" type="text" placeholder="говядина в соусе бэшамель">
-                                </div>
-                                <div class="adding-product__subtitle">
-                                    <h3>Выход</h3>
-                                    <input type="number" class="adding-product__number" name="output">
-                                </div>
-                            </div>
-                            <div class="adding-product__ingredients">
-                                <h3>Ингредиенты</h3>
-                                <div class="adding-product__ingredient hidden">
-                                    <div class="list-products">
-                                        <input name="search-ingredient" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                        <div class="list-products__ul-block">
-                                            <ul name="select-ingredient" class="list-products__ul">
-                                                <!-- <li>что-то</li> -->
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="list-products">
-                                            <input name="search-category" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                            <div class="list-products__ul-block">
-                                                <ul name="select-category" class="list-products__ul">
-                                                    <!-- <li>что-то</li> -->
-                                                </ul>
-                                            </div>
-                                    </div>
-                                    <div class="list-products">
-                                        <input name="search-subcategory" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                        <div class="list-products__ul-block">
-                                            <ul name="select-subcategory" class="list-products__ul">
-                                                <!-- <li>что-то</li> -->
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <input step="0.1" type="number" class="adding-product__number" name="number-ingredient">
-                                    <div name="btn-delete-ingredient" class="delete"><div class="delete__cross"></div></div>
-                                </div>
-                            </div>
-                            <div class="adding-product__add-row">
-                                <button name="btn-add-row-ingredient" class="btn btn_a" type="button">+ Добавить новый</button>
-                            </div>
-                            <div class="adding-product__btns">
-                                <button name="btn-update-product" class="btn btn_report" type="button">Сохранить продукт</button>
-                                <button name="btn-delete-product" class="btn" type="button">Удалить продукт</button>
+                        <div>
+                            <div class="ul-statement__info-primary hidden">
+                                <span class="ul-statement__name" name="name-ingr">название</span>
+                                <input name="mon" type="number" value="0">
+                                <input name="tue" type="number" value="0">
+                                <input name="wed" type="number" value="0">
+                                <input name="thu" type="number" value="0">
+                                <input name="fri" type="number" value="0">
+                                <!-- <div class="sign">=</div> -->
+                                <input disabled name="sum" type="number" value="0">
                             </div>
                         </div>
-                        <div class="ul__adding-product adding-ingredient">
-                            <div class="adding-product__ingredients">
-                                <!-- <h3>Ингредиенты</h3> -->
-                                <div class="adding-product__ingredient">
-                                    <div class="list-products">
-                                        <input name="search-ingredient" placeholder="Введите название" type="text" class="list-products__input">
-                                        <div class="list-products__ul-block">
-                                            <ul name="select-ingredient" class="list-products__ul">
-                                                <!-- <li>что-то</li> -->
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="list-products">
-                                            <input name="search-category" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                            <div class="list-products__ul-block">
-                                                <ul name="select-category" class="list-products__ul">
-                                                    <!-- <li>что-то</li> -->
-                                                </ul>
-                                            </div>
-                                    </div>
-                                    <div class="list-products">
-                                        <input name="search-subcategory" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                        <div class="list-products__ul-block">
-                                            <ul name="select-subcategory" class="list-products__ul">
-                                                <!-- <li>что-то</li> -->
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- <input step="0.1" type="number" class="adding-product__number" name="number-ingredient"> -->
-                                    <!-- <div name="btn-delete-ingredient" class="delete"><div class="delete__cross"></div></div> -->
-                                </div>
-                            </div>
-                            <div class="adding-product__btns">
-                                <button name="btn-update-product" class="btn btn_report" type="button">Сохранить ингредиент</button>
-                                <button name="btn-delete-product" class="btn" type="button">Удалить ингредиент</button>
+                        <div>
+                            <div class="ul-statement__info-secondary hidden">
+                                <span class="ul-statement__name" name="name-ingr">название</span>
+                                <!-- <button class="btn" id="btn-report-delete-storage" type="button">делим на 2</button> -->
+                                <!-- <button class="btn btn_download" id="btn-export-report" type="button">делим на 3</button> -->
+                                <input disabled name="sum" type="number" value="0">
                             </div>
                         </div>
-                    </li>
-                </ul>
-                
-                <ul id="list-data" class="ul-statement">
-                    <li id="elem-list-data">
-                        <div class="ul__info">
-                            <span class="ul__name" name="name-product">название</span>
-                            <span class="ul__amount" name="value-product">цвет</span>
-                        </div>
-                        <div class="ul__adding-product adding-product">
-                            <div class="adding-product__title">
-                                <div class="adding-product__subtitle">
-                                    <h3>Название продукта</h3>
-                                    <input name="name-new-product" type="text" placeholder="говядина в соусе бэшамель">
-                                </div>
-                                <div class="adding-product__subtitle">
-                                    <h3>Выход</h3>
-                                    <input type="number" class="adding-product__number" name="output">
-                                </div>
-                            </div>
-                            <div class="adding-product__ingredients">
-                                <h3>Ингредиенты</h3>
-                                <div class="adding-product__ingredient hidden">
-                                    <div class="list-products">
-                                        <input name="search-ingredient" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                        <div class="list-products__ul-block">
-                                            <ul name="select-ingredient" class="list-products__ul">
-                                                <!-- <li>что-то</li> -->
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="list-products">
-                                            <input name="search-category" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                            <div class="list-products__ul-block">
-                                                <ul name="select-category" class="list-products__ul">
-                                                    <!-- <li>что-то</li> -->
-                                                </ul>
-                                            </div>
-                                    </div>
-                                    <div class="list-products">
-                                        <input name="search-subcategory" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                        <div class="list-products__ul-block">
-                                            <ul name="select-subcategory" class="list-products__ul">
-                                                <!-- <li>что-то</li> -->
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <input step="0.1" type="number" class="adding-product__number" name="number-ingredient">
-                                    <div name="btn-delete-ingredient" class="delete"><div class="delete__cross"></div></div>
-                                </div>
-                            </div>
-                            <div class="adding-product__add-row">
-                                <button name="btn-add-row-ingredient" class="btn btn_a" type="button">+ Добавить новый</button>
-                            </div>
-                            <div class="adding-product__btns">
-                                <button name="btn-update-product" class="btn btn_report" type="button">Сохранить продукт</button>
-                                <button name="btn-delete-product" class="btn" type="button">Удалить продукт</button>
-                            </div>
-                        </div>
-                        <div class="ul__adding-product adding-ingredient">
-                            <div class="adding-product__ingredients">
-                                <!-- <h3>Ингредиенты</h3> -->
-                                <div class="adding-product__ingredient">
-                                    <div class="list-products">
-                                        <input name="search-ingredient" placeholder="Введите название" type="text" class="list-products__input">
-                                        <div class="list-products__ul-block">
-                                            <ul name="select-ingredient" class="list-products__ul">
-                                                <!-- <li>что-то</li> -->
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="list-products">
-                                            <input name="search-category" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                            <div class="list-products__ul-block">
-                                                <ul name="select-category" class="list-products__ul">
-                                                    <!-- <li>что-то</li> -->
-                                                </ul>
-                                            </div>
-                                    </div>
-                                    <div class="list-products">
-                                        <input name="search-subcategory" placeholder="Выбрать из списка" type="text" class="list-products__input">
-                                        <div class="list-products__ul-block">
-                                            <ul name="select-subcategory" class="list-products__ul">
-                                                <!-- <li>что-то</li> -->
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <!-- <input step="0.1" type="number" class="adding-product__number" name="number-ingredient"> -->
-                                    <!-- <div name="btn-delete-ingredient" class="delete"><div class="delete__cross"></div></div> -->
-                                </div>
-                            </div>
-                            <div class="adding-product__btns">
-                                <button name="btn-update-product" class="btn btn_report" type="button">Сохранить ингредиент</button>
-                                <button name="btn-delete-product" class="btn" type="button">Удалить ингредиент</button>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                     </li>
+                 </ul>
             </div>
-        </div>
+         </div>
     </section>
 
     <!-- ------------------MODAL------------------ -->
@@ -415,8 +94,7 @@
         </div>
     </div>
 
-    <!-- <script type="module" src="./js2/index.js"></script> -->
-    <!-- <script type="module" src="./js2/table.js"></script> -->
+    <script type="module" src="./js2/statement.js"></script>
 
 </body>
 </html>

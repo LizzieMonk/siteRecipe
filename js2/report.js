@@ -59,7 +59,7 @@ const btnAddNewIngredient = document.getElementById("btn-add-new-ingredient");
 export const listReport = document.getElementById("list-report");
 const elemListReport = document.getElementById("elem-list-report");
 
-console.log(arrSumToXLSX)
+// console.log(arrSumToXLSX)
 
 btnReportUpdateAmount.addEventListener("click", () => {
   updateAmount();
