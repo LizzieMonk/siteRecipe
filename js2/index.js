@@ -133,7 +133,7 @@ btnCalc.addEventListener("click", () => {
 });
 
 btnSum.addEventListener("click", () => {
-  if (search.value) {
+  if (search.value && !hasElemInLocalStorage(search.value)) {
     isOpenModal(modalLoad, true);
     btnExportProduct.style.display = "inline-block";
     btnExportSum.style.display = "inline-block";
@@ -230,8 +230,8 @@ function getStartValuetMaterial(idProduct, endValueMaterial) {
         // console.log(i, sum)
       }
       if (sum != allMaterials) {
-        console.log("сумма  ", sum);
-        console.log("общая   ", allMaterials);
+        // console.log("сумма  ", sum);
+        // console.log("общая   ", allMaterials);
         sum -= arrAllValues[arrAllValues.length - 1].amount;
         sum =
           idProduct == 47
@@ -439,13 +439,18 @@ function createNewElemList(arrElems, list, child, firstPosition) {
       // arrSumProductToXLSX[countArrSumProductToXLSX++] = arrElems[i];
     }
   }
+  let addEmptyObj = 11;
+  // console.log('начало',addEmptyObj)
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorPrimaryOne) {
       addInList(arrElems[i]);
 
-      if (list === listProduct)
+      if (list === listProduct){
         // arrProductToXLSX[countArrProductToXLSX++] = arrElems[i];
         setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, arrElems[i])
+        addEmptyObj--;
+        console.log(addEmptyObj)
+      }
       if (list === listSum)
         setValueArrToXLSX(arrSumToXLSX,countArrSumToXLSX++,arrElems[i])
         // arrSumToXLSX[countArrSumToXLSX++] = arrElems[i];
@@ -455,9 +460,12 @@ function createNewElemList(arrElems, list, child, firstPosition) {
     if (arrElems[i].color == colorPrimaryTwo) {
       addInList(arrElems[i]);
 
-      if (list === listProduct)
+      if (list === listProduct){
         setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, arrElems[i])
         // arrProductToXLSX[countArrProductToXLSX++] = arrElems[i];
+        addEmptyObj--;
+        console.log(addEmptyObj)
+      }
       if (list === listSum)
         setValueArrToXLSX(arrSumToXLSX,countArrSumToXLSX++, arrElems[i])
         // arrSumToXLSX[countArrSumToXLSX++] = arrElems[i];
@@ -467,37 +475,41 @@ function createNewElemList(arrElems, list, child, firstPosition) {
     if (arrElems[i].color == colorPrimaryThree) {
       addInList(arrElems[i]);
 
-      if (list === listProduct)
+      if (list === listProduct){
         setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++,arrElems[i])
         // arrProductToXLSX[countArrProductToXLSX++] = arrElems[i];
+        addEmptyObj--;
+        console.log(addEmptyObj)
+      }
       if (list === listSum)
         setValueArrToXLSX(arrSumToXLSX,countArrSumToXLSX++, arrElems[i])
         // arrSumToXLSX[countArrSumToXLSX++] = arrElems[i];
     }
   }
-  let addEmptyObj = 9;
+  // let addEmptyObj = 9;
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorSecondaryOne) {
-      //добавление пустых объектов(муляж) для нормальной печати
-      while (addEmptyObj != 0) {
-        // arrProductToXLSX[countArrProductToXLSX++] = {
-        //   nameIngredient: "",
-        //   amount: "",
-        //   color: "",
-        // };
-        setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, {
-          nameIngredient: "",
-          amount: "",
-          color: "",
-        })
-        addEmptyObj--;
-      }
-
       addInList(arrElems[i]);
 
-      if (list === listProduct)
+      if (list === listProduct){
+        //добавление пустых объектов(муляж) для нормальной печати
+        while (addEmptyObj >0) {
+          // arrProductToXLSX[countArrProductToXLSX++] = {
+          //   nameIngredient: "",
+          //   amount: "",
+          //   color: "",
+          // };
+          setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, {
+            nameIngredient: "",
+            amount: "",
+            color: "",
+          })
+          addEmptyObj--;
+          // console.log('уменьшаем',addEmptyObj)
+        }
         setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, arrElems[i])
         // arrProductToXLSX[countArrProductToXLSX++] = arrElems[i];
+      }
       if (list === listSum)
         setValueArrToXLSX(arrSumToXLSX,countArrSumToXLSX++,arrElems[i])
         // arrSumToXLSX[countArrSumToXLSX++] = arrElems[i];
@@ -505,26 +517,27 @@ function createNewElemList(arrElems, list, child, firstPosition) {
   }
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorSecondaryTwo) {
-      //добавление пустых объектов(муляж) для нормальной печати
-      while (addEmptyObj != 0) {
-        // arrProductToXLSX[countArrProductToXLSX++] = {
-        //   nameIngredient: "",
-        //   amount: "",
-        //   color: "",
-        // };
-        setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, {
-          nameIngredient: "",
-          amount: "",
-          color: "",
-        })
-        addEmptyObj--;
-      }
-
       addInList(arrElems[i]);
 
-      if (list === listProduct)
+      if (list === listProduct){
+        //добавление пустых объектов(муляж) для нормальной печати
+        while (addEmptyObj >0) {
+          // arrProductToXLSX[countArrProductToXLSX++] = {
+          //   nameIngredient: "",
+          //   amount: "",
+          //   color: "",
+          // };
+          setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, {
+            nameIngredient: "",
+            amount: "",
+            color: "",
+          })
+          addEmptyObj--;
+          // console.log('уменьшаем',addEmptyObj)
+        }
         setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, arrElems[i])
         // arrProductToXLSX[countArrProductToXLSX++] = arrElems[i];
+      }
       if (list === listSum)
         setValueArrToXLSX(arrSumToXLSX,countArrSumToXLSX++, arrElems[i])
         // arrSumToXLSX[countArrSumToXLSX++] = arrElems[i];
@@ -694,9 +707,10 @@ function fillLocalStorage() {
 }
 
 async function fillLocalStorageBySupabase(){
+  // localStorage.clear();
   await updatelLocalStorageBySupabaseSumProducts();
   if (localStorage.length != 0) {
-    // isOpenModal(modalLoad, true);
+
     for (let j = 0; j < localStorage.length; j++) {
       let key = localStorage.key(j);
       let product = JSON.parse(localStorage.getItem(key));
@@ -715,7 +729,6 @@ async function fillLocalStorageBySupabase(){
       }
     }
   }
-  // isOpenModal(modalLoad, false);
 }
 
 //поиск в списке продуктов суммы
@@ -729,3 +742,17 @@ searchProductSum.addEventListener("focus", () => {
 searchProductSum.addEventListener("keyup", () => {
   liveSearch(listSumProducts, searchProductSum);
 });
+
+
+function hasElemInLocalStorage(input){
+  for (let j = 0; j < localStorage.length; j++) {
+    let key = localStorage.key(j);
+    let product = JSON.parse(localStorage.getItem(key));
+    if (product.nameProduct == input) {
+      searchProductSum.value = input;
+      liveSearch(listSumProducts, searchProductSum);
+      return true;
+    }
+  }
+  return false;
+}

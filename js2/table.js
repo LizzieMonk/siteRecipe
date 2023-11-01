@@ -70,11 +70,11 @@ btnExportProduct.addEventListener('click', ()=>{
     // const max_width = 300;
     worksheet["!cols"] = [ { wpx: 197 }, //a
                             { wpx: 50}, //b
-                            { wpx: 205} ];//c
+                            { wpx: 220} ];//c
     // const max_height = 20
     worksheet["!rows"] = [{ hpx: 40},
                             {hpx: 40},
-                            {hpx: 45},
+                            {hpx: 50},
                             {hpx: 20},
                             {hpx: 30}]
 
@@ -229,10 +229,10 @@ btnExportAll.addEventListener('click', ()=>{
         XLSX.utils.sheet_add_aoa(worksheet, [["", "", ""]], { origin: "A1" });
         worksheet["!cols"] = [{wpx: 197},  //a
                                 {wpx: 50},  //b
-                                {wpx: 205}];  //c
+                                {wpx: 220}];  //c
         worksheet["!rows"] = [{ hpx: 40},
                                 {hpx: 40},
-                                {hpx: 45},
+                                {hpx: 50},
                                 {hpx: 20},
                                 {hpx: 30}]
         worksheet["!merges"] = [{
@@ -259,33 +259,37 @@ function filterArrProduct(arrElem) {
     arrElem.unshift(firstElemArr); //возвращаем первый
 
     //перебор оставшегося массива по цветам
+    let addEmptyObj = 11;
     for (let i = 1; i < arrElem.length; i++) {
       if (arrElem[i].color == colorPrimaryOne) {
+        addEmptyObj--;
         newElemArr[countNewElemArr++] = arrElem[i]
       }
     }
     for (let i = 1; i < arrElem.length; i++) {
       if (arrElem[i].color == colorPrimaryTwo) {
+        addEmptyObj--;
         newElemArr[countNewElemArr++] = arrElem[i]
        }
     }
     for (let i = 1; i < arrElem.length; i++) {
       if (arrElem[i].color == colorPrimaryThree) {
+        addEmptyObj--;
         newElemArr[countNewElemArr++] = arrElem[i]
        }
     }
-    let addEmptyObj = 9;
+    // let addEmptyObj = 9;
     for (let i = 1; i < arrElem.length; i++) {
       if (arrElem[i].color == colorSecondaryOne) {
 
         //добавление пустых объектов(муляж) для нормальной печати
-        while(addEmptyObj!=0){
+        while(addEmptyObj>0){
             newElemArr[countNewElemArr++] = {
             nameIngredient:'',
             amount:'',
             color:''
-        }
-        addEmptyObj--;
+            }
+            addEmptyObj--;
         }
 
         newElemArr[countNewElemArr++] = arrElem[i]
@@ -295,13 +299,13 @@ function filterArrProduct(arrElem) {
       if (arrElem[i].color == colorSecondaryTwo) {
 
         //добавление пустых объектов(муляж) для нормальной печати
-        while(addEmptyObj!=0){
+        while(addEmptyObj>0){
             newElemArr[countNewElemArr++] = {
             nameIngredient:'',
             amount:'',
             color:''
-        }
-        addEmptyObj--;
+            }
+            addEmptyObj--;
         }
 
         newElemArr[countNewElemArr++] = arrElem[i]

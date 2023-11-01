@@ -297,7 +297,7 @@ export async function updatelLocalStorageBySupabaseSumProducts() {
     // deleteLocalStorageReport()
     //заполнение хранилища базой
     let dataStatement = await getDataStatement();
-    console.log(dataStatement)
+    // console.log(dataStatement)
     for (let i = 0; i < dataStatement.length; i++) {
       //сохранение нового продукта в локальное хранилище
       let keyNameProduct = dataStatement[i].name; //название продукта - ключ
@@ -309,11 +309,11 @@ export async function updatelLocalStorageBySupabaseSumProducts() {
       addElemLocalStorage(obj, keyNameProduct);
     }
   
-    for (let i = 0; i < localStorage.length; i++) {
-      let key = localStorage.key(i);
-      let product = JSON.parse(localStorage.getItem(key));
-      console.log(product)
-    }
+    // for (let i = 0; i < localStorage.length; i++) {
+    //   let key = localStorage.key(i);
+    //   let product = JSON.parse(localStorage.getItem(key));
+    //   console.log(product)
+    // }
     isOpenModalLoad(false)
   }
 
