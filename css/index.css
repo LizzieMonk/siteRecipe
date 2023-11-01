@@ -648,6 +648,13 @@ input {
 .statement .ul-statement {
   border: 0.5px solid #000;
 }
+.statement .ul-statement__all-primary {
+  display: flex;
+  flex-direction: row;
+}
+.statement .ul-statement__all-primary-left {
+  flex: 1;
+}
 .statement .ul-statement__info-primary {
   position: relative;
   width: 100%;
@@ -658,9 +665,6 @@ input {
 }
 .statement .ul-statement__info-primary:hover span, .statement .ul-statement__info-primary:hover input {
   background: transparent;
-}
-.statement .ul-statement__info-primary input:nth-child(7) {
-  background: gainsboro;
 }
 .statement .ul-statement__info-secondary {
   position: relative;
@@ -674,6 +678,9 @@ input {
   background: transparent;
 }
 .statement .ul-statement__info-secondary input:nth-child(2) {
+  background: #A4EDE4;
+}
+.statement .ul-statement__info-secondary input:nth-child(3) {
   background: gainsboro;
 }
 .statement .ul-statement__name {

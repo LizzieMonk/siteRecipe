@@ -753,6 +753,13 @@ input {
         // display: flex;
         // flex-direction: column;
         // gap: 20px;
+        &__all-primary{
+            display: flex;
+            flex-direction: row;
+        }
+        &__all-primary-left{
+            flex: 1;
+        }
         &__info-primary{
             position: relative;
             width: 100%;
@@ -766,9 +773,9 @@ input {
                 }
             }
             input{
-                &:nth-child(7){
-                    background: gainsboro;
-                }
+                // &:nth-child(8){
+                //     background: gainsboro;
+                // }
             }
         }
         &__info-secondary{
@@ -784,7 +791,11 @@ input {
                 }
             }
             input{
+                
                 &:nth-child(2){
+                    background: $color-primary-two;
+                }
+                &:nth-child(3){
                     background: gainsboro;
                 }
             }
