@@ -121,7 +121,12 @@ function createListWithAllProducts(){
 }
 
 btnCalc.addEventListener("click", () => {
-  if (search.value) {
+  // if(inputOutputValue.value.trim()==''){
+  //   document.getElementById("input-output-value").value = '';
+  // }
+  if (search.value
+  && getIdSelectedValue(search.value)
+  && inputOutputValue.value.trim()!='') {
     isOpenModal(modalLoad,true);
     cleanList(listProduct);
     createNewElemList(
@@ -133,7 +138,10 @@ btnCalc.addEventListener("click", () => {
 });
 
 btnSum.addEventListener("click", () => {
-  if (search.value && !hasElemInLocalStorage(search.value)) {
+  if (search.value
+  && getIdSelectedValue(search.value)
+  && inputOutputValue.value.trim()!=''
+  && !hasElemInLocalStorage(search.value)) {
     isOpenModal(modalLoad, true);
     btnExportProduct.style.display = "inline-block";
     btnExportSum.style.display = "inline-block";
@@ -449,7 +457,7 @@ function createNewElemList(arrElems, list, child, firstPosition) {
         // arrProductToXLSX[countArrProductToXLSX++] = arrElems[i];
         setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, arrElems[i])
         addEmptyObj--;
-        console.log(addEmptyObj)
+        // console.log(addEmptyObj)
       }
       if (list === listSum)
         setValueArrToXLSX(arrSumToXLSX,countArrSumToXLSX++,arrElems[i])
@@ -464,7 +472,7 @@ function createNewElemList(arrElems, list, child, firstPosition) {
         setValueArrToXLSX(arrProductToXLSX,countArrProductToXLSX++, arrElems[i])
         // arrProductToXLSX[countArrProductToXLSX++] = arrElems[i];
         addEmptyObj--;
-        console.log(addEmptyObj)
+        // console.log(addEmptyObj)
       }
       if (list === listSum)
         setValueArrToXLSX(arrSumToXLSX,countArrSumToXLSX++, arrElems[i])
@@ -678,7 +686,7 @@ search.addEventListener("keyup", () => {
 });
 
 function getIdSelectedValue(nameProduct) {
-  let idSelectedValue = 0;
+  let idSelectedValue = null;
   // let products = await getDataProducts();
   for (let i = 0; i < products.length; i++) {
     if (products[i].name === nameProduct) {
