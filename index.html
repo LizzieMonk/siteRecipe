@@ -71,14 +71,20 @@
                 </ul>
             </div>
             <div class="ul-block">
-                <button class="btn btn_download" id="btn-export-sum-products" type="button">
-                    <img src="./img/export.png">
-                </button>
+                <div class="btns">
+                    <button class="btn btn_download" id="btn-export-sum-products-checkbox" type="button">
+                        <img src="./img/export.png"> выбранные
+                    </button>
+                    <button class="btn btn_download" id="btn-export-sum-products" type="button">
+                        <img src="./img/export.png">
+                    </button>
+                </div>
 
                 <input id="search-product-sum" placeholder="Поиск..." type="text" class="data__search">
 
                 <ul class="ul ul_last" id="list-sum-products">
                     <li id="elem-list-sum-products">
+                        <div class="ul__radio"><input type="checkbox" name="export-sum-products-checkbox"></div>
                         <span class="ul__name" name="name-product">название</span>
                         <!-- <span class="ul__amount" name="value-product">90</span> -->
                         <input class="ul__amount" name="value-product" type="text">

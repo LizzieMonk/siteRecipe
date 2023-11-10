@@ -59,7 +59,6 @@ const btnAddNewIngredient = document.getElementById("btn-add-new-ingredient");
 export const listReport = document.getElementById("list-report");
 const elemListReport = document.getElementById("elem-list-report");
 
-// console.log(arrSumToXLSX)
 
 btnReportUpdateAmount.addEventListener("click", () => {
   updateAmount();
@@ -135,7 +134,13 @@ createNewElemList();
 btnReportDeleteStorage.addEventListener("click", () => {
   console.log("delete");
   // localStorage.clear();
-  deleteLocalStorageReport()
+  deleteLocalStorageReport();
+  // for (let j = 0; j < localStorage.length; j++) {
+  //   let key = localStorage.key(j);
+  //   //получение значений продукта
+  //   let product = JSON.parse(localStorage.getItem(key));
+  //   console.log(product);
+  // }
   cleanList(listReport);
   // createNewElemList();
 });
@@ -308,52 +313,6 @@ function accessToUpdateRemainder(){
   // console.log(disabledBtn);
   return disabledBtn;
 }
-
-btnExportReport.addEventListener("click", () => {
-  let arr = [];
-  let countArr = 0;
-  //создаем дубликат хранилища
-  for (let j = 0; j < localStorage.length; j++) {
-    let key = localStorage.key(j);
-    //получение значений продукта
-    let product = JSON.parse(localStorage.getItem(key));
-    if(!product.nameProduct){
-      arr[countArr++] = product;
-    }
-  }
-  //фильтрация по алфавиту и цвету
-  arr = filterArrProduct(arr);
-
-  //убираем цвет
-  for (let i = 0; i < arr.length; i++) {
-    delete arr[i].color;
-  }
-  // console.log(arr)
-
-  //создаем рабочий лист и рабочую тетрадь
-  const worksheet = XLSX.utils.json_to_sheet(arr);
-  const workbook = XLSX.utils.book_new();
-  //исправить заголовки начиная с а1
-  XLSX.utils.sheet_add_aoa(
-    worksheet,
-    [["Наименование", "Остаток на", "Приход", "Расход", "Остаток на"]],
-    { origin: "A1" }
-  );
-  //рассчитать ширину столбца на 100 символов
-  worksheet["!cols"] = [
-    { wpx: 200 }, //a
-    { wpx: 60 }, //b
-    { wpx: 60 },
-    { wpx: 60 },
-    { wpx: 60 },
-  ]; //c
-
-  //добавление рабочего листа в рабочую тетрадь
-  XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
-
-  // создаем xlsx файл и пробуем сохранить его локально
-  XLSX.writeFile(workbook, "Perort.xlsx");
-});
 function filterArrProduct(arrElem) {
   let newElemArr = [];
   let countNewElemArr = 0;
@@ -361,33 +320,33 @@ function filterArrProduct(arrElem) {
   //сортировка по алфавиту, начиная с 1го
   arrElem.sort((a, b) => (a.name > b.name ? 1 : -1)); //сортировка массива
 
-  //перебор оставшегося массива по цветам
-  for (let i = 1; i < arrElem.length; i++) {
+  //перебор массива по цветам
+  for (let i = 0; i < arrElem.length; i++) {
     if (arrElem[i].color == colorPrimaryOne) {
       newElemArr[countNewElemArr++] = arrElem[i];
     }
   }
-  for (let i = 1; i < arrElem.length; i++) {
+  for (let i = 0; i < arrElem.length; i++) {
     if (arrElem[i].color == colorPrimaryTwo) {
       newElemArr[countNewElemArr++] = arrElem[i];
     }
   }
-  for (let i = 1; i < arrElem.length; i++) {
+  for (let i = 0; i < arrElem.length; i++) {
     if (arrElem[i].color == colorPrimaryThree) {
       newElemArr[countNewElemArr++] = arrElem[i];
     }
   }
-  for (let i = 1; i < arrElem.length; i++) {
+  for (let i = 0; i < arrElem.length; i++) {
     if (arrElem[i].color == colorSecondaryOne) {
       newElemArr[countNewElemArr++] = arrElem[i];
     }
   }
-  for (let i = 1; i < arrElem.length; i++) {
+  for (let i = 0; i < arrElem.length; i++) {
     if (arrElem[i].color == colorSecondaryTwo) {
       newElemArr[countNewElemArr++] = arrElem[i];
     }
   }
-  for (let i = 1; i < arrElem.length; i++) {
+  for (let i = 0; i < arrElem.length; i++) {
     if (arrElem[i].color == colorSecondaryTree) {
       newElemArr[countNewElemArr++] = arrElem[i];
     }
@@ -693,10 +652,12 @@ export function createNewElemList() {
   for (let i = 0; i < localStorage.length; i++) {
     let key = localStorage.key(i);
     let product = JSON.parse(localStorage.getItem(key));
-    if(!product.nameProduct){
+    if(product.name){
+    // if(!product.nameProduct){
       arrProductsClone[countArrProductsClone++] = structuredClone(product);
     }
   }
+  console.log(arrProductsClone.length);
 
   //сортировка по алфавиту
   arrProductsClone.sort((a, b) => (a.name > b.name ? 1 : -1));
@@ -889,7 +850,52 @@ async function importData(){
   cleanList(listReport);
   createNewElemList();
 }
+btnExportReport.addEventListener("click", () => {
+  let arr = [];
+  let countArr = 0;
+  //создаем дубликат хранилища
+  for (let j = 0; j < localStorage.length; j++) {
+    let key = localStorage.key(j);
+    //получение значений продукта
+    let product = JSON.parse(localStorage.getItem(key));
 
+    if(product.name){
+    // if(!product.nameProduct){
+      arr[countArr++] = product;
+    }
+  }
+  //фильтрация по алфавиту и цвету
+  arr = filterArrProduct(arr);
+
+  // убираем цвет
+  for (let i = 0; i < arr.length; i++) {
+    delete arr[i].color;
+  }
+
+  //создаем рабочий лист и рабочую тетрадь
+  const worksheet = XLSX.utils.json_to_sheet(arr);
+  const workbook = XLSX.utils.book_new();
+  //исправить заголовки начиная с а1
+  XLSX.utils.sheet_add_aoa(
+    worksheet,
+    [["Наименование", "Остаток на", "Приход", "Расход", "Остаток на"]],
+    { origin: "A1" }
+  );
+  //рассчитать ширину столбца на 100 символов
+  worksheet["!cols"] = [
+    { wpx: 200 }, //a
+    { wpx: 60 }, //b
+    { wpx: 60 },
+    { wpx: 60 },
+    { wpx: 60 },
+  ]; //c
+
+  //добавление рабочего листа в рабочую тетрадь
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Report");
+
+  // создаем xlsx файл и пробуем сохранить его локально
+  XLSX.writeFile(workbook, "Perort.xlsx");
+});
 
 
 //скрытие доп кнопок

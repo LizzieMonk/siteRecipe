@@ -121,9 +121,6 @@ function createListWithAllProducts(){
 }
 
 btnCalc.addEventListener("click", () => {
-  // if(inputOutputValue.value.trim()==''){
-  //   document.getElementById("input-output-value").value = '';
-  // }
   if (search.value
   && getIdSelectedValue(search.value)
   && inputOutputValue.value.trim()!='') {
@@ -134,6 +131,19 @@ btnCalc.addEventListener("click", () => {
       listProduct,elemListProduct,1); //1, '200'
     btnExportProduct.style.display = "inline-block";
     isOpenModal(modalLoad, false);
+  }
+  //если некорректный ввод
+  else{
+    cleanList(listProduct);
+    if(inputOutputValue.value.trim()==''){
+      document.getElementById("input-output-value").value = '';
+      document.getElementById("input-output-value").classList.add('input-error');
+
+    }
+    if(!search.value || !getIdSelectedValue(search.value)){
+      document.getElementById("search").value = '';
+      document.getElementById("search").classList.add('input-error');
+    }
   }
 });
 
@@ -158,6 +168,18 @@ btnSum.addEventListener("click", () => {
 
     fillLocalStorage();
     isOpenModal(modalLoad, false);
+  }
+  else{
+    cleanList(listProduct);
+    if(inputOutputValue.value.trim()==''){
+      document.getElementById("input-output-value").value = '';
+      document.getElementById("input-output-value").classList.add('input-error');
+
+    }
+    if(!search.value || !getIdSelectedValue(search.value)){
+      document.getElementById("search").value = '';
+      document.getElementById("search").classList.add('input-error');
+    }
   }
 });
 
@@ -320,6 +342,7 @@ function createNewElemList(arrElems, list, child, firstPosition) {
     arrElems.sort((a, b) => (a.nameIngredient > b.nameIngredient ? 1 : -1));
 
   for (let i = firstPosition; i < arrElems.length; i++) {
+    //прогоняет цикл только ОДИН раз
     if (arrElems[i].color == colorWhite) {
       let newElemListProduct = child.cloneNode(true);
       newElemListProduct.querySelector('[name="name-product"]').textContent = arrElems[i].nameIngredient;
@@ -332,7 +355,6 @@ function createNewElemList(arrElems, list, child, firstPosition) {
           cleanList(listSum);
           // deleteProductFromSum(arrElems[i].nameIngredient) //название
           deleteProductFromSum(arrElems[i]);
-          // newElemListProduct.remove();
           list.removeChild(newElemListProduct);
 
           fillLocalStorage();
@@ -447,7 +469,7 @@ function createNewElemList(arrElems, list, child, firstPosition) {
       // arrSumProductToXLSX[countArrSumProductToXLSX++] = arrElems[i];
     }
   }
-  let addEmptyObj = 11;
+  let addEmptyObj = 12;
   // console.log('начало',addEmptyObj)
   for (let i = firstPosition; i < arrElems.length; i++) {
     if (arrElems[i].color == colorPrimaryOne) {
@@ -589,14 +611,33 @@ function sumStartValueMaterial(arrProduct) {
       }
     }
   }
+
+  let arrAllSumProducts = [];
+  let countArrAllSumProducts = 0;
+  for(let i=0; i<listSumProducts.children.length; i++){
+    let objSumProduct = {
+      nameIngredient: listSumProducts.children[i].querySelector('[name="name-product"]').textContent,
+      amount: +listSumProducts.children[i].querySelector('[name="value-product"]').value,
+      color: colorWhite,
+    }
+    arrAllSumProducts[countArrAllSumProducts++] = objSumProduct;
+  }
+  arrAllSumProducts[countArrAllSumProducts++] = {
+    nameIngredient: arrProduct[0].nameProduct,
+    amount: arrProduct[0].outputValue,
+    color: colorWhite,
+  }
+  cleanList(listSumProducts);
+
   createNewElemList(
-    [
-      {
-        nameIngredient: arrProduct[0].nameProduct,
-        amount: arrProduct[0].outputValue,
-        color: colorWhite,
-      },
-    ],
+    // [
+    //   {
+    //     nameIngredient: arrProduct[0].nameProduct,
+    //     amount: arrProduct[0].outputValue,
+    //     color: colorWhite,
+    //   },
+    // ],
+    arrAllSumProducts,
     listSumProducts,elemListSumProducts,0);
   arrProduct.splice(0, 1);
 
@@ -674,6 +715,7 @@ let search = document.getElementById("search");
 search.addEventListener("focus", () => {
   search.value = "";
   liveSearch(selectItemsUl, search);
+  search.classList.remove('input-error');
 });
 search.addEventListener("blur", () => {
   let listOfElems = selectItemsUl.children;
@@ -683,6 +725,9 @@ search.addEventListener("blur", () => {
 });
 search.addEventListener("keyup", () => {
   liveSearch(selectItemsUl, search);
+});
+inputOutputValue.addEventListener("focus", () => {
+  inputOutputValue.classList.remove('input-error');
 });
 
 function getIdSelectedValue(nameProduct) {

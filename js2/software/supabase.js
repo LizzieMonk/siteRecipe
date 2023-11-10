@@ -172,7 +172,7 @@
     deleteLocalStorageReport()
     //заполнение хранилища базой
     let dataReport = await getDataReport();
-    console.log(dataReport)
+    // console.log(dataReport)
     for (let i = 0; i < dataReport.length; i++) {
       //сохранение нового продукта в локальное хранилище
       let keyNameProduct = dataReport[i].name; //название ингредиента - ключ

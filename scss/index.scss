@@ -141,6 +141,10 @@ input {
     // min-width: 60px;
     font-size: 16px;
 }
+.input-error{
+    border: 1px solid red;
+    color: red;
+}
 .btn {
     display: inline-block;
     background: transparent;
@@ -214,6 +218,13 @@ input {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    .btns{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-self: flex-end;
+        gap: 15px;
+    }
     button{
         align-self: flex-end;
     }
@@ -256,10 +267,19 @@ input {
         border: 0.5px solid $color-black;
     }
     &_last{
+        max-width: 500px;
         .ul__amount {
-            border-right: 1px solid $color-black;
+            border-right: 2px solid $color-black;
+        }
+        .ul__name{
+            border-left: 1px solid $color-black;
         }
         li{
+            span{
+                &::first-letter{
+                    font-weight: 800;
+                }
+            }
             &:hover{
                 // box-shadow: 0 0 10px $color-grey;
                 // z-index: 10;
@@ -273,8 +293,7 @@ input {
     .delete{
         background: transparent;
         min-height: 100%;
-        width: 35px;
-        // border: 0.5px solid $color-black;
+        width: 50px;
         outline: 0.5px solid $color-white;
         margin-left: 0.5px;
         position: relative;
@@ -289,7 +308,7 @@ input {
             transition: $transition;
             position: absolute;
             top: 11px;
-            right: 14.5px;
+            right: 15px;
             &::after{
                 content: '';
                 position: absolute;
@@ -306,6 +325,21 @@ input {
                 background: red;
                 transform: rotate(-45deg);
             }
+        }
+    }
+    &__radio{
+        background: transparent;
+        min-height: 100%;
+        width: 50px;
+        outline: 0.5px solid $color-white;
+        margin-right: 0.5px;
+        position: relative;
+        input{
+            position: absolute;
+            top: 7px;
+            left: 3px;
+            transition: $transition;
+            transform: scale(1.2);
         }
     }
     span, input{

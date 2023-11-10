@@ -168,6 +168,11 @@ input {
   font-size: 16px;
 }
 
+.input-error {
+  border: 1px solid red;
+  color: red;
+}
+
 .btn {
   display: inline-block;
   background: transparent;
@@ -224,6 +229,13 @@ input {
   flex-direction: column;
   gap: 15px;
 }
+.ul-block .btns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-self: flex-end;
+  gap: 15px;
+}
 .ul-block button {
   align-self: flex-end;
 }
@@ -254,8 +266,17 @@ input {
   padding: 5px 10px;
   border: 0.5px solid #000;
 }
+.ul_last {
+  max-width: 500px;
+}
 .ul_last .ul__amount {
-  border-right: 1px solid #000;
+  border-right: 2px solid #000;
+}
+.ul_last .ul__name {
+  border-left: 1px solid #000;
+}
+.ul_last li span::first-letter {
+  font-weight: 800;
 }
 .ul_last li:hover span, .ul_last li:hover input {
   background: #A4EDE4;
@@ -263,7 +284,7 @@ input {
 .ul .delete {
   background: transparent;
   min-height: 100%;
-  width: 35px;
+  width: 50px;
   outline: 0.5px solid #fff;
   margin-left: 0.5px;
   position: relative;
@@ -277,7 +298,7 @@ input {
   transition: all 400ms ease;
   position: absolute;
   top: 11px;
-  right: 14.5px;
+  right: 15px;
 }
 .ul .delete__cross::after {
   content: "";
@@ -294,6 +315,21 @@ input {
   height: 1.5px;
   background: red;
   transform: rotate(-45deg);
+}
+.ul__radio {
+  background: transparent;
+  min-height: 100%;
+  width: 50px;
+  outline: 0.5px solid #fff;
+  margin-right: 0.5px;
+  position: relative;
+}
+.ul__radio input {
+  position: absolute;
+  top: 7px;
+  left: 3px;
+  transition: all 400ms ease;
+  transform: scale(1.2);
 }
 .ul span, .ul input {
   transition: all 400ms ease;

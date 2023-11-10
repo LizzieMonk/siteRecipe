@@ -25,7 +25,8 @@ export function deleteLocalStorageReport(){
     for (let j = 0; j <localStorage.length; j++) {
       let key = localStorage.key(j);
       let product = JSON.parse(localStorage.getItem(key));
-      if(!product.nameProduct){
+      // if(!product.nameProduct){
+      if(product.name){
         deleteElemLocalStorage(key);
         // console.log(localStorage.length)
         j=0
